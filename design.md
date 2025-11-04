@@ -444,3 +444,13 @@ Entonces si un ejercicio me pide tener complejidad O(R+log(E)) entonces en reali
 
     ...
 
+## Modulos que vamos a utilizar (propuesta Nico el crack de las estadisticas, y hoy me entere tambien de estructuras de datos)
+
+private Boolean[] _presenciaEnAula; //aca viene como siempre, bool si entrego o no, para copiarse y para modificar si esta en O(1) 
+ private Nodo[] _estudiantes; //ACA ESTA LA PUTA MAGIA, el nodo tiene: id (creo que es opcional), su examen (el int[]) Y SU NOTA. 
+ private int[] _solCanonica; //aca lo usamos para chequear si la respuesta es correcta o no cada vez que corregimos
+ private MinHeap<Handle> _rankingPeoresEstudiantes;  //ordenado por nota, no necesitamos el maxheap, porque devolvemos la lista al revez, agregando adelante siempre a la solucion, y creo que no pasa nada
+ //ES IMPORTANTE EL HEAP TENGA HANDLES A EL ARRAY DE ESTUDIANTES!!! ACA ESTA LA MAGIC
+private dict(tuple (int,int) , conj<est>) _respuestasconj ; //calculo que esta mal escrito, pero es tipo un hash, que basicamente lo vamos modificando
+
+
