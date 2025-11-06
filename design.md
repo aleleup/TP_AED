@@ -1,23 +1,3 @@
-_E_ --> cantidad total de estudiantes;
-
-_R_ --> cantidad total de respuestas
-
-Modulo EDR_Impl implementa EDR {
-
-    var presenciaEnAula: Array<Boolean>
-    //La idea es crear un array de dimensión `E`. Inician todos en *false* (O(E))
-    //presenciaEnAula[i] devuelve la presencia del estudiante con id `i` (O(1))
-    --
-    type Examen: Array<int>
-    //Array de longitud `R`, guarda la solución de c/ ejercicio.
-    // Inician todos los elementos en *0* ó *-1* (lo que indique que no se resolvió) (O(R))
-    --
-    var solucionCanonica: Examen
-    //Se "rellena" en `nuevoEdr` dándonos la complejidad O(R)
-    --
-    var estudiantesStruct: @TODO
-    // Ver abajo desarrollo
-
 
 ## Modulos que utilizariamos? (propuesta Joaquín)
 
@@ -64,7 +44,7 @@ class EdR {
 
     private int[] _solCanonica;
 
-    private Aula _aula;
+    // private Aula _aula;
 
     private MaxHeap<Estudiante> _rankingMejoresEstudiantes; //ordenado por nota
 
@@ -83,7 +63,7 @@ class EdR {
 
     // Propuesta Nico:
 
-    private InfoEstudiante[] _estudiantes;
+    private InfoEstudiante[] _estudiantes; // Para poder tener los handles necesitamos que al insertar el elemento X la estructura nos devuelva el handle de X 
 
     private class InfoEstudiante {
         public nota;
@@ -99,19 +79,78 @@ class EdR {
 
     //hay que actualizar los métodos porque están con las estructuras anteriores y antes también estaban incompletos
 
-    public EdR(int ladoAula, int cantEst, AlgunTipoDeSecuencia<int> examenCanonico){/*...*/}
+    public EdR(int ladoAula, int cantEst, AlgunTipoDeSecuencia<int> examenCanonico){
+        /*Inicializar Edr --> while |_estudiantes| != canEstudiantes => {
+            instanciar estudiante --> estudiantes.examen = new Array(|examenCanonico|) ^ (definir id y entregó_exm, etc)
+            A su vez el handle de cada estudiante va hidratando los rankings.
 
-    public void copiarse(int idEstudiante) {/*...*/}
+            */
+           while(cantEst > _estudiante.length()){
+                InfoEstudiante nuevoEst = new InfoEstudiante(0, new Array{examenCanonico}, varId, true);
+                InfoEstudiantes.Handle nuevoHandle = _estudiantes.insertar(nuevoEst);
+                _rankingsDeEst.insertar(nuevoHandle);
+           }
+           /*
+            }...
 
-    public void resolver(int idEstudiante, int nroEjercicio, int respuestaEjercicio) {/*...*/}
+            Todo esto es O(E*R).
 
-    public void consultarDarkWeb(int k, AlgunTipoDeSecuencia<int> examenDW) {/*...*/}
+            Sugerencia: Guardar ladoAula (O(1) Para poder encontrar al vecino de adelante en algún futuro);
 
-    public AlgunTipoDeSecuencia<int> notas() {/*...*/}
+            Por ahí falta mucho o le pifié a lo que se quería hacer, cualquier cosa esto lo escribió Joaco. 
+        */
+    }
 
-    public void entregar(int idEstudiante) {/*...*/}
+    public void copiarse(int idEstudiante) {
+        infoEstudiante estCopion = _estudiantes.obtener(idEstudiantes) //(0(1)) 
+        infoEstudiante vecinoDelQueSeVaACopiar = vecinoConMasRespuestasRespectoAlCopion(estCopion); // O(R) (hay que chequear 3 examanes)
+        // infoEstudiante vecinoIzq = _estudiantes.obtener(idEstudiantes - 1) //(0(1)) 
+        // infoEstudiante vecinoDer = _estudiantes.obtener(idEstudiantes + 1) //(0(1)) 
+        // infoEstudiante vecinoAdelante = _estudiantes.obtener(idEstudiantes - _ladoAula) //(0(1)) 
+        //Despues vemo lógica para que no se indefina
+        int indiceDelQueSeVaACopiar = 0
 
-    public AlgunTipoDeSecuencia<int> chequearCopias() {     // O(E * R)
+        for (int i = 0; i < estCopion.examen.length(); i++){
+            if (estCopion.examen[i] == null && vecinoDelQueSeVaACopiar.examen[i] != null){
+                indiceDelQueSeVaACopiar = i;
+                break; //(usar aux en vez de loop con break)
+            } //(O(R))
+
+        estCopion.examen[i] = vecinoDelQueSeVaACopiar.examen[i] //Obliga a que cambie los rankings y por eso O(log(E))... Pero esto va a lograr que se actualicen los rankings de manera automágica?) O algo le falta a mi entender o estamos en el horno
+        } 
+
+
+    };
+
+
+    public void resolver(int idEstudiante, int nroEjercicio, int respuestaEjercicio) {
+        _estudiantes[idEstudiante][nroEjercicio] = respuestaEjercicio; //(O(1))
+        //Misma duda anterior... realmente va a funcionar el reordenamiento de los heaps?
+
+    }
+
+    public void consultarDarkWeb(int k, AlgunTipoDeSecuencia<int> examenDW) {
+        int i = 0;
+        while (i < k) { 
+            InfoEstudiante malEstudiante = _rankingPeoresEstudiantes.extraer(); // O(1) + reordenamiento O(log(E)) 
+            //No olvidarse del compareTo en los estudiantes;
+            malEstudiante.examen = examenDw
+
+        } //Algo me comí pq llegué a O(k*log(E))... salvo que hagamos trampa y reemplacemos ejxej cada posición del array... 🙈
+
+    }
+    public AlgunTipoDeSecuencia<int> notas() {
+        AlgunTipoDeSecuencia<int> res = new AlgunTipoDeSecuencia{_estudiantes.length()}; //O(E);
+        for (i = 0; i<_estudiantes.length(); i++){
+            AlgunTipoDeSecuencia.agregar(_estudiante[i].notas);
+        }
+    }
+
+    public void entregar(int idEstudiante) {
+        _estudiantes[idEstudiante].entrego = true;
+    }
+
+    public AlgunTipoDeSecuencia<int> chequearCopias() {     // O(E * R) ya se papearon esto
         
         ArrayList<ArrayList<int>> contadorDeRtaPorPregunta = new ArrayList<ArrayList<ArrayList<int>>>();    // O(1)
 
@@ -139,7 +178,7 @@ class EdR {
         // agregamos al estudiante a la secuencia
     }
 
-    public AlgunTipoDeSecuencia<NotaFinal> corregir(){/*...*/}
+    public AlgunTipoDeSecuencia<NotaFinal> corregir(){/*...*/} //ya esta chu🪏
 
 
     // ============================== encaminando la implementación ==============================
@@ -269,52 +308,3 @@ class EdR {
     }   // En total: O (E * log(E))
 }
 ```
-
----
-
-## Notas a tener en cuenta para el estudiante:
-
-- Buscar un estudiante en específico tiene complejidad O(log(E));
-
-Justificación de idea:
-
-1.  _copiarse_: Nos dan el id del estudiante el cual se copia (y hay que buscar sus vecinos)
-2.  _resolver_: El estudiante dado (por id) resuelve UN ejercicio, hay que buscar ese estudiante.
-3.  _consultaDarkWeb_: Hay que buscar los estudiantes que tengan el peor puntaje
-4.  _corregir_: Por ahí buscar aquellos estudiantes que tengan algún TAG de `noCopion` (de ahí sale el O(log(E)))
-
-- Los profes recomendaron hacer más clases que solamente EDR... en que se basan esas nuevas clases? Son solos detalles de la implementación (Ej hacer el diccLog) o debemos tener en cuenta el diseño de un nuevo modulo para?
-
-## Dudas:
-
-- Por regla de suma f + g pertenece O(max{f,g}). Pero a la vez f+g pertenece a O(f+g) (si h = f+g --> h pertenece O(h))... 
-Entonces si un ejercicio me pide tener complejidad O(R+log(E)) entonces en realidad debe cumplir con que tenga complejidad O(R) (R >= E paratodo E,R en Reales)
-¿Solo es una pista/ayuda para poder elegir nuestra estructura?
-
-
-## Estructura en Java
-
-```java
-    class EDR_Impl{
-        private Boolean[] _presenciaEnAula;
-        private int[] _solucionCanonica;
-        //TODO resolver estructura estudiantes; relación (estudiantes, examen)
-
-        public EDR_Impl(int ladoAula, int cantEst, int[] examenCanonico){};
-
-        public void copiarse(int idEstudiante){};
-
-        public void resolver(int idEstudiante, int nroEjercicio, int respuestaEjercicio){};
-
-        public void consultaDarkWeb(int k, int[] examenDarkWeb){};
-
-        public int[] notas(){};
-
-        public void entregar(int idEstudiante){};
-
-        public int[] chequearCopias();
-
-        public NotaFinal[] corregir(){}
-    }
-```
-}
