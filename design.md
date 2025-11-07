@@ -75,8 +75,6 @@ class EdR {
     }
 
     //==========================================
-
-
     //hay que actualizar los métodos porque están con las estructuras anteriores y antes también estaban incompletos
 
     public EdR(int ladoAula, int cantEst, AlgunTipoDeSecuencia<int> examenCanonico){
@@ -89,7 +87,8 @@ class EdR {
                 InfoEstudiante nuevoEst = new InfoEstudiante(0, new Array{examenCanonico}, varId, true);
                 InfoEstudiantes.Handle nuevoHandle = _estudiantes.insertar(nuevoEst);
                 _rankingsDeEst.insertar(nuevoHandle);
-           }
+           };
+
            /*
             }...
 
@@ -124,7 +123,8 @@ class EdR {
 
 
     public void resolver(int idEstudiante, int nroEjercicio, int respuestaEjercicio) {
-        _estudiantes[idEstudiante][nroEjercicio] = respuestaEjercicio; //(O(1))
+        _estudiantes[idEstudiante][nroEjercicio] = respuestaEjercicio; //(O(1));
+        corregirAuxEst(_estudiantes[idEstudiante][nroEjercicio])
         //Misma duda anterior... realmente va a funcionar el reordenamiento de los heaps?
 
     }
@@ -134,15 +134,15 @@ class EdR {
         while (i < k) { 
             InfoEstudiante malEstudiante = _rankingPeoresEstudiantes.extraer(); // O(1) + reordenamiento O(log(E)) 
             //No olvidarse del compareTo en los estudiantes;
-            malEstudiante.examen = examenDw
+            deepCopy(malEstudiante, deepsCopy);
 
-        } //Algo me comí pq llegué a O(k*log(E))... salvo que hagamos trampa y reemplacemos ejxej cada posición del array... 🙈
-
+        }
     }
     public AlgunTipoDeSecuencia<int> notas() {
+
         AlgunTipoDeSecuencia<int> res = new AlgunTipoDeSecuencia{_estudiantes.length()}; //O(E);
-        for (i = 0; i<_estudiantes.length(); i++){
-            AlgunTipoDeSecuencia.agregar(_estudiante[i].notas);
+        for (i = 0; i< _estudiantes.length(); i++){
+            res.modificar(i, _estudiante[i].notas); //NO ES O(1). Agregar creacion de array de notas como atributo en EDR
         }
     }
 
@@ -154,25 +154,37 @@ class EdR {
         
         ArrayList<ArrayList<int>> contadorDeRtaPorPregunta = new ArrayList<ArrayList<ArrayList<int>>>();    // O(1)
 
+//PORPUESTA MAL HECHA SUPER MAL HECHA
+        ArrayList<int> se llama rtas;
         for (int i = 0; i < E; i++) {   // O(E)
 
             // creamos un array/vector con 10 posiciones.. O(1)
-            ArrayList<int> se llama rtas;
+
+            Estudiante est = _estudiantes[i];
             for (int j = 0; j < R; j++) {  // O(R)
-                Estudiante est = _estudiantes[i];
-                int rta_a_preg_j = est.examen[j];
+                int rta_a_preg_j = est.examen[j]; //est.examen = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
                 rtas[ rta_a_preg_j ]++;
             }
+            //rtas = [10, 2, 0, 0, 0, 0, ..]
+
         }           // en total: O(E * R)
 
-        // ahora tenemos R vectorcitos con la cant de veces que se respondió la preg_j con cada rta
+//PROPUESTA NICO
+        for (int j = 0; j < R; j++) {  // O(R)
+            //CADA PREGUNTA DE EXAMEN
+            ArrayList<int> n_mismas_rtas;
+            for(int i = 0; i < E; i++) {
+                //CADA ESTUDIANTE
+                int rta = _estudiantes[i].examen[j];
+                n_mismas_rtas[ rta ]++;
+            }
+            //n_mismas_rtas es un array que contiene la cantidad de repeticiones de las opciones para una pregunta J
+            //EJ
+            // _estudiantes[0].examen = { 1, 2, 0, 2, 3 }
+            // _estudiantes[1].examen = { 5, 3, 2, 4, 1 }
+            // n_mismas_rtas = { 1, 2, 2, 2, 1, 1, 0, 0, 0, 0 }
+        } // en total: O(E * R)
 
-        for (int i = 0; i < E; i++) {   // O(E)
-            Estudiante est = _estudiantes[i];
-            // contadorDeRtaPorPregunta[ est.examen[i] ] tiene la cantidad de gente que respondió lo mismo que él
-            // si la cantidad equivale al 25% o más de los estudiantes, lo marcamos en _sosprechosoDeCopia[nroEst] = true;
-        }
-        AlgunTipoDeSecuencia<NotaFinal> res;
         
         // recorremos sospechososDeCopia
         // agregamos al estudiante a la secuencia
