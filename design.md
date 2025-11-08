@@ -40,276 +40,138 @@ class Estudiante {
 
 class EdR {
 
+        private int[] _solCanonica;
+        private MaxHeap<Estudiante> _rankingMejoresEstudiantes; //ordenado por nota > id
+        private MinHeap<Estudiante> _rankingPeoresEstudiantes; //ordenado por nota > id
+        private HandlesEstudiante[] _posicionesEnLosRankings;
 
-    private int[] _solCanonica;
+        abb
+        listaPeores <handleABB>
+        
+        private class HandlesEstudiante {
+            
+            private MaxHeap<Estudiante>.Handle refRankingMejores;
+            private MinHeap<Estudiante>.Handle refRankingPeores;
 
-    // private Aula _aula;
+            public HandlesEstudiante() {
+                refRankingMejores = new MaxHeap<Estudiante>.Handle();
+                refRankingPeores = new MinHeap<Estudiante>.Handle();
 
-    private MaxHeap<Estudiante> _rankingMejoresEstudiantes; //ordenado por nota
+            }
+            public Handle insertar(e:Estudiante){
+                refRankingMejores.insertar(e);
+                refRankingMejores.insertar(e);
 
-    private MinHeap<Estudiante> _rankingPeoresEstudiantes; //ordenado por nota
+                return new estHandle(e);
+            };
 
-    private boolean[] _sospechososDeCopia;
 
-    private HandlesEstudiante[] _posicionesEnLosRankings;
+            public estHandle(){
+                //metodos setters y getters del estu
+            }
+            public actualizar(...);
 
+        }
+
+
+    public class edr {
+
+        
+        private EsudianteHandleado[] _estudiantes
+        
+        private class rankings {
+            MinHeap<Estudiante> peores
+            MaxHeap<Estudiante> mejores
+
+            rankings(){
+                peores = new MinHeap();
+                mejores = new MaxHeap();
+            };
+
+            public Handle insertar(est) {
+                peores.insertar(est);
+                mejores.insertar(est);
+                return new HandleEstudiantes
+            };
+
+            private class HandleEstudiantes() {
+                Estudiante est;
+                Estudiante padreEnMejoresEst;
+                Estudiante padreEnPeoresEst;
+
+                Estudiante[] hijosEnMejores;
+                Estudiante[] hijosEnPeores;
+                // setter y getters
+            }
+
+        }
+
+        resolver(est, preg, rta) {
+            
+            // _estudiantes[est].examen(preg) = rta;
+
+
+            _estudiantes[est].cambiarExamen(preg, rta)
+
+            
+
+
+
+        }
+    }
+
+
+    public EdR(int ladoAula, int cantEst, AlgunTipoDeSecuencia<int> examenCanonico){
+        
+        _estudiantes[E] = {};
+        _mejoresEstudiantes = new MaxHeap<Estudiante>()
+        _peoresEstudiantes = new MinHeap<Estudiante>()
+        _posicionesEnLosRankings = new HandlesEstudiante[] ()
+        
+        while (i < E) {
+            Estudiante x = new Estudiante(valres);
+            handleX handle = handleEstudiantesInstancia.insertar(x);
+            _estudiantes[i] = handle
+        }   
+    }
+    
     // =========================================
     
     // propuesta joaquin:
+
+    // en otro archivo:
+    // private Estudiante[] _estudiantes;
+
+    // public class Estudiante {
+    //     private int _id;
+    //     private int[] _examen;
+    // }
     
-    private int[] _notasEstudiantes;
-    
-    private class HandlesEstudiante {
-        private MaxHeap<Estudiante>.Handle refRankingMejores;
-        private MinHeap<Estudiante>.Handle refRankingPeores;
-    }
+    // debatible si es apropiado o debe almacenar la info el estudiante en clase aparte
+    // private boolean[] _sospechososDeCopia;
+
+    // debatible si es apropiado
+    // private int[] _notasEstudiantes;
+
+    // debatible si es apropiado
+    // private Aula _aula; (hacer un aula con métodos como vecinos? O es mucho?)
 
     // =========================================
 
-    // Propuesta Nico:
-
-    private InfoEstudiante[] _estudiantes; // Para poder tener los handles necesitamos que al insertar el elemento X la estructura nos devuelva el handle de X 
-
-    private class InfoEstudiante {
-        public nota;
-        public examen;
-        public id;
-        public estáONo;
-
-        public InfoEstudiante(nota, examen, id, estáONo) {...}
-    }
-
-    //==========================================
-
-
-    //hay que actualizar los métodos porque están con las estructuras anteriores y antes también estaban incompletos
-
-    public EdR(int ladoAula, int cantEst, AlgunTipoDeSecuencia<int> examenCanonico){
-        /*Inicializar Edr --> while |_estudiantes| != canEstudiantes => {
-            instanciar estudiante --> estudiantes.examen = new Array(|examenCanonico|) ^ (definir id y entregó_exm, etc)
-            A su vez el handle de cada estudiante va hidratando los rankings.
-
-            */
-           while(cantEst > _estudiante.length()){
-                InfoEstudiante nuevoEst = new InfoEstudiante(0, new Array{examenCanonico}, varId, true);
-                InfoEstudiantes.Handle nuevoHandle = _estudiantes.insertar(nuevoEst);
-                _rankingsDeEst.insertar(nuevoHandle);
-           }
-           /*
-            }...
-
-            Todo esto es O(E*R).
-
-            Sugerencia: Guardar ladoAula (O(1) Para poder encontrar al vecino de adelante en algún futuro);
-
-            Por ahí falta mucho o le pifié a lo que se quería hacer, cualquier cosa esto lo escribió Joaco. 
-        */
-    }
-
-    public void copiarse(int idEstudiante) {
-        infoEstudiante estCopion = _estudiantes.obtener(idEstudiantes) //(0(1)) 
-        infoEstudiante vecinoDelQueSeVaACopiar = vecinoConMasRespuestasRespectoAlCopion(estCopion); // O(R) (hay que chequear 3 examanes)
-        // infoEstudiante vecinoIzq = _estudiantes.obtener(idEstudiantes - 1) //(0(1)) 
-        // infoEstudiante vecinoDer = _estudiantes.obtener(idEstudiantes + 1) //(0(1)) 
-        // infoEstudiante vecinoAdelante = _estudiantes.obtener(idEstudiantes - _ladoAula) //(0(1)) 
-        //Despues vemo lógica para que no se indefina
-        int indiceDelQueSeVaACopiar = 0
-
-        for (int i = 0; i < estCopion.examen.length(); i++){
-            if (estCopion.examen[i] == null && vecinoDelQueSeVaACopiar.examen[i] != null){
-                indiceDelQueSeVaACopiar = i;
-                break; //(usar aux en vez de loop con break)
-            } //(O(R))
-
-        estCopion.examen[i] = vecinoDelQueSeVaACopiar.examen[i] //Obliga a que cambie los rankings y por eso O(log(E))... Pero esto va a lograr que se actualicen los rankings de manera automágica?) O algo le falta a mi entender o estamos en el horno
-        } 
-
-
-    };
-
-
-    public void resolver(int idEstudiante, int nroEjercicio, int respuestaEjercicio) {
-        _estudiantes[idEstudiante][nroEjercicio] = respuestaEjercicio; //(O(1))
-        //Misma duda anterior... realmente va a funcionar el reordenamiento de los heaps?
-
-    }
-
-    public void consultarDarkWeb(int k, AlgunTipoDeSecuencia<int> examenDW) {
-        int i = 0;
-        while (i < k) { 
-            InfoEstudiante malEstudiante = _rankingPeoresEstudiantes.extraer(); // O(1) + reordenamiento O(log(E)) 
-            //No olvidarse del compareTo en los estudiantes;
-            malEstudiante.examen = examenDw
-
-        } //Algo me comí pq llegué a O(k*log(E))... salvo que hagamos trampa y reemplacemos ejxej cada posición del array... 🙈
-
-    }
-    public AlgunTipoDeSecuencia<int> notas() {
-        AlgunTipoDeSecuencia<int> res = new AlgunTipoDeSecuencia{_estudiantes.length()}; //O(E);
-        for (i = 0; i<_estudiantes.length(); i++){
-            AlgunTipoDeSecuencia.agregar(_estudiante[i].notas);
-        }
-    }
-
-    public void entregar(int idEstudiante) {
-        _estudiantes[idEstudiante].entrego = true;
-    }
-
-    public AlgunTipoDeSecuencia<int> chequearCopias() {     // O(E * R) ya se papearon esto
-        
-        ArrayList<ArrayList<int>> contadorDeRtaPorPregunta = new ArrayList<ArrayList<ArrayList<int>>>();    // O(1)
-
-        for (int i = 0; i < E; i++) {   // O(E)
-
-            // creamos un array/vector con 10 posiciones.. O(1)
-            ArrayList<int> se llama rtas;
-            for (int j = 0; j < R; j++) {  // O(R)
-                Estudiante est = _estudiantes[i];
-                int rta_a_preg_j = est.examen[j];
-                rtas[ rta_a_preg_j ]++;
-            }
-        }           // en total: O(E * R)
-
-        // ahora tenemos R vectorcitos con la cant de veces que se respondió la preg_j con cada rta
-
-        for (int i = 0; i < E; i++) {   // O(E)
-            Estudiante est = _estudiantes[i];
-            // contadorDeRtaPorPregunta[ est.examen[i] ] tiene la cantidad de gente que respondió lo mismo que él
-            // si la cantidad equivale al 25% o más de los estudiantes, lo marcamos en _sosprechosoDeCopia[nroEst] = true;
-        }
-        AlgunTipoDeSecuencia<NotaFinal> res;
-        
-        // recorremos sospechososDeCopia
-        // agregamos al estudiante a la secuencia
-    }
-
-    public AlgunTipoDeSecuencia<NotaFinal> corregir(){/*...*/} //ya esta chu🪏
-
-
-    // ============================== encaminando la implementación ==============================
-
-    public EdR(int ladoAula, int cantEst, AlgunTipoDeSecuencia<int> examenCanonico){  // el examen probablemente nos lo den en otro formato, pero no cambia
-        
-        // nos guardamos la solCanonica: O(R)
-
-        // inicializamos el Aula(guardar las dim, crearle un examen vacío a cada estudiante, etc): O(E * R)
-
-        // inicializamos el las rtasMasPopulares(crear un array con R posiciones, y adentro podemos un heap con todos los alumnos O(E*R) o vacío O(R) ): como mucho O(E*R)
-
-        // inicializamos rankingPeoresEstudiantes. Comienza vacío. O(1) u O(E) si usamos un array fijo. idealmente utilizaríamos un arrayList y nos sale O(1)
-
-    }   // Total: O(E*R)
-
-    public void copiarse(int idEstudiante) {    // qué pasaba si nadie tenía una rta que él necesita?
-
-        // como mucho tiene tres vecinos
-        // verificamos quien tiene más rtas que el no tiene: O(3 * R)
-
-        // para ese vecino: nos copiamos la primera rta que no tenemos(para el copión: actualizamos su examen y su nota). O(R) como mucho
-
-        // como cambió una rta del alumno, lo tenemos que actualizar los rankings de rtasMasPopulares y el de peores estudiantes.
-
-        // con un handle por ahí podemos actualizar esos rankings en O(log(E))? tendría sentido...
-
-    }   // Total ideal/supuesto: O(R + log(E))
-
-    public void resolver(int idEstudiante, int nroEjercicio, int respuestaEjercicio) {
-
-        // cambiamos la rta del estudiante en su examen: O(1)
-
-        // actualizamos las respuestasMasPopularesAPregunta: supuestamente O(log(E))
-
-        // actualizamos rankingPeoresEstudiantes, también supuestamente O(log(E))
-
-        // (recordemos que rankingRtasMasPopulares tiene como mucho E respuestas diferentes, así que en realidad tiene min{R, E} y que las operaciones log(n) del heap pertenecen a O(log(E)) y O(log(R)) si queremos ver una cota mayor...)
-
-    }   // Total ideal/supuesto: O(log(E))
-
-    public void consultarDarkWeb(int k, AlgunTipoDeSecuencia<int> examenDW) {
-        
-        // desencolamos k estudiantes del ranking de peoresEstudiantes y los guardamos en una colección con inicialización + inserción O(k) max. la podemos llamar EstudiantesQueSeVanACopiar: O(k * log(E))
-
-        for (Estudiante est in EstudiantesQueSeVanACopiar) {   // O(k)
-            
-            // pisamos el examen del estudiante con examenDW: O(R)
-            // actualizamos los rankings con los handles: O(log(E)) ojalá sea
-            // (recordemos que rankingRtasMasPopulares tiene como mucho E respuestas diferentes, así que en realidad tiene min{R, E} y que las operaciones log(n) del heap pertenecen a O(log(E)) y O(log(R)) si queremos ver una cota mayor...)
-
-        }   // Total ideal/supuesto: O( k * (R+log(E)) )
-
-        // volvemos a encolar los estudiantes con sus notas actualizadas:  O(k * log(E))
-
-    }   // Total ideal/supuesto: O(k * (R+log(E)))
-
-    public AlgunTipoDeSecuencia<int> notas() {  // creo que todos tenían que haber entregado
-
-        AlgunTipoDeSecuencia<int> notas = new AlgunTipoDeSecuencia<int>();
-        for (Estudiante est in _aula.estudiantes()) {   // O(E)
-
-            // agregar est.notaActual a notas // O(1)
-        }
-    }   // Total: O(E)
-
-    public void entregar(int idEstudiante) {
-        
-        // algo de la pinta
-        return _aula.estudiantes()[idEstudiante].notaActual();  // O(1)
-
-    } // Total: O(1)
-
-    public AlgunTipoDeSecuencia<int> chequearCopias() {
-        
-        AlgunTipoDeSecuencia<int> estudiantesSospechosos = new AlgunTipoDeSecuencia<int>();
-
-        for (Estudiante est in _aula.estudiantes()) {   // O(E)
-
-            boolean sospechamosQueSeCopio = true;
-            int i = 0;
-            for (int i = 0; i < _solCanonica.size(); i++) {   // O(R)
-
-                if ( resolvioLaPreg(i) && conjuntoAlQueApuntaElHandle(est).size() < /*depende como tomen el 25%... tal vez tenemos que transformar a floats? */ ) {     // O(1)
-
-                    sospechamosQueSeCopio = false;// O(1)
-
-                    // puede ser más eficiente en ctes..
-                }
-            }       // En total: O(R)
-
-            if (sospechamosQueSeCopio == true) {
-                // agregamos est a estudiantesSospechosos   // O(1)
-                
-                // marcamos el est como sospechoso en _sospechosoDeCopia   // O(1)
-                _sospechosoDeCopia[est] = true;
-            }
-
-        }       // En total: O(E * R)
-
-
-
-        // para cada estudiante,  _estudiantesSospechosos = estudiantesSospechosos;   // O(E)
-
-        return estudiantesSospechosos;
-    }       // En total: O(E * R)
-
-    public AlgunTipoDeSecuencia<NotaFinal> corregir(){
-
-        AlgunTipoDeSecuencia<NotaFinal> notasDeLosQueNoSeSospecha = new AlgunTipoDeSecuencia<NotaFinal>();
-        
-        MaxHeap<int, Estudiante> copiaRankingMejores = _rankingMejoresEstudiantes.copia();      // nos hacemos una copia para no romper el invariante. cuesta O(E) porque es una suerte de array
-
-        for (int i = 0; i < _rankingMejoresEstudiantes.size(); i++) {   // O(E) y aprovechamos que ranking se puede ordenar primero por nota y luego por id como pide este ejercicio
-
-            int idEstudiante = copiaRankingMejores.desencolar(); // O(log(E))
-            if (!_sospechosoDeCopia[i]) {
-                
-                Notafinal nota = new NotaFinal(idEstudiante, _aula.estudiantes()[idEstudiante].notaActual);      // O(1)
-
-                // luego:
-
-                // agregamos nota a notasDeLosQueNoSeSospecha   // O(1)                
-            }
-        }   //   En total: O(E * log(E))
-
-    }   // En total: O (E * log(E))
+    // Propuesta ale:
+
+    // private int _ladoAula; (hacer un aula con métodos como vecinos? O es mucho?)
+
+    // private InfoEstudiante[] _estudiantes; // Para poder tener los handles necesitamos que al insertar el elemento X la estructura nos devuelva el handle de X 
+    
+    // private class InfoEstudiante {
+    //     public int id;
+    //     public boolean estaONo;
+    //     public boolean esCopion;
+    //     public double notaActual;
+    //     public int[] examen;
+
+    //     public InfoEstudiante(id) {...}
+    // }
 }
 ```

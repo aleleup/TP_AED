@@ -2,14 +2,32 @@ package aed;
 import java.util.ArrayList;
 
 public class Edr {
-
     
+//-------------------------------------------------ATRIB PRIV---------------------------------------------------------------------
+
+    private InfoEstudiante[] _estudiantes; // Para poder tener los handles necesitamos que al insertar el elemento X la estructura nos devuelva el handle de X 
+
+    private int[] _solCanonica;
+
+    private int _ladoAula;
+
+    private MinHeap<NotaFinal> _rankingPeoresEstudiantes;
+    
+    private MaxHeap<NotaFinal> _rankingMejoresEstudiantes;
+    
+//------------------------------------------------METOD. PRIV---------------------------------------------------------------------
 
 
 
+//-------------------------------------------------METODOS------------------------------------------------------------------------
 
     public Edr(int LadoAula, int Cant_estudiantes, int[] ExamenCanonico) {
-        throw new UnsupportedOperationException("Sin implementar");
+        
+        _estudiantes = /* */;
+        _solCanonica = ExamenCanonico;
+        _ladoAula = LadoAula;
+        _rankingPeoresEstudiantes;
+        _rankingMejoresEstudiantes;
     }
 
 //-------------------------------------------------NOTAS--------------------------------------------------------------------------
