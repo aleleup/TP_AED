@@ -1,4 +1,4 @@
-package aed;
+`1package aed;
 
 import java.util.ArrayList;
 
@@ -16,8 +16,12 @@ public class MaxHeap<T extends Comparable> {
             posicion = pos;
         }
 
-        public Nodo padre(Nodo n) {
-            return _nodos.get((n.posicion -1) / 2);
+        public Nodo padre() {
+            return _nodos.get((posicion -1) / 2);
+        }
+        
+        public int posicion() {
+            return posicion;
         }
     }
     
@@ -45,8 +49,18 @@ public class MaxHeap<T extends Comparable> {
 
     // metodos aux
 
-    public void siftUpNodo(Nodo n) {
+    private void siftUpNodo(Nodo n) {
         
+        while (n.padre().posicion >= 0 && n.padre().valor.compareTo(n.valor) > 0) {       // mientras el padre es mayor al nodo actual
+            _nodos.swap(n.padre().posicion, n.posicion);
+        }
+    }
+
+    private void swap(ArrayList<T> array, int i, int j) {
+        Nodo nodoI = _nodos.get(i);
+        Nodo nodoJ = _nodos.get(i);
+        _nodos.set(i, nodoJ);
+        _nodos.set(j, nodoI);
     }
 
     // fin metodos aux
