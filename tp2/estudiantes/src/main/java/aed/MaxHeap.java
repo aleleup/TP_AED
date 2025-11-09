@@ -1,15 +1,24 @@
 package aed;
 
+import java.util.ArrayList;
+
 public class MaxHeap<T extends Comparable> {
     
-    private Nodo _nodos;
-    private int _cardinal;
-    private int _capacidad;
+    private ArrayList<Nodo> _nodos;
 
     private class Nodo {
 
         private T valor;
-        private int pos;
+        private int posicion;
+
+        public Nodo(T v, int pos) {
+            valor = v;
+            posicion = pos;
+        }
+
+        public Nodo padre(Nodo n) {
+            return _nodos.get((n.posicion -1) / 2);
+        }
     }
     
     public class Handle {
@@ -34,11 +43,17 @@ public class MaxHeap<T extends Comparable> {
         // ...
     }
 
+    // metodos aux
+
+    public void siftUpNodo(Nodo n) {
+        
+    }
+
+    // fin metodos aux
+
     public MaxHeap(int capacidad) {
         
-        _nodos = new T[capacidad];
-        _cardinal = 0;
-        _capacidad = capacidad;
+        _nodos = new ArrayList<>();
     }
 
     public T desencolar() {
@@ -52,8 +67,5 @@ public class MaxHeap<T extends Comparable> {
 
     public void siftDown() {
         throw new UnsupportedOperationException("Sin implementar");
-    }
-
-    // podemos usar arrayList? cambian las comp?
-    
+    }   
 }
