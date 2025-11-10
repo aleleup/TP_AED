@@ -6,18 +6,24 @@ public class InfoEstudiante {
     private boolean _esSospechoso;
     private boolean _esta;
     private int[] _examen;
+    private int _cantRtasBien;
     private MinHeap<NotaFinal>.Handle _minHandle;
     private MaxHeap<NotaFinal>.Handle _maxHandle;
 
-    // la nota actual la sacamos de maxHandle
+    // JOAQUIN: puse cantRtasBien en vez de notaActual porque vamos a pasar a double todo el tiempo y por ahí perdemos decimales.
+    // Mejor hacer la conversión cada vez que cambiamos la nota
 
     public InfoEstudiante(int id, int tamExamen, MinHeap<NotaFinal>.Handle minHandle, MaxHeap<NotaFinal>.Handle maxHandle) {
         _idEstudiante = id;
         _esSospechoso = false;
         _esta = true;
-        _examen = new int[tamExamen]; // ver cómo inicializar todo en -1
+        _cantRtasBien = 0;
         
-        // como inicializamos los handles?
+        _examen = new int[tamExamen];
+        for (int rta : _examen) {
+            rta = -1;
+        }
+        
         _minHandle = minHandle;
         _maxHandle = maxHandle;
     }
@@ -34,11 +40,25 @@ public class InfoEstudiante {
         return _examen[ej];
     }
 
-    public void resolver(int ej, int rta) {
-        // modificamos examen
-        _examen[ej] = rta;
-        // Joaquin: la nota solo la puede calcular el edr porque es el que tiene la sol canonica (dejé comentario en edr)
-        // modificamos minHandle
-        // modificamos maxHandle
+    public void resolver(int ej, int nuevaRta, int rtaCorrecta) {
+        
+        int rtaAnterior = _examen[ej];
+
+        if (rtaAnterior != nuevaRta) {      // si volviese a pisar su rta con el mismo valor, no necesitaríamos actualizar nada
+
+            if (rtaAnterior == rtaCorrecta) {   // si respondimos algo bien antes y ahora cambiamos la rta, ahora está mal y restamos los puntos
+                _cantRtasBien--;
+            } else if (nuevaRta == rtaCorrecta) {   // si ahora tenemos la rta diferente y bien, sube la cant que están bien
+                _cantRtasBien++;
+            }
+            // si no cayó en ninguno de estos, entonces cambiamos una rta mal por otra mal, o recién respondimos la primera y no está bien la rta
+
+            _examen[ej] = nuevaRta;
+
+            maxHandle.valor()._nota = toDouble(cantRtasBien) / _examen.size;    // creo que es toDouble
+
+            maxHandle.actualizarPrioridad();
+            minHandle.actualizarPrioridad();
+        }
     }
 }

@@ -60,7 +60,15 @@ public class MaxHeap<T extends Comparable> {
             return ref.valor;
         }
 
-        // faltan métodos para actualizar la prioridad o sacar elementos puntuales
+        public void actualizarPrioridad() {
+            
+            // hay que chequear que esté en el arbol de alguna forma
+        }
+
+        public void desencolarElem() {
+            
+            //
+        }
     }
 
     // metodos aux
