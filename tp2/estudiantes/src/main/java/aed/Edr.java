@@ -9,6 +9,8 @@ public class Edr {
 
     private int[] _solCanonica;
 
+    // SUGERENCIA JOAQUÍN: private int[] _notas; (ya que no podemos cambiar la nota desde infoAlumno(no tenemos el examenCanónico))
+
     private int _ladoAula;
 
     private MinHeap<NotaFinal> _rankingPeoresEstudiantes;
@@ -25,6 +27,7 @@ public class Edr {
         
         _estudiantes = /* */;
         _solCanonica = ExamenCanonico;
+        // SUGERENCIA JOAQUÍN: _notas = new int[Cant_estudiantes]; // entiendo que empieza en 0
         _ladoAula = LadoAula;
         _rankingPeoresEstudiantes;
         _rankingMejoresEstudiantes;

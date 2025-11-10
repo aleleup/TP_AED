@@ -60,15 +60,7 @@ public class MaxHeap<T extends Comparable> {
             return ref.valor;
         }
 
-        public void siftUp() {
-            return;
-        }
-
-        public void siftDown() {
-            return;
-        }
-
-        // ...
+        // faltan métodos para actualizar la prioridad o sacar elementos puntuales
     }
 
     // metodos aux
@@ -107,16 +99,20 @@ public class MaxHeap<T extends Comparable> {
 
     // fin metodos aux
 
-    public MaxHeap(int capacidad) {
+    public MaxHeap() {
         
         _nodos = new ArrayList<Nodo>();
     }
 
-    public boolean estaVacio() {
-        return _nodos.size() == 0;
+    public MaxHeap(ArrayList<T> array) {        // "heapify"
+        throw new UnsupportedOperationException("Sin implementar");
     }
 
-    public T consultarMaximo() {
+    public int tamaño() {
+        return _nodos.size();
+    }
+
+    public T maximo() {
         return _nodos.get(0).valor;
     }
 
