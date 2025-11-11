@@ -55,10 +55,10 @@ public class InfoEstudiante {
 
             _examen[ej] = nuevaRta;
 
-            maxHandle.valor()._nota = toDouble(cantRtasBien) / _examen.size;    // creo que es toDouble
+            _maxHandle.valor()._nota = ((double) _cantRtasBien) / _examen.length;    // estará bien castear??
 
-            maxHandle.actualizarPrioridad();
-            minHandle.actualizarPrioridad();
+            _maxHandle.actualizarPrioridad();
+            _minHandle.actualizarPrioridad();
         }
     }
 }

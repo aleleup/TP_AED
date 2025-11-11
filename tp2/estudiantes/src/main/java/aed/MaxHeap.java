@@ -4,8 +4,12 @@ import java.util.ArrayList;
 
 public class MaxHeap<T extends Comparable> {
     
+//-------------------------------------------------ATRIB PRIV---------------------------------------------------------------------
+
     private ArrayList<Nodo> _nodos;
 
+//-------------------------------------------------CLASES PRIV--------------------------------------------------------------------
+ 
     private class Nodo {
 
         private T valor;
@@ -21,11 +25,11 @@ public class MaxHeap<T extends Comparable> {
         }
 
         public boolean tieneHijoIzq() {
-            return esPosicionValida(posicion * 2);
+            return esPosicionValida(posicion * 2 + 1);
         }
 
         public boolean tieneHijoDer() {
-            return esPosicionValida(posicion * 2 + 1);
+            return esPosicionValida(posicion * 2 + 2);
         }
 
         public Nodo padre() {
@@ -33,11 +37,11 @@ public class MaxHeap<T extends Comparable> {
         }
 
         public Nodo izq() {
-            return _nodos.get(posicion * 2);
+            return _nodos.get(posicion * 2 + 1);
         }
 
         public Nodo der() {
-            return _nodos.get(posicion * 2 + 1);
+            return _nodos.get(posicion * 2 + 2);
         }
 
         public Nodo hijoMayor() {   // asume que hay por lo menos un hijo izq (al ser izquierdista, no puede haber hijo der y no izq)
@@ -48,7 +52,9 @@ public class MaxHeap<T extends Comparable> {
             return res;
         }
     }
-    
+
+//-------------------------------------------------HANDLES------------------------------------------------------------------------
+
     public class Handle {
         private Nodo ref;
 
@@ -62,16 +68,20 @@ public class MaxHeap<T extends Comparable> {
 
         public void actualizarPrioridad() {
             
-            // hay que chequear que esté en el arbol de alguna forma
+            // TODO: hay que chequear que esté en el arbol de alguna forma ?
+
+            // si aumentó la prioridad, el siftUp lo deja donde corresp. sino el siftDown lo hace
+            siftUp(ref);
+            siftDown(ref);
         }
 
-        public void desencolarElem() {
+        public T desencolarHandle() {   // qué hacemos con el nodo ahora que está afuera del heap ?
             
-            //
+            return desencolarElem(this.ref);
         }
     }
 
-    // metodos aux
+//------------------------------------------------METOD. PRIV---------------------------------------------------------------------
 
     
     private boolean esPosicionValida(int i) {
@@ -105,7 +115,21 @@ public class MaxHeap<T extends Comparable> {
         }
     }
 
-    // fin metodos aux
+    private T desencolarElem(Nodo aDesencolar) {
+
+        Nodo reemplazoDeDesencolado = _nodos.get(_nodos.size()-1);
+        
+        swapPos(reemplazoDeDesencolado, aDesencolar);
+
+        T valorDeDesencolado = _nodos.remove(aDesencolar.posicion).valor;
+
+        siftUp(reemplazoDeDesencolado);
+        siftDown(reemplazoDeDesencolado);
+        
+        return valorDeDesencolado;
+    }
+
+//-------------------------------------------------METODOS------------------------------------------------------------------------
 
     public MaxHeap() {
         
@@ -116,31 +140,24 @@ public class MaxHeap<T extends Comparable> {
         throw new UnsupportedOperationException("Sin implementar");
     }
 
-    public int tamaño() {
-        return _nodos.size();
+    public boolean estaVacio() {
+        return (_nodos.size() == 0);
     }
 
     public T maximo() {
         return _nodos.get(0).valor;
     }
 
-    public void encolar(T valor) {
+    public Handle encolar(T valor) {
         Nodo nuevoNodo = new Nodo(valor, _nodos.size());
         _nodos.addLast(nuevoNodo);
         siftUp(nuevoNodo);
+
+        return new Handle(nuevoNodo);
     }
 
     public T desencolar() {
         
-        Nodo aDesencolar = _nodos.get(0);
-        Nodo reemplazoDeMaximo = _nodos.get(_nodos.size()-1);
-        
-        swapPos(reemplazoDeMaximo, aDesencolar);
-
-        T valorDeDesencolado = _nodos.remove(aDesencolar.posicion).valor;
-
-        siftDown(reemplazoDeMaximo);
-        
-        return valorDeDesencolado;
+        return desencolarElem(_nodos.get(0));
     }
 }

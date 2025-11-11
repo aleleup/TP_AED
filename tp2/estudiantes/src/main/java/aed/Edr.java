@@ -21,7 +21,7 @@ public class Edr {
 
     private boolean idDeEstValido(int idEstudiante) {
         
-        return (0 <= idEstudiante && idEstudiante < _estudiantes.size);;
+        return (0 <= idEstudiante && idEstudiante < _estudiantes.length);;
     }
 
     private ArrayList<InfoEstudiante> infoVecinos(int idEstudiante) {
@@ -57,8 +57,8 @@ public class Edr {
 
     public Edr(int LadoAula, int Cant_estudiantes, int[] ExamenCanonico) {
         
-        _rankingPeoresEstudiantes = new MaxHeap();
-        _rankingMejoresEstudiantes = new MinHeap();
+        _rankingPeoresEstudiantes = new MinHeap<NotaFinal>();
+        _rankingMejoresEstudiantes = new MaxHeap<NotaFinal>();
         
         _estudiantes = new InfoEstudiante[Cant_estudiantes];
         for (int i = 0; i < Cant_estudiantes; i++) {
@@ -68,7 +68,7 @@ public class Edr {
             MaxHeap<NotaFinal>.Handle maxHandle = _rankingMejoresEstudiantes.encolar(nota);
             MinHeap<NotaFinal>.Handle minHandle = _rankingPeoresEstudiantes.encolar(nota);
 
-            _estudiantes[i] = new InfoEstudiante(i, ExamenCanonico.size, minHandle, maxHandle);
+            _estudiantes[i] = new InfoEstudiante(i, ExamenCanonico.length, minHandle, maxHandle);
         }
 
         _solCanonica = ExamenCanonico;

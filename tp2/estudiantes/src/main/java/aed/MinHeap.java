@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 public class MinHeap<T extends Comparable> {
     
+//-------------------------------------------------ATRIB PRIV---------------------------------------------------------------------
+
     private ArrayList<Nodo> _nodos;
 
     // JOAQUIN: PEGUÉ TODO DE MAXHEAP E INTENTE ADAPTARLO, VERIFICAR QUE ESTE TODO BIEN !!
     // (ej.: faltan métodos de los handles)
+
+//-------------------------------------------------CLASES PRIV--------------------------------------------------------------------
 
     private class Nodo {
 
@@ -24,11 +28,11 @@ public class MinHeap<T extends Comparable> {
         }
 
         public boolean tieneHijoIzq() {
-            return esPosicionValida(posicion * 2);
+            return esPosicionValida(posicion * 2 + 1);
         }
 
         public boolean tieneHijoDer() {
-            return esPosicionValida(posicion * 2 + 1);
+            return esPosicionValida(posicion * 2 + 2);
         }
 
         public Nodo padre() {
@@ -36,11 +40,11 @@ public class MinHeap<T extends Comparable> {
         }
 
         public Nodo izq() {
-            return _nodos.get(posicion * 2);
+            return _nodos.get(posicion * 2 + 1);
         }
 
         public Nodo der() {
-            return _nodos.get(posicion * 2 + 1);
+            return _nodos.get(posicion * 2 + 2);
         }
 
         public Nodo hijoMenor() {   // asume que hay por lo menos un hijo izq (al ser izquierdista, no puede haber hijo der y no izq)
@@ -52,6 +56,8 @@ public class MinHeap<T extends Comparable> {
         }
     }
     
+//-------------------------------------------------HANDLES------------------------------------------------------------------------
+
     public class Handle {
         private Nodo ref;
 
@@ -62,12 +68,23 @@ public class MinHeap<T extends Comparable> {
         public T valor() {
             return ref.valor;
         }
+        
+        public void actualizarPrioridad() {
+            
+            // TODO: hay que chequear que esté en el arbol de alguna forma ?
 
-        // faltan métodos para actualizar la prioridad o sacar elementos puntuales
+            // si aumentó la prioridad, el siftUp lo deja donde corresp. sino el siftDown lo hace
+            siftUp(ref);
+            siftDown(ref);
+        }
+
+        public T desencolarHandle() {   // qué hacemos con el nodo ahora que está afuera del heap ?
+            
+            return desencolarElem(this.ref);
+        }
     }
 
-    // metodos aux
-
+//------------------------------------------------METOD. PRIV---------------------------------------------------------------------
     
     private boolean esPosicionValida(int i) {
         return (i >= 0 && i < _nodos.size());
@@ -100,7 +117,21 @@ public class MinHeap<T extends Comparable> {
         }
     }
 
-    // fin metodos aux
+    private T desencolarElem(Nodo aDesencolar) {
+
+        Nodo reemplazoDeDesencolado = _nodos.get(_nodos.size()-1);
+        
+        swapPos(reemplazoDeDesencolado, aDesencolar);
+
+        T valorDeDesencolado = _nodos.remove(aDesencolar.posicion).valor;
+
+        siftUp(reemplazoDeDesencolado);
+        siftDown(reemplazoDeDesencolado);
+        
+        return valorDeDesencolado;
+    }
+
+//-------------------------------------------------METODOS------------------------------------------------------------------------
 
     public MinHeap() {
         
@@ -111,32 +142,25 @@ public class MinHeap<T extends Comparable> {
         throw new UnsupportedOperationException("Sin implementar");
     }
 
-    public int tamaño() {
-        return _nodos.size();
+    public boolean estaVacio() {
+        return (_nodos.size() == 0);
     }
 
     public T minimo() {
         return _nodos.get(0).valor;
     }
 
-    public void encolar(T valor) {
+    public Handle encolar(T valor) {
         Nodo nuevoNodo = new Nodo(valor, _nodos.size());
         _nodos.addLast(nuevoNodo);
         siftUp(nuevoNodo);
+
+        return new Handle(nuevoNodo);
     }
 
     public T desencolar() {
         
-        Nodo aDesencolar = _nodos.get(0);
-        Nodo reemplazoDeMinimo = _nodos.get(_nodos.size()-1);
-        
-        swapPos(reemplazoDeMinimo, aDesencolar);
-
-        T valorDeDesencolado = _nodos.remove(aDesencolar.posicion).valor;
-
-        siftDown(reemplazoDeMinimo);
-        
-        return valorDeDesencolado;
+        return desencolarElem(_nodos.get(0));
     }
     
 }
