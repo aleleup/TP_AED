@@ -21,7 +21,7 @@ public class Edr {
 
     private boolean idDeEstValido(int idEstudiante) {
         
-        return (0 <= idEstudiante && idEstudiante < _estudiantes.length);;
+        return (0 <= idEstudiante && idEstudiante < _estudiantes.length);
     }
 
     private ArrayList<InfoEstudiante> infoVecinos(int idEstudiante) {
@@ -96,34 +96,49 @@ public class Edr {
 
 
 
-    public void resolver(int estudiante, int NroEjercicio, int res) {
-        throw new UnsupportedOperationException("Sin implementar");
+    public void resolver(int estudiante, int nroEjercicio, int res) {
+        _estudiantes[estudiante].resolver(nroEjercicio, _solCanonica[nroEjercicio], res);
     }
 
 
 
 //------------------------------------------------CONSULTAR DARK WEB-------------------------------------------------------
 
-    public void consultarDarkWeb(int n, int[] examenDW) {
-        throw new UnsupportedOperationException("Sin implementar");
+    public void consultarDarkWeb(int k, int[] examenDW) {
+        for (int i = 0; i < k; i++){ //
+            NotaFinal notaPeorEstudiante = _rankingPeoresEstudiantes.desencolar(); //O(log(E))
+            InfoEstudiante peorEstudiante = _estudiantes[notaPeorEstudiante._id];
+
+            /*SOLUCION PARA LOS HANDLES ¿Se Puede hacer distinto? */
+            peorEstudiante.setMinHandle(null);
+            /*FIN SOLUCION PARA HANDLES: Luego en resolver, como minHandle == null, no se va a reordenar */
+            for (int ejercicio = 0; ejercicio < examenDW.length; ejercicio++){ //O(r) deep copy.
+                peorEstudiante.resolver(ejercicio, examenDW[ejercicio], _solCanonica[ejercicio]); 
+                // O(log(E)!! Hay que hacer un metodo/aplicar una logica que solo modifique el examen del estudiante en O(1)
+                // Ademas falla porque el estudiante no está mas en el ranking, no puede tener una referencia al heap
+                // De momento solo puse una lógica que chequea si es null o no, pero esto se ve con el team 
+            }
+            MinHeap<NotaFinal>.Handle nuevoMinHandle = _rankingPeoresEstudiantes.encolar(notaPeorEstudiante);
+            peorEstudiante.setMinHandle(nuevoMinHandle);
+        }
     }
  
 
 //-------------------------------------------------ENTREGAR-------------------------------------------------------------
 
-    public void entregar(int estudiante) {
-        throw new UnsupportedOperationException("Sin implementar");
+    public void entregar(int estudiante) { // O(1) --> O(log(E)) (Un caso no pasa nada no?)
+        _estudiantes[estudiante].entregar();
     }
 
 //-----------------------------------------------------CORREGIR---------------------------------------------------------
 
-    public NotaFinal[] corregir() {
+    public NotaFinal[] corregir() { // No se que tiene en mente don joaco
         throw new UnsupportedOperationException("Sin implementar");
     }
 
 //-------------------------------------------------------CHEQUEAR COPIAS-------------------------------------------------
 
-    public int[] chequearCopias() {
+    public int[] chequearCopias() { // JAJ no graicas
         throw new UnsupportedOperationException("Sin implementar");
     }
 }

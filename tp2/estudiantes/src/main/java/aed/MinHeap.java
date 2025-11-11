@@ -71,7 +71,7 @@ public class MinHeap<T extends Comparable> {
         
         public void actualizarPrioridad() {
             
-            // TODO: hay que chequear que esté en el arbol de alguna forma ?
+            // TODO: hay que chequear que esté en el arbol de alguna forma ? | Ale: Y si asumimos que está en el arbol? Ver sol 
 
             // si aumentó la prioridad, el siftUp lo deja donde corresp. sino el siftDown lo hace
             siftUp(ref);

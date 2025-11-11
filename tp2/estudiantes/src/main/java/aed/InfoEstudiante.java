@@ -36,8 +36,16 @@ public class InfoEstudiante {
         return _esta;
     }
 
+    public void entregar(){
+        _esta = false;
+    }
+
     public int respuesta(int ej) {
         return _examen[ej];
+    }
+
+    public void setMinHandle( MinHeap<NotaFinal>.Handle nuevoMinHandle){
+        _minHandle = nuevoMinHandle;
     }
 
     public void resolver(int ej, int nuevaRta, int rtaCorrecta) {
@@ -57,8 +65,8 @@ public class InfoEstudiante {
 
             _maxHandle.valor()._nota = ((double) _cantRtasBien) / _examen.length;    // estará bien castear??
 
-            _maxHandle.actualizarPrioridad();
-            _minHandle.actualizarPrioridad();
+            if (_maxHandle != null) _maxHandle.actualizarPrioridad();
+            if (_minHandle != null) _minHandle.actualizarPrioridad();
         }
     }
 }
