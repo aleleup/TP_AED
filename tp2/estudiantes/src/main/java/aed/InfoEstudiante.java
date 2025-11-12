@@ -22,6 +22,10 @@ public class InfoEstudiante {
         return _esSospechoso;
     }
 
+    public void marcarComoSospechoso() {
+        _esSospechoso = true;
+    }
+
     public boolean esta() {
         return _esta;
     }
@@ -35,7 +39,6 @@ public class InfoEstudiante {
     }
 
     public void resolver(int ej, int rta) {
-
         _examen[ej] = rta;
     }
 }

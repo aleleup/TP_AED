@@ -1,4 +1,5 @@
 package aed;
+import java.lang.ProcessHandle.Info;
 import java.util.ArrayList;
 
 public class Edr {
@@ -158,13 +159,70 @@ public class Edr {
 
 //-----------------------------------------------------CORREGIR---------------------------------------------------------
 
-    public NotaFinal[] corregir() { // No se que tiene en mente don joaco
-        throw new UnsupportedOperationException("Sin implementar");
+    public NotaFinal[] corregir() {
+
+
+        // a a
+        
+        return new NotaFinal[0];
     }
 
 //-------------------------------------------------------CHEQUEAR COPIAS-------------------------------------------------
 
-    public int[] chequearCopias() { // JAJ no graicas
-        throw new UnsupportedOperationException("Sin implementar");
+    public int[] chequearCopias() {
+
+        double[][] porcentajeDeRtasAPreg = new double[10][_solCanonica.length];   // O( R )
+        
+        // Vamos a guardarnos el porcentaje de estudiantes que respondieron cada posible rta para cada pregunta p
+        for (int preg = 0; preg < _solCanonica.length; preg++) {
+
+            for (int rta = 0; rta < 10; rta++) {  // como hay 10 rtas posibles, calculamos el porcentaje que respondió c/ rta
+                
+                int cantQueRespondio = 0;
+                for (InfoEstudiante infoEst : _estudiantes) {
+                    
+                    if (infoEst.respuesta(preg) == rta) cantQueRespondio++;
+                }
+
+                porcentajeDeRtasAPreg[preg][rta] = (double)(cantQueRespondio) / (double)(_estudiantes.length);      // estará bien castear?
+            }
+        }
+
+        // Ahora marcamos al los estudiantes que son sospechosos, y en base a eso determinamos el tamaño del array con cantSospechosos
+        int cantSospechosos = 0;
+        for (int e = 0; e < _estudiantes.length; e++) {
+            
+            InfoEstudiante infoEst = _estudiantes[e];
+            int cantRtasQueCumplenCriterio = 0;
+
+            for (int preg = 0; preg < _solCanonica.length; preg++) {
+
+                int rtaAPreg = infoEst.respuesta(preg);
+                if (rtaAPreg == -1) {
+
+                    cantRtasQueCumplenCriterio++;
+                } else {
+                    double porcentajeQuePusoEsaRta = porcentajeDeRtasAPreg[preg][rtaAPreg];
+                    if (porcentajeQuePusoEsaRta >= 25.0) cantRtasQueCumplenCriterio++;
+                }
+            }
+            if (cantRtasQueCumplenCriterio == _solCanonica.length) infoEst.marcarComoSospechoso();
+        }
+        int[] idsSospechosos = new int[cantSospechosos];
+
+        // Finalmente, ponemos a los estudiantes que figuran como sospechosos en el array
+        int posActualArray = 0;
+        for (int e = 0; e < _estudiantes.length; e++) {
+
+            InfoEstudiante infoEst = _estudiantes[e];
+            
+            if (infoEst.esSospechoso()) {
+                
+                idsSospechosos[posActualArray] = e;
+                posActualArray++;
+            }
+        }
+
+        return idsSospechosos;
     }
 }

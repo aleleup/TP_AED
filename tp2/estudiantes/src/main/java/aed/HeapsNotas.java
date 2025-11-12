@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 public class HeapsNotas {
 
-
 //-------------------------------------------------ATRIB PRIV---------------------------------------------------------------------
-
     
     private MaxHeap<NotaFinal> _rankingMejoresEstudiantes;
     
@@ -16,41 +14,58 @@ public class HeapsNotas {
 
     private ArrayList<MinHeap<NotaFinal>.Handle> _handlesRankingPeoresQueNoEntregaron;
 
-
 //-------------------------------------------------METODOS------------------------------------------------------------------------
 
 
     public HeapsNotas(int cantEstudiantes) {
         
         _rankingMejoresEstudiantes = new MaxHeap<NotaFinal>();
-        
         _rankingPeoresEstudiantesQueNoEntregaron = new MinHeap<NotaFinal>();
 
         _handlesRankingMejores = new ArrayList<MaxHeap<NotaFinal>.Handle>(cantEstudiantes);
-
         _handlesRankingPeoresQueNoEntregaron = new ArrayList<MinHeap<NotaFinal>.Handle>(cantEstudiantes);
 
-        // acá insertamos cantEstudiantes notas en 0
+        // acá inicializamos la nota de cada estudiante en 0
+
+        for (int id = 0; id < cantEstudiantes; id++) {
+
+            NotaFinal notaOriginal = new NotaFinal(0, id);
+            
+            MaxHeap<NotaFinal>.Handle handleMejores = _rankingMejoresEstudiantes.encolar(notaOriginal);
+            _handlesRankingMejores.addLast(handleMejores);
+
+            MinHeap<NotaFinal>.Handle handlePeores = _rankingPeoresEstudiantesQueNoEntregaron.encolar(notaOriginal);
+            _handlesRankingPeoresQueNoEntregaron.addLast(handlePeores);
+
+        }
     }
 
-    public void cambiarNota(int idEstudiante, NotaFinal nuevaNota) {
+    public void cambiarNota(int idEstudiante, double nuevaNota) {
 
-        _handlesRankingMejores.get(idEstudiante).cambiarValor(nuevaNota);
-        
-        _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).cambiarValor(nuevaNota);
+        NotaFinal nf = new NotaFinal(nuevaNota, idEstudiante);
+
+        _handlesRankingMejores.get(idEstudiante).cambiarValor(nf);
+        _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).cambiarValor(nf);
     }
 
     public ArrayList<NotaFinal> kPeoresEstudiantes(int k) {
 
-        while (k > 0) {
+        ArrayList<NotaFinal> peores = new ArrayList<NotaFinal>(k);
+        
+        for (int i = 0; i < k; i++) {
 
-            // 
+            peores.addLast(_rankingPeoresEstudiantesQueNoEntregaron.desencolar());
         }
+
+        for (NotaFinal nf : peores) {
+            
+            _rankingPeoresEstudiantesQueNoEntregaron.encolar(nf);
+        }
+        return peores;
+    }
+
+    public void entregar(int idEstudiante) {
+
+        _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).desencolarHandle();
     }
 }
-
-//-------------------------------------------------CLASES PRIV--------------------------------------------------------------------
-
-//-------------------------------------------------HANDLES------------------------------------------------------------------------
-
-//------------------------------------------------METOD. PRIV---------------------------------------------------------------------
