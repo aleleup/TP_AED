@@ -66,11 +66,9 @@ public class MaxHeap<T extends Comparable> {
             return ref.valor;
         }
 
-        public void actualizarPrioridad() {
+        public void cambiarValor(T nuevoValor) {
             
-            // TODO: hay que chequear que esté en el arbol de alguna forma ?
-
-            // si aumentó la prioridad, el siftUp lo deja donde corresp. sino el siftDown lo hace
+            ref.valor = nuevoValor;
             siftUp(ref);
             siftDown(ref);
         }

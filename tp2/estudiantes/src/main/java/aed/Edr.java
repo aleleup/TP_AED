@@ -5,17 +5,26 @@ public class Edr {
     
 //-------------------------------------------------ATRIB PRIV---------------------------------------------------------------------
 
-    private InfoEstudiante[] _estudiantes; // Para poder tener los handles necesitamos que al insertar el elemento X la estructura nos devuelva el handle de X 
-
-    private int[] _solCanonica;
     
-    // SUGERENCIA JOAQUÍN: private int[] _notas; (ya que no podemos cambiar la nota desde infoAlumno(no tenemos el examenCanónico))
-
+    // TODO: tal vez podríamos hacer una clase aula
+    private InfoEstudiante[] _estudiantes; // Para poder tener los handles necesitamos que al insertar el elemento X la estructura nos devuelva el handle de X 
     private int _ladoAula;
+    
+    private int[] _solCanonica;
 
-    private MinHeap<NotaFinal> _rankingPeoresEstudiantes;
+    private int[] _cantRtasCorrectas;   // esto se hace así porque si guardasemos la nota literalmente iríamos perdiendo precisión
+
+    private HeapsNotas _rankings;
+
+    // TODO: tal vez encapsular los rankings
+    
+    private MinHeap<NotaFinal> _rankingPeoresEstudiantesQueNoEntregaron;
     
     private MaxHeap<NotaFinal> _rankingMejoresEstudiantes;
+
+    private MaxHeap<NotaFinal>.Handle[] _handlesRankingMejores;
+
+    private MinHeap<NotaFinal>.Handle[] _handlesRankingPeoresQueNoEntregaron;
     
 //------------------------------------------------METOD. PRIV---------------------------------------------------------------------
 
@@ -105,12 +114,27 @@ public class Edr {
 //------------------------------------------------CONSULTAR DARK WEB-------------------------------------------------------
 
     public void consultarDarkWeb(int k, int[] examenDW) {
+        
+        // quitar atrib handles de InfoEstudiante
+
+        // hay que asegurar que en el MinHeap la prioridad considere que no haya entregado o sacarlo cambiando la idea del MinHeap
+
+        
+
         for (int i = 0; i < k; i++){ //
+
             NotaFinal notaPeorEstudiante = _rankingPeoresEstudiantes.desencolar(); //O(log(E))
+
+            // acá sus handles ya no tienen sentido
+
             InfoEstudiante peorEstudiante = _estudiantes[notaPeorEstudiante._id];
 
             /*SOLUCION PARA LOS HANDLES ¿Se Puede hacer distinto? */
+
             peorEstudiante.setMinHandle(null);
+
+            // peorEstudiante.copiarExamen(examenDW);
+
             /*FIN SOLUCION PARA HANDLES: Luego en resolver, como minHandle == null, no se va a reordenar */
             for (int ejercicio = 0; ejercicio < examenDW.length; ejercicio++){ //O(r) deep copy.
                 peorEstudiante.resolver(ejercicio, examenDW[ejercicio], _solCanonica[ejercicio]); 
@@ -118,6 +142,8 @@ public class Edr {
                 // Ademas falla porque el estudiante no está mas en el ranking, no puede tener una referencia al heap
                 // De momento solo puse una lógica que chequea si es null o no, pero esto se ve con el team 
             }
+
+
             MinHeap<NotaFinal>.Handle nuevoMinHandle = _rankingPeoresEstudiantes.encolar(notaPeorEstudiante);
             peorEstudiante.setMinHandle(nuevoMinHandle);
         }
