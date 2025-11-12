@@ -9,23 +9,16 @@ public class Edr {
     
     // TODO: tal vez podríamos hacer una clase aula
     private InfoEstudiante[] _estudiantes; // Para poder tener los handles necesitamos que al insertar el elemento X la estructura nos devuelva el handle de X 
+    
     private int _ladoAula;
     
     private int[] _solCanonica;
 
+    // TODO / propuesta joaquin: unificar _cantRtasCorrectas con _rankings (tal vez cambiar el nombre de la clase a Notas)? Se podrá?
+
     private int[] _cantRtasCorrectas;   // esto se hace así porque si guardasemos la nota literalmente iríamos perdiendo precisión
 
     private HeapsNotas _rankings;
-
-    // TODO: tal vez encapsular los rankings
-    
-    private MinHeap<NotaFinal> _rankingPeoresEstudiantesQueNoEntregaron;
-    
-    private MaxHeap<NotaFinal> _rankingMejoresEstudiantes;
-
-    private MaxHeap<NotaFinal>.Handle[] _handlesRankingMejores;
-
-    private MinHeap<NotaFinal>.Handle[] _handlesRankingPeoresQueNoEntregaron;
     
 //------------------------------------------------METOD. PRIV---------------------------------------------------------------------
 
@@ -36,16 +29,16 @@ public class Edr {
 
     private ArrayList<InfoEstudiante> infoVecinos(int idEstudiante) {
 
-        ArrayList<InfoEstudiante> vecinos = new ArrayList<InfoEstudiante>();
+        ArrayList<InfoEstudiante> vecinos = new ArrayList<InfoEstudiante>(3);
 
+        // TODO: hay que repensarlo considerando que ladoAula al final eran  los asientos y no los alumnos
+        
         int idEstEnFrente = idEstudiante - _ladoAula;
-        
+
         // joaquin: verificar que esté bien. no sé si queda medio feo el formato o forzarle que sea -1
-        int idEstIzq = ((idEstudiante % _ladoAula) == 0) ?
-            -1 : idEstudiante - 1;
+        int idEstIzq = ((idEstudiante % _ladoAula) == 0) ? -1 : idEstudiante - 1;
         
-        int idEstDer = ((idEstudiante % _ladoAula - 1) == 0) ?
-            -1 : idEstudiante + 1;
+        int idEstDer = ((idEstudiante % (_ladoAula - 1)) == 0) ? -1 : idEstudiante + 1;
         
         if (idDeEstValido(idEstEnFrente)) {
             
@@ -63,22 +56,31 @@ public class Edr {
         return vecinos;
     }
 
+    private int PrimeraPosMaxDeArray(int[] arr) {       // asume que arr.lenght > 0
+        
+        int max = arr[0];
+        for (int i = 0; i < arr.length; i++) {
+            
+            if (arr[i] > max)   max = arr[i];
+        }
+
+        return max;
+    }
+
 //-------------------------------------------------METODOS------------------------------------------------------------------------
 
     public Edr(int LadoAula, int Cant_estudiantes, int[] ExamenCanonico) {
         
-        _rankingPeoresEstudiantes = new MinHeap<NotaFinal>();
-        _rankingMejoresEstudiantes = new MaxHeap<NotaFinal>();
         
         _estudiantes = new InfoEstudiante[Cant_estudiantes];
+
+        _cantRtasCorrectas = new int[Cant_estudiantes];
+
+        HeapsNotas _rankings = new HeapsNotas(Cant_estudiantes);
+        
         for (int i = 0; i < Cant_estudiantes; i++) {
 
-            NotaFinal nota = new NotaFinal(0, i);
-
-            MaxHeap<NotaFinal>.Handle maxHandle = _rankingMejoresEstudiantes.encolar(nota);
-            MinHeap<NotaFinal>.Handle minHandle = _rankingPeoresEstudiantes.encolar(nota);
-
-            _estudiantes[i] = new InfoEstudiante(i, ExamenCanonico.length, minHandle, maxHandle);
+            _estudiantes[i] = new InfoEstudiante(ExamenCanonico.length);
         }
 
         _solCanonica = ExamenCanonico;
@@ -89,15 +91,66 @@ public class Edr {
 //-------------------------------------------------NOTAS--------------------------------------------------------------------------
 
     public double[] notas(){
-        throw new UnsupportedOperationException("Sin implementar");
+        
+        double[] notas = new double[_estudiantes.length];
+
+        for (int e = 0; e < _estudiantes.length; e++) {
+            
+            notas[e] = (double)(_cantRtasCorrectas[e]) / _solCanonica.length;
+        }
+
+        return notas;
     }
 
 //------------------------------------------------COPIARSE------------------------------------------------------------------------
 
 
 
-    public void copiarse(int estudiante) {
-        throw new UnsupportedOperationException("Sin implementar");
+    public void copiarse(int estudiante) {      // j: asumí que si un vecino entregó, no se puede copiar...
+        
+        ArrayList<InfoEstudiante> vecinos = infoVecinos(estudiante);
+
+        if (!vecinos.isEmpty()) {
+
+            InfoEstudiante infoCopion = _estudiantes[estudiante];
+
+            int[] cantRtasDeseadas = new int[vecinos.size()];
+            
+            // contamos la cant de rtas deseadas que tiene cada vecino
+            for (int v = 0; v < vecinos.size(); v++) {
+                
+                InfoEstudiante infoVecino = vecinos.get(v);
+
+                for (int ej = 0; ej < _solCanonica.length; ej++) {
+                    
+                    if (infoCopion.respuesta(ej) == -1 &&
+                        infoVecino.respuesta(ej) != -1) {
+
+                        cantRtasDeseadas[v]++;
+                    }
+                }
+            }
+
+            // elegimos al vecino con más rtas deseadas
+            
+            InfoEstudiante infoVecinoACopiar = vecinos.get(PrimeraPosMaxDeArray(cantRtasDeseadas));
+
+            for (int ej = 0; ej < _solCanonica.length; ej++) {
+                
+                int rtaVecino = infoVecinoACopiar.respuesta(ej);
+
+                if (infoCopion.respuesta(ej) == -1 &&
+                     rtaVecino != -1) {
+
+                    infoCopion.resolver(ej, rtaVecino);
+
+                    if (rtaVecino == _solCanonica[ej]) _cantRtasCorrectas[estudiante]++;
+                    
+                    _rankings.cambiarNota(estudiante, rtaVecino);
+                }
+            }
+            
+        }
     }
 
 
@@ -107,7 +160,9 @@ public class Edr {
 
 
     public void resolver(int estudiante, int nroEjercicio, int res) {
-        _estudiantes[estudiante].resolver(nroEjercicio, _solCanonica[nroEjercicio], res);
+
+        _estudiantes[estudiante].resolver(nroEjercicio, res);
+        _rankings.cambiarNota(estudiante, res);
     }
 
 
@@ -162,8 +217,8 @@ public class Edr {
     public NotaFinal[] corregir() {
 
 
-        // a a
         
+
         return new NotaFinal[0];
     }
 

@@ -31,7 +31,7 @@ public class HeapsNotas {
 
             NotaFinal notaOriginal = new NotaFinal(0, id);
             
-            MaxHeap<NotaFinal>.Handle handleMejores = _rankingMejoresEstudiantes.encolar(notaOriginal);
+            MaxHeap<NotaFinal>.Handle handleMejores = _rankingMejoresEstudiantes.encolar(notaOriginal);     // esto es O( E * log(E) ), hay que utilizar heapify que sea O( E )
             _handlesRankingMejores.addLast(handleMejores);
 
             MinHeap<NotaFinal>.Handle handlePeores = _rankingPeoresEstudiantesQueNoEntregaron.encolar(notaOriginal);
