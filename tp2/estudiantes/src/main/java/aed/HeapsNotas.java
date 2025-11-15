@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class HeapsNotas {
 
 //-------------------------------------------------ATRIB PRIV---------------------------------------------------------------------
-
+    
     private MaxHeap<NotaFinal> _rankingMejoresEstudiantes;
     
     private ArrayList<MaxHeap<NotaFinal>.Handle> _handlesRankingMejores;
@@ -14,8 +14,9 @@ public class HeapsNotas {
 
     private ArrayList<MinHeap<NotaFinal>.Handle> _handlesRankingPeoresQueNoEntregaron;
 
-//-------------------------------------------------METODOS------------------------------------------------------------------------
+    // TODO: ver que hacemos con el handle de un est en_handlesRankingPeoresQueNoEntregaron cuando entrega (ya no es valido)
 
+//-------------------------------------------------METODOS------------------------------------------------------------------------
 
     public HeapsNotas(int cantEstudiantes) {
         
@@ -25,7 +26,6 @@ public class HeapsNotas {
         _handlesRankingMejores = new ArrayList<MaxHeap<NotaFinal>.Handle>(cantEstudiantes);
         _handlesRankingPeoresQueNoEntregaron = new ArrayList<MinHeap<NotaFinal>.Handle>(cantEstudiantes);
 
-        
         // acá inicializamos la nota de cada estudiante en 0
         // SIEMPRE QUE ENCOLEMOS VA A SER O(1) PORQUE LA NOTAFINAL VA A ESTAR EN EL MISMO ORDEN QUE TENDRÍA SI HICIESEMOS HEAPIFY
 
@@ -33,11 +33,7 @@ public class HeapsNotas {
 
             NotaFinal notaOriginal = new NotaFinal(0, id);
             
-<<<<<<< HEAD
-            MaxHeap<NotaFinal>.Handle handleMejores = _rankingMejoresEstudiantes.encolar(notaOriginal);
-=======
             MaxHeap<NotaFinal>.Handle handleMejores = _rankingMejoresEstudiantes.encolar(notaOriginal);     // esto es O( E * log(E) ), hay que utilizar heapify que sea O( E )
->>>>>>> 7b57beb9f80533678185fcd86fca90c57e628ccc
             _handlesRankingMejores.add(handleMejores);
 
             MinHeap<NotaFinal>.Handle handlePeores = _rankingPeoresEstudiantesQueNoEntregaron.encolar(notaOriginal);

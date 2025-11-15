@@ -133,7 +133,7 @@ public class MinHeap<T extends Comparable> {
 
     public MinHeap(int largoMax) {
         
-        _nodos = new ArrayList<Nodo>(largo);
+        _nodos = new ArrayList<Nodo>(largoMax);
     }
 
     public MinHeap(ArrayList<T> array) {        // "heapify"

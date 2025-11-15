@@ -1,8 +1,5 @@
 package aed;
-<<<<<<< HEAD
 
-=======
->>>>>>> 7b57beb9f80533678185fcd86fca90c57e628ccc
 import java.util.ArrayList;
 
 public class Edr {
@@ -41,7 +38,6 @@ public class Edr {
         // TODO: vemos caso maxCantEstudiantesPorFila == 2
         if (true);
         
-<<<<<<< HEAD
         // vemos las ids de los vecinos, si los hay. sino ponemos -1 para que no lo agregue
         int idEstDer = ((idEstudiante % (maxCantEstudiantesPorFila - 1)) == 0) ? -1 : idEstudiante + 1;
         int idEstIzq = ((idEstudiante % maxCantEstudiantesPorFila) == 0) ? -1 : idEstudiante - 1;
@@ -53,20 +49,6 @@ public class Edr {
         if (idDeEstValido(idEstDer) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstDer]);
         if (idDeEstValido(idEstIzq) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstIzq]);
         if (idDeEstValido(idEstEnFrente) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstEnFrente]);
-=======
-        if (idDeEstValido(idEstEnFrente)) {
-            
-            vecinos.add(_estudiantes[idEstEnFrente]);
-        }
-        if (idDeEstValido(idEstIzq)) {
-            
-            vecinos.add(_estudiantes[idEstIzq]);
-        }
-        if (idDeEstValido(idEstDer)) {
-            
-            vecinos.add(_estudiantes[idEstDer]);
-        }
->>>>>>> 7b57beb9f80533678185fcd86fca90c57e628ccc
 
         return vecinos;
     }
@@ -80,11 +62,6 @@ public class Edr {
         }
 
         return max;
-    }
-
-<<<<<<< HEAD
-    private double calcularNota(int idEstudiante) {
-        return (double)(_cantRtasCorrectas[idEstudiante]) / _solCanonica.length;
     }
 
     private void cambiarUnaRespuesta(int idEstudiante, int ejercicio, int nuevaRespuesta) {
@@ -103,19 +80,21 @@ public class Edr {
         _rankings.cambiarNota(idEstudiante, calcularNota(idEstudiante));
     }
 
-
-=======
-    private double calcularNota(int[] examen) { // O(R)
+    private int examenACantRtasCorrectas(int[] examen) { // O(R)
 
         int cantRtasCorrectas = 0;
         for (int i = 0; i < examen.length; i++) {
             
             if (examen[i] == _solCanonica[i]) cantRtasCorrectas++;
         }
-        return (double)(cantRtasCorrectas) / (double)(examen.length);
+        return cantRtasCorrectas;
     }
 
->>>>>>> 7b57beb9f80533678185fcd86fca90c57e628ccc
+    private double cantRtasCorrectasANota(int cantRtasCorrectas) { // O(1)
+
+        return (double)(cantRtasCorrectas) / (double)(_solCanonica.length);
+    }
+
 //-------------------------------------------------METODOS------------------------------------------------------------------------
 
     public Edr(int LadoAula, int Cant_estudiantes, int[] ExamenCanonico) {
@@ -147,7 +126,7 @@ public class Edr {
 
         for (int est = 0; est < _estudiantes.length; est++) {
             
-            notas[est] = calcularNota(est);
+            notas[est] = cantRtasCorrectasANota(_cantRtasCorrectas[est]);
         }
         return notas;
     }
@@ -156,16 +135,12 @@ public class Edr {
 
     public void copiarse(int estudiante) {      // j: asumí que si un vecino entregó, no se puede copiar...
         
-<<<<<<< HEAD
+        // lo habíamos modificado para que tome en cuenta que los vecinos pueden: no tener ninguna que él no tenga, no haya ningún vecino, etc
         ArrayList<InfoEstudiante> vecinos = infoVecinosQueEstanOrdenadosPorMayorId(estudiante);    // devolvemos los vecinos ordenados por mayor id que tenga. si no tiene, es un arraylist vacío.
+        
         if (vecinos.isEmpty()) return;
         
         InfoEstudiante infoCopion = _estudiantes[estudiante];
-=======
-        // lo habíamos modificado para que tome en cuenta que los vecinos pueden: no tener ninguna que él no tenga, no haya ningún vecino, etc
-        
-        ArrayList<InfoEstudiante> vecinos = infoVecinos(estudiante);
->>>>>>> 7b57beb9f80533678185fcd86fca90c57e628ccc
 
         // generamos un array que tiene a lo sumo 3 posiciones, una para cada vecino. en ese vamos a contar la que rtas tiene que el copión no tiene
         int[] cantRtasDeseadas = new int[vecinos.size()];
@@ -204,74 +179,52 @@ public class Edr {
 
 //-----------------------------------------------RESOLVER----------------------------------------------------------------
 
-    public void resolver(int estudiante, int nroEjercicio, int res) {       // asumimos que todavía no la respondió
+    public void resolver(int estudiante, int nroEjercicio, int res) {       // por precondición, sabemos que todavía no la respondió
 
-<<<<<<< HEAD
         _estudiantes[estudiante].resolver(nroEjercicio, res);   // O(1)
         if (res == _solCanonica[nroEjercicio]) _cantRtasCorrectas[estudiante]++;    // O(1)
         _rankings.cambiarNota(estudiante, res); // O( log(E) )
 
     }   // En total: O( log(E) )
-=======
-    public void resolver(int estudiante, int nroEjercicio, int res) {
-
-        _estudiantes[estudiante].resolver(nroEjercicio, res);
-        _rankings.cambiarNota(estudiante, res);
-    }
-
->>>>>>> 7b57beb9f80533678185fcd86fca90c57e628ccc
 
 
 //------------------------------------------------CONSULTAR DARK WEB-------------------------------------------------------
 
     public void consultarDarkWeb(int k, int[] examenDW) {
-<<<<<<< HEAD
-
-        
-        // calculamos la nota que van a tener las personas que se copian el examen de la DarkWeb
-        int cantRtasCorrectasExamenDW = 0;
-        for (int ej = 0; ej < examenDW.length; ej++) {
-            if (examenDW[ej] == _solCanonica[ej]) cantRtasCorrectasExamenDW++;
-        }
-        double notaExamenDW = (double)(cantRtasCorrectasExamenDW) / examenDW.length;
-        
-        ArrayList<NotaFinal> kPeoresEstudiantes = _rankings.kPeoresEstudiantes(k);
-
-        for (int i = 0; i < k; i++) {
-            
-=======
         
         // calculamos la nota corresp al examenDW una sola vez
-        double notaDW = calcularNota(examenDW);
+        int cantRtasCorrectasDW = examenACantRtasCorrectas(examenDW);   // O(R)
+        double notaDW = cantRtasCorrectasANota(cantRtasCorrectasDW); // O(1)
+        
+        // Obtenemos los estudiantes que se van a copiar del examenDW
+        ArrayList<NotaFinal> kPeoresQueSeCopianYSusIds = _rankings.kPeoresEstudiantesQueNoEntregaron(k);
 
-        // Obtenemos los estudiantes que se van a copiar
-        ArrayList<NotaFinal> kPeoresQueSeCopian = _rankings.kPeoresEstudiantesQueNoEntregaron(k);
-
-        for (int est = 0; est < k; est++) {
+        for (int est = 0; est < kPeoresQueSeCopianYSusIds.size(); est++) {
             
-            InfoEstudiante infoDeEstInmoral = _estudiantes[est];
+            InfoEstudiante infoDeEstInmoral = _estudiantes[kPeoresQueSeCopianYSusIds.get(est)._id];
 
-            for (int i = 0; i < examenDW.length; i++) {
+            for (int i = 0; i < examenDW.length; i++) {     // O(R)
                 
-                infoDeEstInmoral.resolver(i, examenDW[i]);
+                infoDeEstInmoral.resolver(i, examenDW[i]);  // O(1)
             }
-            _cantRtasCorrectas[est] = ;
-            _rankings.cambiarNota(est, notaDW);
->>>>>>> 7b57beb9f80533678185fcd86fca90c57e628ccc
-        }
+            _cantRtasCorrectas[est] = cantRtasCorrectasDW;  // O(1)
+            _rankings.cambiarNota(est, notaDW);     // O(log(E))
+        } // En total: O( k * (R + log(E)) )
     }
- 
+    // En total: O( k * (R + log(E)) )
 
 //-------------------------------------------------ENTREGAR-------------------------------------------------------------
 
-    public void entregar(int estudiante) { // O(1) --> O(log(E)) (Un caso no pasa nada no?)
-        _estudiantes[estudiante].entregar();
+    public void entregar(int estudiante) {
+        _estudiantes[estudiante].entregar();    // O(1)
+        _rankings.entregar(estudiante); // O(log(E))
     }
+    // En total: O( log(E) )
 
 //-----------------------------------------------------CORREGIR---------------------------------------------------------
 
     public NotaFinal[] corregir() {
-
+        // TODO: completar
         return new NotaFinal[0];
     }
 
@@ -279,20 +232,21 @@ public class Edr {
 
     public int[] chequearCopias() {
 
-        double[][] porcentajeDeRtasAPreg = new double[10][_solCanonica.length];   // O( R )
+        double[][] porcentajeDeRtasAPreg = new double[10][_solCanonica.length];   // O(R) porque creamos R arrays con 10 posiciones
+        
+        // TODO: Resolver duda: habría que inicializar en 0?
         
         // Vamos a guardarnos el porcentaje de estudiantes que respondieron cada posible rta para cada pregunta p
-        for (int preg = 0; preg < _solCanonica.length; preg++) {
+        for (int preg = 0; preg < _solCanonica.length; preg++) {    // O(R)
 
-            for (int rta = 0; rta < 10; rta++) {  // como hay 10 rtas posibles, calculamos el porcentaje que respondió c/ rta
+            for (int rta = 0; rta < 10; rta++) {    // O(1) // como hay 10 rtas posibles, calculamos el porcentaje que respondió c/ rta
                 
-                int cantQueRespondio = 0;
-                for (InfoEstudiante infoEst : _estudiantes) {
+                int cantQueRespondioRtaActual = 0;       // O(1)
+                for (InfoEstudiante infoEst : _estudiantes) {   // O(E)
                     
-                    if (infoEst.respuesta(preg) == rta) cantQueRespondio++;
+                    if (infoEst.respuesta(preg) == rta) cantQueRespondioRtaActual++;    // O(1)
                 }
-
-                porcentajeDeRtasAPreg[preg][rta] = (double)(cantQueRespondio) / (double)(_estudiantes.length);      // estará bien castear?
+                porcentajeDeRtasAPreg[preg][rta] = (double)(cantQueRespondioRtaActual) / (double)(_estudiantes.length); // O(1)
             }
         }
 
@@ -331,6 +285,65 @@ public class Edr {
             }
         }
 
+        return idsSospechosos;
+    }
+
+    
+    public int[] chequearCopiasAlt() {
+    
+        double[][] porcentajeDeRtasAPreg = new double[10][_solCanonica.length];   // O(R) porque creamos R arrays con 10 posiciones
+        
+        // TODO: Resolver duda: habría que inicializar en 0?
+    
+        // Vamos a guardarnos el porcentaje de estudiantes que respondieron cada posible rta para cada pregunta p
+        for (int preg = 0; preg < _solCanonica.length; preg++) {    // O(R)
+    
+            for (int rta = 0; rta < 10; rta++) {    // O(1) // como hay 10 rtas posibles, calculamos el porcentaje que respondió c/ rta
+                
+                int cantQueRespondioRtaActual = 0;       // O(1)
+                for (InfoEstudiante infoEst : _estudiantes) {   // O(E)
+                    
+                    if (infoEst.respuesta(preg) == rta) cantQueRespondioRtaActual++;    // O(1)
+                }
+                porcentajeDeRtasAPreg[preg][rta] = (double)(cantQueRespondioRtaActual) / (double)(_estudiantes.length); // O(1)
+            }
+        }
+        
+        // Ahora marcamos al los estudiantes que son sospechosos, y en base a eso determinamos el tamaño del array con cantSospechosos
+        int cantSospechosos = 0;
+        for (int e = 0; e < _estudiantes.length; e++) {
+            
+            InfoEstudiante infoEst = _estudiantes[e];
+            int cantRtasQueCumplenCriterio = 0;
+            
+            for (int preg = 0; preg < _solCanonica.length; preg++) {
+                
+                int rtaAPreg = infoEst.respuesta(preg);
+                if (rtaAPreg == -1) {
+                    
+                    cantRtasQueCumplenCriterio++;
+                } else {
+                    double porcentajeQuePusoEsaRta = porcentajeDeRtasAPreg[preg][rtaAPreg];
+                    if (porcentajeQuePusoEsaRta >= 25.0) cantRtasQueCumplenCriterio++;
+                }
+            }
+            if (cantRtasQueCumplenCriterio == _solCanonica.length) infoEst.marcarComoSospechoso();
+        }
+        int[] idsSospechosos = new int[cantSospechosos];
+        
+        // Finalmente, ponemos a los estudiantes que figuran como sospechosos en el array
+        int posActualArray = 0;
+        for (int e = 0; e < _estudiantes.length; e++) {
+            
+            InfoEstudiante infoEst = _estudiantes[e];
+            
+            if (infoEst.esSospechoso()) {
+                
+                idsSospechosos[posActualArray] = e;
+                posActualArray++;
+            }
+        }
+        
         return idsSospechosos;
     }
 }
