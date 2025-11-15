@@ -64,20 +64,29 @@ public class Edr {
         return max;
     }
 
-    private void cambiarUnaRespuesta(int idEstudiante, int ejercicio, int nuevaRespuesta) {
+    private boolean nuevaRtaSubeRtasCorrectas(int est, int ej, int nuevaRta) {
+        
+        int rtaVieja = _estudiantes[est].respuesta(ej);
+        return ( rtaVieja != _solCanonica[ej] && nuevaRta == _solCanonica[ej]);
+    }
+    private boolean nuevaRtaBajaRtasCorrectas(int est, int ej, int nuevaRta) {
+        
+        int rtaVieja = _estudiantes[est].respuesta(ej);
+        return (rtaVieja == _solCanonica[ej] && nuevaRta != _solCanonica[ej]);
+    }
+
+    private void cambiarUnaRespuesta(int est, int ej, int nuevaRta) {
 
         // TODO: verificamos si pasó de tener una rta correcta a incorrecta o si antes no tenía una rta correcta y ahora sí
+        // actualizamos el examen del estudiante
+        if (nuevaRtaBajaRtasCorrectas(est, ej, nuevaRta)) _cantRtasCorrectas[est]--;
+        if (nuevaRtaBajaRtasCorrectas(est, ej, nuevaRta)) _cantRtasCorrectas[est]++;
         
         // actualizamos el examen del estudiante
-        if (rta_no_correcta_y_ahora_sí()) _cantRtasCorrectas[idEstudiante]++;
-        if (rta_correcta_a_incorrecta()) _cantRtasCorrectas[idEstudiante]--;
-        if (rta_no_correcta_a_rta_no_correcta() || no_cambia_rta()) {int i = 1;}
-        
-        // actualizamos el examen del estudiante
-        _estudiantes[idEstudiante].resolver(ejercicio, nuevaRespuesta);
+        _estudiantes[est].resolver(ej, nuevaRta);
 
         // actualizamos los rankings
-        _rankings.cambiarNota(idEstudiante, calcularNota(idEstudiante));
+        _rankings.cambiarNota(est, cantRtasCorrectasANota(_cantRtasCorrectas[est]));
     }
 
     private int examenACantRtasCorrectas(int[] examen) { // O(R)
