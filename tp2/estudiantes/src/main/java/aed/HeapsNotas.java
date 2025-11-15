@@ -32,10 +32,10 @@ public class HeapsNotas {
             NotaFinal notaOriginal = new NotaFinal(0, id);
             
             MaxHeap<NotaFinal>.Handle handleMejores = _rankingMejoresEstudiantes.encolar(notaOriginal);     // esto es O( E * log(E) ), hay que utilizar heapify que sea O( E )
-            _handlesRankingMejores.addLast(handleMejores);
+            _handlesRankingMejores.add(handleMejores);
 
             MinHeap<NotaFinal>.Handle handlePeores = _rankingPeoresEstudiantesQueNoEntregaron.encolar(notaOriginal);
-            _handlesRankingPeoresQueNoEntregaron.addLast(handlePeores);
+            _handlesRankingPeoresQueNoEntregaron.add(handlePeores);
 
         }
     }
@@ -48,13 +48,13 @@ public class HeapsNotas {
         _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).cambiarValor(nf);
     }
 
-    public ArrayList<NotaFinal> kPeoresEstudiantes(int k) {
+    public ArrayList<NotaFinal> kPeoresEstudiantesQueNoEntregaron(int k) {
 
         ArrayList<NotaFinal> peores = new ArrayList<NotaFinal>(k);
         
         for (int i = 0; i < k; i++) {
 
-            peores.addLast(_rankingPeoresEstudiantesQueNoEntregaron.desencolar());
+            peores.add(_rankingPeoresEstudiantesQueNoEntregaron.desencolar());
         }
 
         for (NotaFinal nf : peores) {

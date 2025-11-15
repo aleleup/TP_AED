@@ -150,7 +150,7 @@ public class MinHeap<T extends Comparable> {
 
     public Handle encolar(T valor) {
         Nodo nuevoNodo = new Nodo(valor, _nodos.size());
-        _nodos.addLast(nuevoNodo);
+        _nodos.add(nuevoNodo);
         siftUp(nuevoNodo);
 
         return new Handle(nuevoNodo);

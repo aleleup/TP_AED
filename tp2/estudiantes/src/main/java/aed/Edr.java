@@ -1,5 +1,4 @@
 package aed;
-import java.lang.ProcessHandle.Info;
 import java.util.ArrayList;
 
 public class Edr {
@@ -42,15 +41,15 @@ public class Edr {
         
         if (idDeEstValido(idEstEnFrente)) {
             
-            vecinos.addLast(_estudiantes[idEstEnFrente]);
+            vecinos.add(_estudiantes[idEstEnFrente]);
         }
         if (idDeEstValido(idEstIzq)) {
             
-            vecinos.addLast(_estudiantes[idEstIzq]);
+            vecinos.add(_estudiantes[idEstIzq]);
         }
         if (idDeEstValido(idEstDer)) {
             
-            vecinos.addLast(_estudiantes[idEstDer]);
+            vecinos.add(_estudiantes[idEstDer]);
         }
 
         return vecinos;
@@ -67,10 +66,19 @@ public class Edr {
         return max;
     }
 
+    private double calcularNota(int[] examen) { // O(R)
+
+        int cantRtasCorrectas = 0;
+        for (int i = 0; i < examen.length; i++) {
+            
+            if (examen[i] == _solCanonica[i]) cantRtasCorrectas++;
+        }
+        return (double)(cantRtasCorrectas) / (double)(examen.length);
+    }
+
 //-------------------------------------------------METODOS------------------------------------------------------------------------
 
     public Edr(int LadoAula, int Cant_estudiantes, int[] ExamenCanonico) {
-        
         
         _estudiantes = new InfoEstudiante[Cant_estudiantes];
 
@@ -98,15 +106,14 @@ public class Edr {
             
             notas[e] = (double)(_cantRtasCorrectas[e]) / _solCanonica.length;
         }
-
         return notas;
     }
 
 //------------------------------------------------COPIARSE------------------------------------------------------------------------
 
-
-
     public void copiarse(int estudiante) {      // j: asumí que si un vecino entregó, no se puede copiar...
+        
+        // lo habíamos modificado para que tome en cuenta que los vecinos pueden: no tener ninguna que él no tenga, no haya ningún vecino, etc
         
         ArrayList<InfoEstudiante> vecinos = infoVecinos(estudiante);
 
@@ -157,8 +164,6 @@ public class Edr {
 //-----------------------------------------------RESOLVER----------------------------------------------------------------
 
 
-
-
     public void resolver(int estudiante, int nroEjercicio, int res) {
 
         _estudiantes[estudiante].resolver(nroEjercicio, res);
@@ -171,37 +176,22 @@ public class Edr {
 
     public void consultarDarkWeb(int k, int[] examenDW) {
         
-        // quitar atrib handles de InfoEstudiante
+        // calculamos la nota corresp al examenDW una sola vez
+        double notaDW = calcularNota(examenDW);
 
-        // hay que asegurar que en el MinHeap la prioridad considere que no haya entregado o sacarlo cambiando la idea del MinHeap
+        // Obtenemos los estudiantes que se van a copiar
+        ArrayList<NotaFinal> kPeoresQueSeCopian = _rankings.kPeoresEstudiantesQueNoEntregaron(k);
 
-        
+        for (int est = 0; est < k; est++) {
+            
+            InfoEstudiante infoDeEstInmoral = _estudiantes[est];
 
-        for (int i = 0; i < k; i++){ //
-
-            NotaFinal notaPeorEstudiante = _rankingPeoresEstudiantes.desencolar(); //O(log(E))
-
-            // acá sus handles ya no tienen sentido
-
-            InfoEstudiante peorEstudiante = _estudiantes[notaPeorEstudiante._id];
-
-            /*SOLUCION PARA LOS HANDLES ¿Se Puede hacer distinto? */
-
-            peorEstudiante.setMinHandle(null);
-
-            // peorEstudiante.copiarExamen(examenDW);
-
-            /*FIN SOLUCION PARA HANDLES: Luego en resolver, como minHandle == null, no se va a reordenar */
-            for (int ejercicio = 0; ejercicio < examenDW.length; ejercicio++){ //O(r) deep copy.
-                peorEstudiante.resolver(ejercicio, examenDW[ejercicio], _solCanonica[ejercicio]); 
-                // O(log(E)!! Hay que hacer un metodo/aplicar una logica que solo modifique el examen del estudiante en O(1)
-                // Ademas falla porque el estudiante no está mas en el ranking, no puede tener una referencia al heap
-                // De momento solo puse una lógica que chequea si es null o no, pero esto se ve con el team 
+            for (int i = 0; i < examenDW.length; i++) {
+                
+                infoDeEstInmoral.resolver(i, examenDW[i]);
             }
-
-
-            MinHeap<NotaFinal>.Handle nuevoMinHandle = _rankingPeoresEstudiantes.encolar(notaPeorEstudiante);
-            peorEstudiante.setMinHandle(nuevoMinHandle);
+            _cantRtasCorrectas[est] = ;
+            _rankings.cambiarNota(est, notaDW);
         }
     }
  
