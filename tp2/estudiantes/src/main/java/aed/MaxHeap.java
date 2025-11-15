@@ -146,10 +146,15 @@ public class MaxHeap<T extends Comparable> {
     }
 
     public Handle encolar(T valor) {
+<<<<<<< HEAD
         Nodo nuevoNodo = new Nodo(valor, _nodos.size());        // .size() supuestamente usa el tamaño actual
         
         _nodos.add(nuevoNodo);
         
+=======
+        Nodo nuevoNodo = new Nodo(valor, _nodos.size());
+        _nodos.add(nuevoNodo);
+>>>>>>> 7b57beb9f80533678185fcd86fca90c57e628ccc
         siftUp(nuevoNodo);
 
         return new Handle(nuevoNodo);
