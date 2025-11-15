@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class Edr {
 
 //-------------------------------------------------ATRIB PRIV---------------------------------------------------------------------
-
     
     // TODO: tal vez podríamos hacer una clase aula
+
     private InfoEstudiante[] _estudiantes; // Para poder tener los handles necesitamos que al insertar el elemento X la estructura nos devuelva el handle de X 
-    
+
     private int _ladoAula;
     
     private int[] _solCanonica;
@@ -45,7 +45,6 @@ public class Edr {
         
         // agregamos a los vecinos válidos
         // como sabemos que (de tener cada uno): idVecinoDer > idVecinoIzq > idVecinoDeEnfrente, los insertamos en ese orden
-        
         if (idDeEstValido(idEstDer) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstDer]);
         if (idDeEstValido(idEstIzq) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstIzq]);
         if (idDeEstValido(idEstEnFrente) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstEnFrente]);
@@ -60,7 +59,6 @@ public class Edr {
             
             if (arr[i] > max)   max = arr[i];
         }
-
         return max;
     }
 
@@ -69,6 +67,7 @@ public class Edr {
         int rtaVieja = _estudiantes[est].respuesta(ej);
         return ( rtaVieja != _solCanonica[ej] && nuevaRta == _solCanonica[ej]);
     }
+
     private boolean nuevaRtaBajaRtasCorrectas(int est, int ej, int nuevaRta) {
         
         int rtaVieja = _estudiantes[est].respuesta(ej);
@@ -196,7 +195,6 @@ public class Edr {
 
     }   // En total: O( log(E) )
 
-
 //------------------------------------------------CONSULTAR DARK WEB-------------------------------------------------------
 
     public void consultarDarkWeb(int k, int[] examenDW) {
@@ -233,7 +231,10 @@ public class Edr {
 //-----------------------------------------------------CORREGIR---------------------------------------------------------
 
     public NotaFinal[] corregir() {
-        // TODO: completar
+        new NotaFinal[0]; // eo
+        for (int i=0; i < _estudiantes.length; i++){
+            
+        }  
         return new NotaFinal[0];
     }
 
@@ -296,7 +297,6 @@ public class Edr {
 
         return idsSospechosos;
     }
-
     
     public int[] chequearCopiasAlt() {
     
@@ -352,7 +352,6 @@ public class Edr {
                 posActualArray++;
             }
         }
-        
         return idsSospechosos;
     }
 }
