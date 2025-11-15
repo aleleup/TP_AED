@@ -261,4 +261,13 @@ E veces veo si
 R veces:
     
     contarRtasDePregI // O(E)
-    
+
+
+
+---
+
+l: ladoAula
+
+maxCantEstudiantesPorFila: floor(l/2)
+
+idEstudiante %  && id => mas a la izq

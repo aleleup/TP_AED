@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class HeapsNotas {
 
 //-------------------------------------------------ATRIB PRIV---------------------------------------------------------------------
-    
+
     private MaxHeap<NotaFinal> _rankingMejoresEstudiantes;
     
     private ArrayList<MaxHeap<NotaFinal>.Handle> _handlesRankingMejores;
@@ -19,23 +19,25 @@ public class HeapsNotas {
 
     public HeapsNotas(int cantEstudiantes) {
         
-        _rankingMejoresEstudiantes = new MaxHeap<NotaFinal>();
-        _rankingPeoresEstudiantesQueNoEntregaron = new MinHeap<NotaFinal>();
+        _rankingMejoresEstudiantes = new MaxHeap<NotaFinal>(cantEstudiantes);
+        _rankingPeoresEstudiantesQueNoEntregaron = new MinHeap<NotaFinal>(cantEstudiantes);
 
         _handlesRankingMejores = new ArrayList<MaxHeap<NotaFinal>.Handle>(cantEstudiantes);
         _handlesRankingPeoresQueNoEntregaron = new ArrayList<MinHeap<NotaFinal>.Handle>(cantEstudiantes);
 
+        
         // acá inicializamos la nota de cada estudiante en 0
+        // SIEMPRE QUE ENCOLEMOS VA A SER O(1) PORQUE LA NOTAFINAL VA A ESTAR EN EL MISMO ORDEN QUE TENDRÍA SI HICIESEMOS HEAPIFY
 
         for (int id = 0; id < cantEstudiantes; id++) {
 
             NotaFinal notaOriginal = new NotaFinal(0, id);
             
-            MaxHeap<NotaFinal>.Handle handleMejores = _rankingMejoresEstudiantes.encolar(notaOriginal);     // esto es O( E * log(E) ), hay que utilizar heapify que sea O( E )
-            _handlesRankingMejores.addLast(handleMejores);
+            MaxHeap<NotaFinal>.Handle handleMejores = _rankingMejoresEstudiantes.encolar(notaOriginal);
+            _handlesRankingMejores.add(handleMejores);
 
             MinHeap<NotaFinal>.Handle handlePeores = _rankingPeoresEstudiantesQueNoEntregaron.encolar(notaOriginal);
-            _handlesRankingPeoresQueNoEntregaron.addLast(handlePeores);
+            _handlesRankingPeoresQueNoEntregaron.add(handlePeores);
 
         }
     }
@@ -54,7 +56,7 @@ public class HeapsNotas {
         
         for (int i = 0; i < k; i++) {
 
-            peores.addLast(_rankingPeoresEstudiantesQueNoEntregaron.desencolar());
+            peores.add(_rankingPeoresEstudiantesQueNoEntregaron.desencolar());
         }
 
         for (NotaFinal nf : peores) {

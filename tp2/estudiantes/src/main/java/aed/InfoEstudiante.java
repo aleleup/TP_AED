@@ -13,8 +13,8 @@ public class InfoEstudiante {
         
         _examen = new int[tamExamen];
         
-        for (int rta : _examen) {
-            rta = -1;
+        for (int preg = 0; preg < _examen.length; preg++) {
+            _examen[preg] = -1;
         }
     }
 
@@ -36,6 +36,10 @@ public class InfoEstudiante {
 
     public int respuesta(int ej) {
         return _examen[ej];
+    }
+
+    public boolean respondio(int ej) {
+        return _examen[ej] != -1;
     }
 
     public void resolver(int ej, int rta) {

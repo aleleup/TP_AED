@@ -80,7 +80,6 @@ public class MaxHeap<T extends Comparable> {
     }
 
 //------------------------------------------------METOD. PRIV---------------------------------------------------------------------
-
     
     private boolean esPosicionValida(int i) {
         return (i >= 0 && i < _nodos.size());
@@ -129,9 +128,9 @@ public class MaxHeap<T extends Comparable> {
 
 //-------------------------------------------------METODOS------------------------------------------------------------------------
 
-    public MaxHeap() {
+    public MaxHeap(int largoMax) {
         
-        _nodos = new ArrayList<Nodo>();
+        _nodos = new ArrayList<Nodo>(largoMax);
     }
 
     public MaxHeap(ArrayList<T> array) {        // "heapify"
@@ -139,7 +138,7 @@ public class MaxHeap<T extends Comparable> {
     }
 
     public boolean estaVacio() {
-        return (_nodos.size() == 0);
+        return _nodos.isEmpty();
     }
 
     public T maximo() {
@@ -147,8 +146,10 @@ public class MaxHeap<T extends Comparable> {
     }
 
     public Handle encolar(T valor) {
-        Nodo nuevoNodo = new Nodo(valor, _nodos.size());
-        _nodos.addLast(nuevoNodo);
+        Nodo nuevoNodo = new Nodo(valor, _nodos.size());        // .size() supuestamente usa el tamaño actual
+        
+        _nodos.add(nuevoNodo);
+        
         siftUp(nuevoNodo);
 
         return new Handle(nuevoNodo);

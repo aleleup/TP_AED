@@ -131,9 +131,9 @@ public class MinHeap<T extends Comparable> {
 
 //-------------------------------------------------METODOS------------------------------------------------------------------------
 
-    public MinHeap() {
+    public MinHeap(int largoMax) {
         
-        _nodos = new ArrayList<Nodo>();
+        _nodos = new ArrayList<Nodo>(largo);
     }
 
     public MinHeap(ArrayList<T> array) {        // "heapify"
@@ -150,7 +150,7 @@ public class MinHeap<T extends Comparable> {
 
     public Handle encolar(T valor) {
         Nodo nuevoNodo = new Nodo(valor, _nodos.size());
-        _nodos.addLast(nuevoNodo);
+        _nodos.add(nuevoNodo);
         siftUp(nuevoNodo);
 
         return new Handle(nuevoNodo);
