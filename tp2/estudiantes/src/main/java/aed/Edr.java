@@ -192,7 +192,7 @@ public class Edr {
         ArrayList<NotaFinal> kPeoresEstudiantes = _rankings.kPeoresEstudiantes(k);
 
         for (int i = 0; i < k; i++) {
-
+            
         }
     }
  
