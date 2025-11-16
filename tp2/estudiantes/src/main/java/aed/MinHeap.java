@@ -140,8 +140,8 @@ public class MinHeap<T extends Comparable> {
         throw new UnsupportedOperationException("Sin implementar");
     }
 
-    public boolean estaVacio() {
-        return (_nodos.size() == 0);
+    public boolean size() {
+        return _nodos.size();
     }
 
     public T minimo() {
