@@ -9,10 +9,21 @@ public class NotaFinal implements Comparable<NotaFinal> {
         _id = id;
     }
 
-    public int compareTo(NotaFinal otra){
-        if (otra._id != this._id){
-            return this._id - otra._id;
+  @Override
+  public boolean equals(Object otro) {
+        if (otro != null && otro.getClass() == this.getClass() ){
+            NotaFinal otraNotaFinal = (NotaFinal) otro;
+            return otraNotaFinal._nota == this._nota && otraNotaFinal._id == _id;
         }
-        return Double.compare(this._nota, otra._nota);
+        return false;
+    }
+    
+    @Override
+    public int compareTo(NotaFinal otra){
+        
+        if (this._nota != otra._nota){
+            return Double.compare(this._nota, otra._nota);
+        }
+        return this._id - otra._id;
     }
 }

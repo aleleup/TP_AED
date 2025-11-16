@@ -99,7 +99,7 @@ public class Edr {
 
     private double cantRtasCorrectasANota(int cantRtasCorrectas) { // O(1)
 
-        return (double)(cantRtasCorrectas) / (double)(_solCanonica.length);
+        return (double)(100 * cantRtasCorrectas / _solCanonica.length);
     }
 
 //-------------------------------------------------METODOS------------------------------------------------------------------------
@@ -189,8 +189,9 @@ public class Edr {
     public void resolver(int estudiante, int nroEjercicio, int res) {       // por precondición, sabemos que todavía no la respondió
 
         _estudiantes[estudiante].resolver(nroEjercicio, res);   // O(1)
-        if (res == _solCanonica[nroEjercicio]) _cantRtasCorrectas[estudiante]++;    // O(1)
-        _rankings.cambiarNota(estudiante, res); // O( log(E) )
+        if (res == _solCanonica[nroEjercicio]) _cantRtasCorrectas[estudiante]++;
+        double nuevaNota = cantRtasCorrectasANota(_cantRtasCorrectas[estudiante]);
+        _rankings.cambiarNota(estudiante, nuevaNota); // O( log(E) )
 
     }   // En total: O( log(E) )
 
@@ -231,18 +232,22 @@ public class Edr {
 
     public NotaFinal[] corregir() {
         ArrayList<NotaFinal> notasOrdenadas = _rankings.notasDeEstudiantesOrdenados();
+        
         int cantidadEstudiantesNoCopiones = 0;
         for (int i=0; i < _estudiantes.length; i++){
             if (!_estudiantes[i].esSospechoso()) cantidadEstudiantesNoCopiones++; 
         }
-        NotaFinal[] notasFinalesSinCopiones  = new NotaFinal[cantidadEstudiantesNoCopiones];
+        
+        NotaFinal[] notasFinalesSinCopiones = new NotaFinal[cantidadEstudiantesNoCopiones];
         int agregados = 0;
         for (int i=0; i < notasOrdenadas.size(); i++){
-            if (!_estudiantes[notasOrdenadas.get(i)._id].esSospechoso()){
+
+            boolean esSospechoso = _estudiantes[notasOrdenadas.get(i)._id].esSospechoso();
+            if (!esSospechoso){
                 notasFinalesSinCopiones[agregados] = notasOrdenadas.get(i);
                 agregados++;
             }
-                    }  
+        }
         return notasFinalesSinCopiones;
     }
 
@@ -250,7 +255,7 @@ public class Edr {
     
     public int[] chequearCopias() {
     
-        double[][] cantDeRtasAPreg = new double[10][_solCanonica.length];   // O(R) porque creamos R arrays con 10 posiciones
+        double[][] cantDeRtasAPreg = new double[_solCanonica.length][10];   // O(R) porque creamos R arrays con 10 posiciones
         
         // TODO: Resolver duda: habría que inicializar en 0?
     
@@ -260,7 +265,7 @@ public class Edr {
             for (int est = 0; est < _estudiantes.length; est++) {
                 
                 int rtaDelEst = _estudiantes[est].respuesta(preg);
-                cantDeRtasAPreg[preg][rtaDelEst]++;
+                if (rtaDelEst != -1) cantDeRtasAPreg[preg][rtaDelEst]++;
             }
         }
         
@@ -270,33 +275,33 @@ public class Edr {
 
         for (int e = 0; e < _estudiantes.length; e++) { // O(E)
             
-            InfoEstudiante infoEst = _estudiantes[e];
-            int cantRtasQueCumplenCriterio = 0;
+            InfoEstudiante infoEst = _estudiantes[e];   // O(1)
+            int cantRtasQueCumplenCriterio = 0;         // O(1)
             
             for (int preg = 0; preg < _solCanonica.length; preg++) {    // O(R)
                 
                 int rtaAPreg = infoEst.respuesta(preg);
-                if (rtaAPreg == -1) {   // si no contestó la 
+                if (rtaAPreg == -1) {   // si no contestó la
                     
                     cantRtasQueCumplenCriterio++;
                 } else {
 
                     // para la respuesta que puso a la pregunta, cuál es el porcentaje de gente que la contestó igual si contar a este alumno?
-                    double porcentajeQuePusoEsaRtaSinContarse = ((double)cantDeRtasAPreg[preg][rtaAPreg]-1) * 100;
+                    double porcentajeQuePusoEsaRtaSinContarse = (double)((cantDeRtasAPreg[preg][rtaAPreg] - 1) * 100 / _estudiantes.length);
                     if (porcentajeQuePusoEsaRtaSinContarse >= 25.0) cantRtasQueCumplenCriterio++;
                 }
             }
-            if (cantRtasQueCumplenCriterio == _solCanonica.length) infoEst.marcarComoSospechoso();  // O(1)
-            idsEstudiantesSospechosos.add(e);   // O(1) amortizado
-        }   // O(E*R)
-        int [] idsSospechosos = new int[idsEstudiantesSospechosos.size()];
-        int i = 0;
-        for (Integer est : idsEstudiantesSospechosos){
-            idsSospechosos[i] = est;
-            i++;
-        }
-        return idsSospechosos; // O(E) amortizado // TODO: confirmar
-    }
+            if (cantRtasQueCumplenCriterio == _solCanonica.length) {
+                infoEst.marcarComoSospechoso();  // O(1)
+                idsEstudiantesSospechosos.add(e);
+            }   // O(1) amortizado
 
+        }   // O(E*R)
+        int [] idsSospechosos = new int[idsEstudiantesSospechosos.size()];  // O(E)
+        for (int i = 0; i < idsEstudiantesSospechosos.size(); i++){ // O(E)
+            idsSospechosos[i] = idsEstudiantesSospechosos.get(i);   // O(1)
+        }
+        return idsSospechosos;
+    }
     // En total: O(E*R)
 }

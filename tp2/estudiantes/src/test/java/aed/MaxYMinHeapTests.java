@@ -23,12 +23,11 @@ public class MaxYMinHeapTests {
     void valoresDefault(){
         assertEquals(minHeap.size(), 0);
         assertEquals(maxHeap.size(), 0);
-        
     }
     
     @Test
     void encolandoYDesencolandoNumeros(){
-        //Datos estudiados a mano
+        // Datos estudiados a mano
         int[] numerosRandom = {5,7,3,9,2,10,1,8,6,4};
         int[] resultadoEsperadoParaMinHeap =  {1,3,2,6,4,10,5,9,8,7}; 
         int[] resultadoEsperadoParaMaxHeap =  {10,8,9,7,4,3,1,5,6,2};
@@ -79,8 +78,8 @@ public class MaxYMinHeapTests {
             assertEquals(handleDeValoresDelMaxHeap.get(i).valor(), resultadoEsperadoParaMaxHeap[i]);
         }
 
-        //Probando cambiando el valor de algun nodo en el array de handles y ver que se actualice correctamente:
-        //Cambiando el `1` por un `11`
+        // Probando cambiando el valor de algun nodo en el array de handles y ver que se actualice correctamente:
+        // Cambiando el `1` por un `11`
 
         handleDeValoresDelMaxHeap.get(6).cambiarValor(11);
         handleDeValoresDelMinHeap.get(6).cambiarValor(11);
@@ -88,7 +87,7 @@ public class MaxYMinHeapTests {
         assertEquals(minHeap.toString(), "[2,3,5,6,4,10,11,9,8,7]");
         assertEquals(maxHeap.toString(), "[11,8,10,7,4,3,9,5,6,2]");
 
-        //Desencolando algunos enteros a partir del array
+        // Desencolando algunos enteros a partir del array
         for (int i = 0; i == 10; i++){
             handleDeValoresDelMaxHeap.get(i).desencolarHandle();
             handleDeValoresDelMaxHeap.set(i, null);

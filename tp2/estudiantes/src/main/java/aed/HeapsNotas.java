@@ -99,7 +99,8 @@ public class HeapsNotas {
         ArrayList<NotaFinal> notasDeEstudiantesOrdenados = new ArrayList<NotaFinal>(_rankingMejoresEstudiantes.size()); // O(E)
         
         // Agregamos a nuestro ArrayList todas nuestras notas finales rankeadas de mejor a peor
-        for (int e = 0; e < _rankingMejoresEstudiantes.size(); e++) {
+        int cantEstudiantes = _rankingMejoresEstudiantes.size();
+        for (int e = 0; e < cantEstudiantes; e++) {
 
             notasDeEstudiantesOrdenados.add(_rankingMejoresEstudiantes.desencolar());   // O(log(E))
         }   // En total: O(E * log(E))
