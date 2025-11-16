@@ -283,12 +283,13 @@ public class Edr {
 
                     // para la respuesta que puso a la pregunta, cuál es el porcentaje de gente que la contestó igual si contar a este alumno?
                     double porcentajeQuePusoEsaRtaSinContarse = ((double)cantDeRtasAPreg[preg][rtaAPreg]-1) * 100;
-                    if (porcentajeQuePusoEsaRta >= 25.0) cantRtasQueCumplenCriterio++;
+                    if (porcentajeQuePusoEsaRtaSinContarse >= 25.0) cantRtasQueCumplenCriterio++;
                 }
             }
             if (cantRtasQueCumplenCriterio == _solCanonica.length) infoEst.marcarComoSospechoso();  // O(1)
             idsEstudiantesSospechosos.add(e);   // O(1) amortizado
         }   // O(E*R)
+<<<<<<< HEAD
         
         int[] idsEstudiantesSospechososArray = new int[idsEstudiantesSospechosos.size()];
         for (int i = 0; i < idsEstudiantesSospechosos.size(); i++) {
@@ -296,6 +297,16 @@ public class Edr {
             idsEstudiantesSospechososArray[i] = idsEstudiantesSospechosos.get(i);
         }
         return idsEstudiantesSospechososArray;
+=======
+        int [] idsSospechosos = new int[idsEstudiantesSospechosos.size()];
+        int i = 0;
+        for (Integer est : idsEstudiantesSospechosos){
+            idsSospechosos[i] = est;
+            i++;
+        }
+        return idsSospechosos; // O(E) amortizado // TODO: confirmar
+>>>>>>> 958050ef57eb39c1b1a64ba30912745a6bfab791
     }
+
     // En total: O(E*R)
 }
