@@ -23,7 +23,7 @@ public class Edr {
     private HeapsNotas _rankings;
     
 //------------------------------------------------METOD. PRIV---------------------------------------------------------------------
-    
+
     private boolean idDeEstValido(int idEstudiante) {
         
         return (0 <= idEstudiante && idEstudiante < _estudiantes.length);
@@ -239,64 +239,6 @@ public class Edr {
     }
 
 //-------------------------------------------------------CHEQUEAR COPIAS-------------------------------------------------
-
-    public int[] chequearCopias() {
-
-        double[][] porcentajeDeRtasAPreg = new double[10][_solCanonica.length];   // O(R) porque creamos R arrays con 10 posiciones
-        
-        // TODO: Resolver duda: habría que inicializar en 0?
-        
-        // Vamos a guardarnos el porcentaje de estudiantes que respondieron cada posible rta para cada pregunta p
-        for (int preg = 0; preg < _solCanonica.length; preg++) {    // O(R)
-
-            for (int rta = 0; rta < 10; rta++) {    // O(1) // como hay 10 rtas posibles, calculamos el porcentaje que respondió c/ rta
-                
-                int cantQueRespondioRtaActual = 0;       // O(1)
-                for (InfoEstudiante infoEst : _estudiantes) {   // O(E)
-                    
-                    if (infoEst.respuesta(preg) == rta) cantQueRespondioRtaActual++;    // O(1)
-                }
-                porcentajeDeRtasAPreg[preg][rta] = (double)(cantQueRespondioRtaActual) / (double)(_estudiantes.length); // O(1)
-            }
-        }
-
-        // Ahora marcamos al los estudiantes que son sospechosos, y en base a eso determinamos el tamaño del array con cantSospechosos
-        int cantSospechosos = 0;
-        for (int e = 0; e < _estudiantes.length; e++) {
-            
-            InfoEstudiante infoEst = _estudiantes[e];
-            int cantRtasQueCumplenCriterio = 0;
-
-            for (int preg = 0; preg < _solCanonica.length; preg++) {
-
-                int rtaAPreg = infoEst.respuesta(preg);
-                if (rtaAPreg == -1) {
-
-                    cantRtasQueCumplenCriterio++;
-                } else {
-                    double porcentajeQuePusoEsaRta = porcentajeDeRtasAPreg[preg][rtaAPreg];
-                    if (porcentajeQuePusoEsaRta >= 25.0) cantRtasQueCumplenCriterio++;
-                }
-            }
-            if (cantRtasQueCumplenCriterio == _solCanonica.length) infoEst.marcarComoSospechoso();
-        }
-        int[] idsSospechosos = new int[cantSospechosos];
-
-        // Finalmente, ponemos a los estudiantes que figuran como sospechosos en el array
-        int posActualArray = 0;
-        for (int e = 0; e < _estudiantes.length; e++) {
-
-            InfoEstudiante infoEst = _estudiantes[e];
-            
-            if (infoEst.esSospechoso()) {
-                
-                idsSospechosos[posActualArray] = e;
-                posActualArray++;
-            }
-        }
-
-        return idsSospechosos;
-    }
     
     public int[] chequearCopiasAlt() {
     
