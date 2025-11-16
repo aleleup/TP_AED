@@ -255,7 +255,7 @@ public class Edr {
     
     public int[] chequearCopias() {
     
-        double[][] cantDeRtasAPreg = new double[_solCanonica.length][10];   // O(R) porque creamos R arrays con 10 posiciones
+        int[][] cantDeRtasAPreg = new int[_solCanonica.length][10];   // O(R) porque creamos R arrays con 10 posiciones
         
         // TODO: Resolver duda: habría que inicializar en 0?
     
@@ -276,22 +276,23 @@ public class Edr {
         for (int e = 0; e < _estudiantes.length; e++) { // O(E)
             
             InfoEstudiante infoEst = _estudiantes[e];   // O(1)
-            int cantRtasQueCumplenCriterio = 0;         // O(1)
+            int cantRtasIncompletas = 0;         // O(1)
+            int cantRtasRespondidasQueCumple = 0;                // O(1)
             
             for (int preg = 0; preg < _solCanonica.length; preg++) {    // O(R)
                 
                 int rtaAPreg = infoEst.respuesta(preg);
                 if (rtaAPreg == -1) {   // si no contestó la
                     
-                    cantRtasQueCumplenCriterio++;
+                    cantRtasIncompletas++;
                 } else {
 
                     // para la respuesta que puso a la pregunta, cuál es el porcentaje de gente que la contestó igual si contar a este alumno?
-                    double porcentajeQuePusoEsaRtaSinContarse = (double)((cantDeRtasAPreg[preg][rtaAPreg] - 1) * 100 / _estudiantes.length);
-                    if (porcentajeQuePusoEsaRtaSinContarse >= 25.0) cantRtasQueCumplenCriterio++;
+                    double porcentajeQuePusoEsaRtaSinContarse = (((double) cantDeRtasAPreg[preg][rtaAPreg] - 1) / (_estudiantes.length-1)) * 100;
+                    if (porcentajeQuePusoEsaRtaSinContarse >= 25.0) cantRtasRespondidasQueCumple++;
                 }
             }
-            if (cantRtasQueCumplenCriterio == _solCanonica.length) {
+            if (cantRtasIncompletas != _solCanonica.length && (cantRtasIncompletas + cantRtasRespondidasQueCumple) == _solCanonica.length) {
                 infoEst.marcarComoSospechoso();  // O(1)
                 idsEstudiantesSospechosos.add(e);
             }   // O(1) amortizado
