@@ -8,9 +8,6 @@ public class MinHeap<T extends Comparable> {
 
     private ArrayList<Nodo> _nodos;
 
-    // JOAQUIN: PEGUÉ TODO DE MAXHEAP E INTENTE ADAPTARLO, VERIFICAR QUE ESTE TODO BIEN !!
-    // (ej.: faltan métodos de los handles)
-
 //-------------------------------------------------CLASES PRIV--------------------------------------------------------------------
 
     private class Nodo {
@@ -76,8 +73,13 @@ public class MinHeap<T extends Comparable> {
             siftDown(ref);
         }
 
-        public T desencolarHandle() {   // qué hacemos con el nodo ahora que está afuera del heap ?
-            return desencolarElem(this.ref);
+        // una vez que el handle se invalida, es responsabilidad del usuario
+        // saber si puede utilizar dicho handle, ya que al usarlo la colección de rompe
+        public T desencolarHandle() {
+            T valor = desencolarNodo(ref);
+            ref = null;
+
+            return valor;
         }
     }
 
@@ -114,7 +116,7 @@ public class MinHeap<T extends Comparable> {
         }
     }
 
-    private T desencolarElem(Nodo aDesencolar) {
+    private T desencolarNodo(Nodo aDesencolar) {
 
         Nodo reemplazoDeDesencolado = _nodos.get(_nodos.size()-1);
         
@@ -156,7 +158,6 @@ public class MinHeap<T extends Comparable> {
 
     public T desencolar() {
         
-        return desencolarElem(_nodos.get(0));
-    }
-    
+        return desencolarNodo(_nodos.get(0));
+    }   
 }

@@ -73,9 +73,13 @@ public class MaxHeap<T extends Comparable> {
             siftDown(ref);
         }
 
-        public T desencolarHandle() {   // qué hacemos con el nodo ahora que está afuera del heap ?
-            
-            return desencolarElem(this.ref);
+        // una vez que el handle se invalida, es responsabilidad del usuario
+        // saber si puede utilizar dicho handle, ya que al usarlo la colección de rompe
+        public T desencolarHandle() {
+            T valor = desencolarNodo(ref);
+            ref = null;
+
+            return valor;
         }
     }
 
@@ -112,7 +116,7 @@ public class MaxHeap<T extends Comparable> {
         }
     }
 
-    private T desencolarElem(Nodo aDesencolar) {
+    private T desencolarNodo(Nodo aDesencolar) {
 
         Nodo reemplazoDeDesencolado = _nodos.get(_nodos.size()-1);
         
@@ -133,8 +137,12 @@ public class MaxHeap<T extends Comparable> {
         _nodos = new ArrayList<Nodo>(largoMax);
     }
 
-    public MaxHeap(ArrayList<T> array) {        // "heapify"
-        throw new UnsupportedOperationException("Sin implementar");
+    
+    // "heapify" - Complejidad O(n). En la teórica se hizo una demostración de que es O(n) con el algoritmo heapify
+    public MaxHeap(ArrayList<T> array) {
+        
+        // potencialmente va a haber que hacer que los heaps sean clases privadas de HeapsNotas
+        // (esto para poder obtener los handles)
     }
 
     public int size() {
@@ -155,6 +163,6 @@ public class MaxHeap<T extends Comparable> {
 
     public T desencolar() {
         
-        return desencolarElem(_nodos.get(0));
+        return desencolarNodo(_nodos.get(0));
     }
 }
