@@ -283,7 +283,7 @@ public class Edr {
 
                     // para la respuesta que puso a la pregunta, cuál es el porcentaje de gente que la contestó igual si contar a este alumno?
                     double porcentajeQuePusoEsaRtaSinContarse = ((double)cantDeRtasAPreg[preg][rtaAPreg]-1) * 100;
-                    if (porcentajeQuePusoEsaRta >= 25.0) cantRtasQueCumplenCriterio++;
+                    if (porcentajeQuePusoEsaRtaSinContarse >= 25.0) cantRtasQueCumplenCriterio++;
                 }
             }
             if (cantRtasQueCumplenCriterio == _solCanonica.length) infoEst.marcarComoSospechoso();  // O(1)
@@ -291,5 +291,6 @@ public class Edr {
         }   // O(E*R)
         return idsEstudiantesSospechosos.toArray(); // O(E) amortizado // TODO: confirmar
     }
+
     // En total: O(E*R)
 }

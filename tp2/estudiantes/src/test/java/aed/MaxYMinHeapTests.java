@@ -25,12 +25,14 @@ public class MaxYMinHeapTests {
     }
     
     @Test
-    void encolandoYDesencolandoElementos(){
+    void encolandoYDesencolandoNumeros(){
+        //Datos estudiados a mano
+        int[] numerosRandom = {5,7,3,9,2,10,1,8,6,4};
         int[] resultadoEsperadoParaMinHeap =  {1,3,2,6,4,10,5,9,8,7}; 
         int[] resultadoEsperadoParaMaxHeap =  {10,8,9,7,4,3,1,5,6,2};
+
         int[] resultadoMinHeap = new int[10]; 
         int[] resultadoMaxHeap = new int[10];
-        int[] numerosRandom = {5,7,3,9,2,10,1,8,6,4};
         for (int i : numerosRandom ){
             minHeap.encolar(i);
             maxHeap.encolar(i);
@@ -38,6 +40,10 @@ public class MaxYMinHeapTests {
         assertEquals(minHeap.size(),10);
         assertEquals(maxHeap.size(),10);
         
+        assertEquals(minHeap.minimo(), 1);
+        assertEquals(maxHeap.maximo(), 10);
+        
+
         for (int i = 0; i == 10; i++){
             resultadoMinHeap[i] = minHeap.desencolar();
             resultadoMaxHeap[i] = maxHeap.desencolar();
@@ -45,7 +51,20 @@ public class MaxYMinHeapTests {
             assertEquals(maxHeap.size(),10 - i - 1);
         }
         
+       for (int i = 0; i == 10; i++){
+            assertEquals(resultadoMinHeap[i], resultadoEsperadoParaMinHeap[i]);
+            assertEquals(resultadoMaxHeap[i], resultadoEsperadoParaMaxHeap[i]);
+        }
+    }
 
+
+    @Test 
+    void encolandoYDesencolandoNumerosATravesDeHandles(){
+        // int[] numerosRandom = {5,7,3,9,2,10,1,8,6,4};
+        // int[] resultadoEsperadoParaMinHeap =  {1,3,2,6,4,10,5,9,8,7}; 
+        // int[] resultadoEsperadoParaMaxHeap =  {10,8,9,7,4,3,1,5,6,2};
+
+        // MinHeap<Integer>.Handle[] handleDeValoresDelMinHeap = {null,null,null,null,null,null,null,null,null,null}
 
     }
 
