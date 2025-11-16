@@ -77,7 +77,6 @@ public class MinHeap<T extends Comparable> {
         }
 
         public T desencolarHandle() {   // qué hacemos con el nodo ahora que está afuera del heap ?
-            
             return desencolarElem(this.ref);
         }
     }
@@ -132,7 +131,6 @@ public class MinHeap<T extends Comparable> {
 //-------------------------------------------------METODOS------------------------------------------------------------------------
 
     public MinHeap(int largoMax) {
-        
         _nodos = new ArrayList<Nodo>(largoMax);
     }
 

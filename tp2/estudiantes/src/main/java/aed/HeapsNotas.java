@@ -69,6 +69,7 @@ public class HeapsNotas {
     public void entregar(int idEstudiante) {
 
         _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).desencolarHandle();
+
     }
 
     public ArrayList<NotaFinal> notasDeEstudiantesOrdenados() {
