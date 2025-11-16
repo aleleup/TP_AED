@@ -21,6 +21,7 @@ public class MaxHeap<T extends Comparable> {
         }
         
         public boolean tienePadre() {
+            // if (posicion % 2 == 0) return esPosicionValida((posicion-2)/2);
             return esPosicionValida((posicion-1) / 2);
         }
 
@@ -33,6 +34,7 @@ public class MaxHeap<T extends Comparable> {
         }
 
         public Nodo padre() {
+            // if (posicion % 2 == 0) return _nodos.get((posicion-2)/2);
             return _nodos.get((posicion-1) / 2);
         }
 
@@ -103,7 +105,7 @@ public class MaxHeap<T extends Comparable> {
 
     private void siftUp(Nodo n) {
         
-        while (n.tienePadre() && (n.padre().valor).compareTo(n.valor) > 0) {       // mientras el padre es mayor al nodo actual
+        while (n.tienePadre() && (n.padre().valor).compareTo(n.valor) < 0) {       // mientras el padre es mayor al nodo actual
             swapPos(n.padre(), n);
         }
     }
@@ -164,5 +166,15 @@ public class MaxHeap<T extends Comparable> {
     public T desencolar() {
         
         return desencolarNodo(_nodos.get(0));
+    }
+
+    @Override
+    public String toString(){
+        String res = "[";
+        for (int i = 0; i < _nodos.size() -1; i++){
+            res += _nodos.get(i).valor + ","; 
+        }
+        res += _nodos.get(_nodos.size() - 1).valor + "]";
+        return res;
     }
 }

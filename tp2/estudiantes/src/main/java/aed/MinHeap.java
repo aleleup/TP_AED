@@ -103,7 +103,7 @@ public class MinHeap<T extends Comparable> {
 
     private void siftUp(Nodo n) {
         
-        while (n.tienePadre() && (n.valor).compareTo(n.padre().valor) > 0) {       // mientras el padre es menor al nodo actual
+        while (n.tienePadre() && (n.padre().valor).compareTo(n.valor) > 0) {       // mientras el padre es mayor al nodo actual
             swapPos(n.padre(), n);
         }
     }
@@ -160,4 +160,14 @@ public class MinHeap<T extends Comparable> {
         
         return desencolarNodo(_nodos.get(0));
     }   
+
+    @Override
+    public String toString(){
+        String res = "[";
+        for (int i = 0; i < _nodos.size() -1; i++){
+            res += _nodos.get(i).valor + ","; 
+        }
+        res += _nodos.get(_nodos.size() - 1).valor + "]";
+        return res;
+    }
 }

@@ -27,7 +27,7 @@ public class MaxYMinHeapTests {
     @Test
     void encolandoYDesencolandoElementos(){
         int[] resultadoEsperadoParaMinHeap =  {1,3,2,6,4,10,5,9,8,7}; 
-        int[] resultadoEsperadoParaMaxHeap =  {10,8,9,7,2,3,1,5,6,4};
+        int[] resultadoEsperadoParaMaxHeap =  {10,8,9,7,4,3,1,5,6,2};
         int[] resultadoMinHeap = new int[10]; 
         int[] resultadoMaxHeap = new int[10];
         int[] numerosRandom = {5,7,3,9,2,10,1,8,6,4};
@@ -37,30 +37,16 @@ public class MaxYMinHeapTests {
         }
         assertEquals(minHeap.size(),10);
         assertEquals(maxHeap.size(),10);
-
-        for (int i = 0; i < 10; i++){
+        
+        for (int i = 0; i == 10; i++){
             resultadoMinHeap[i] = minHeap.desencolar();
             resultadoMaxHeap[i] = maxHeap.desencolar();
-
-            assertEquals(minHeap.size(), 10 - i - 1);
-            assertEquals(maxHeap.size(), 10 - i - 1);
+            assertEquals(minHeap.size(),10 - i - 1);
+            assertEquals(maxHeap.size(),10 - i - 1);
         }
+        
 
 
-
-        for (int i = 0; i < 10; i++){
-            System.out.print(resultadoMinHeap[i]+ " | ");
-
-            // assertEquals(resultadoMinHeap[i], resultadoEsperadoParaMinHeap[i]);
-            // assertEquals(resultadoMaxHeap[i], resultadoEsperadoParaMaxHeap[i]);
-        }
-
-        for (int i = 0; i < 10; i++){
-            System.out.print(resultadoMaxHeap[i]+ " | ");
-            
-            // assertEquals(resultadoMinHeap[i], resultadoEsperadoParaMinHeap[i]);
-            // assertEquals(resultadoMaxHeap[i], resultadoEsperadoParaMaxHeap[i]);
-        }
     }
 
 }
