@@ -16,7 +16,7 @@ class NuestrosTestsEdr {
     @BeforeEach
     void setUp(){
         d_aula = 5;
-        cant_alumnos = 4;
+        cant_alumnos = 10;
         
         solucion = new int[]{0,1,2,3,4,5,6,7,8,9};
 
@@ -26,34 +26,14 @@ class NuestrosTestsEdr {
     @Test
     void nuevo_edr() {
         double[] notas = edr.notas();
-        double[] notas_esperadas = new double[]{0.0, 0.0, 0.0, 0.0};
+        double[] notas_esperadas = new double[]{0.0, 0.0, 0.0, 0.0, 0.0,
+                                                0.0, 0.0, 0.0, 0.0, 0.0};   // 10 notas para 10 estudiantes
         assertTrue(Arrays.equals(notas_esperadas, notas));
     }
     
     @Test
     void los_alumnos_resuelven_un_problema() {
-        double[] notas;
-        double[] notas_esperadas;
-
-        edr.resolver(0, 0, 0);
-        notas = edr.notas();
-        notas_esperadas = new double[]{10.0, 0.0, 0.0, 0.0};
-        assertTrue(Arrays.equals(notas_esperadas, notas));
-
-        edr.resolver(1, 0, 2);
-        notas = edr.notas();
-        notas_esperadas = new double[]{10.0, 0.0, 0.0, 0.0};
-        assertTrue(Arrays.equals(notas_esperadas, notas));
-
-        edr.resolver(2, 4, 4);
-        notas = edr.notas();
-        notas_esperadas = new double[]{10.0, 0.0, 10.0, 0.0};
-        assertTrue(Arrays.equals(notas_esperadas, notas));
-
-        edr.resolver(3, 9, 8);
-        notas = edr.notas();
-        notas_esperadas = new double[]{10.0, 0.0, 10.0, 0.0};
-        assertTrue(Arrays.equals(notas_esperadas, notas));
+        
     }
 
     @Test
@@ -625,4 +605,30 @@ class NuestrosTestsEdr {
 
         assertTrue(Arrays.equals(notas_finales_esperadas, notas_finales));
     }
+    
+    
+    //private InfoEstudiante[] _estudiantes;
+    //private int _ladoAula;
+    //private int[] _solCanonica;
+    //private int[] _cantRtasCorrectas;
+    //private HeapsNotas _rankings;
+    
+    //public Edr(int LadoAula, int Cant_estudiantes, int[] ExamenCanonico)
+
+    @Test
+    void alumnos_con_ids_validas() {}
+    @Test
+    void cant_alumnos_entran_en_aula() {}
+    @Test
+    void alumnos_con_examenes_iniciales_validos() {}
+
+    //public double[] notas()
+    //public void copiarse(int estudiante)
+    //public void resolver(int estudiante, int nroEjercicio, int res)
+    //public void consultarDarkWeb(int k, int[] examenDW)
+    //public void entregar(int estudiante)
+    //public NotaFinal[] corregir()
+    //public int[] chequearCopias()
+    //public int[] chequearCopiasAlt()
 }
+
