@@ -1,51 +1,48 @@
 package aed;
 
 public class InfoEstudiante {
+    
+    private int[] _examen;
+    private boolean _esSospechoso;
+    private boolean _esta;
+    
+    public InfoEstudiante(int tamExamen) {
+
+        _esSospechoso = false;
+        _esta = true;
         
-    private int idEstudiante;
-    private boolean esSospechoso;
-    private boolean esta;
-    private int[] examen;
-    private MinHeap<NotaFinal>.Handle _minHandle;
-    private MaxHeap<NotaFinal>.Handle _maxHandle;
-
-    // la nota actual la sacamos de maxHandle
-
-    public InfoEstudiante(int id, int tamExamen, MinHeap<NotaFinal>.Handle minHandle, MaxHeap<NotaFinal>.Handle maxHandle) {
-        idEstudiante = id;
-        esSospechoso = false;
-        esta = true;
-        examen = new int[tamExamen]; // ver cómo inicializar todo en -1
+        _examen = new int[tamExamen];
         
-        // como inicializamos los handles?
-        _minHandle = minHandle;
-        _maxHandle = maxHandle;
-    }
-
-    public int idEstudiante() {
-
+        for (int preg = 0; preg < _examen.length; preg++) {
+            _examen[preg] = -1;
+        }
     }
 
     public boolean esSospechoso() {
-        
+        return _esSospechoso;
+    }
+
+    public void marcarComoSospechoso() {
+        _esSospechoso = true;
     }
 
     public boolean esta() {
-        
+        return _esta;
     }
 
-    public double _notaActual() {
-        
+    public void entregar(){
+        _esta = false;
     }
 
-    public int[] respuesta(int pregunta) {
-
+    public int respuesta(int ej) {
+        return _examen[ej];
     }
 
-    public void resolver() {
-        // modificamos examen
-        // nota
-        // modificamos minHandle
-        // modificamos maxHandle
+    public boolean respondio(int ej) {
+        return _examen[ej] != -1;
+    }
+
+    public void resolver(int ej, int rta) {
+        _examen[ej] = rta;
     }
 }

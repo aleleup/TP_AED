@@ -175,3 +175,99 @@ class EdR {
     // }
 }
 ```
+
+
+#### 4 Alumnos:
+
+||asiento0|asiento1|asiento2|asiento3|asiento4|
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|f0|x|.|x|.|x|
+|f1|x|.|.|.|.|
+|f2|.|.|.|.|.|
+|f3|.|.|.|.|.|
+|f4|.|.|.|.|.|
+
+#### ContadorRtasPorPreg:
+
+||preg 0|preg 1|...|preg R-2|preg R-1|
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|0|10%|.|35%|.|.|
+|1|20%|.|.|.|.|
+|...|.|.|.|.|.|
+|9|.|.|.|.|.|
+
+||preg 0|preg 1|...|preg R-2|preg R-1|
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|0|4|.|.|.|.|
+|1|5|.|.|.|.|
+|...|.|.|.|.|.|
+|9|0|.|.|.|.|
+
+
+7 estudiantes
+
+preg1
+
+est0: 1 --> ContadorRtasPorPreg(preg 1, porcentajeQueResp 1) = 1/7 == 
+..
+est2: 1
+
+
+E estudiantes
+R preguntas en el examen
+
+
+R veces vemos la pregunta p:
+
+    10 veces veo la rta r:
+
+        E veces veo cuantos pusieron r en la preg p
+            cantQuePusieronR++;
+
+        sacamos el porcentaje que contestó c/u:
+            cantQuePusieronR / E
+
+
+int[] contadorDeRtasAPreg;
+
+(la inicializamos en 0)
+
+R veces vemos la pregunta p:
+
+    E veces
+        
+        int rtaAPreg = _estudiante[e].examen[p];
+
+        if (contestóLaPregunta) contadorDeRtasAPreg[rtaAPreg]++;
+
+    E veces veo cuantos cumplen el crit:
+
+        int rtaAPreg = _estudiante[e].examen[p];
+
+        e.esSospechoso |= contadorDeRtasAPreg[rtaAPreg] / E >= 25.0;
+    
+
+E veces veo si
+
+    para la preg R: 
+        contadorDeRtaACadaPreg[0]/E < 25%;
+
+
+
+    E veces:
+        10 veces: (cant rtas posibles)
+
+
+R veces:
+    
+    contarRtasDePregI // O(E)
+
+
+
+---
+
+l: ladoAula
+
+maxCantEstudiantesPorFila: floor(l/2)
+
+idEstudiante %  && id => mas a la izq
