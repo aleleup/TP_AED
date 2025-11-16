@@ -137,7 +137,7 @@ public class MaxHeap<T extends Comparable> {
         throw new UnsupportedOperationException("Sin implementar");
     }
 
-    public boolean size() {
+    public int size() {
         return _nodos.size();
     }
 
