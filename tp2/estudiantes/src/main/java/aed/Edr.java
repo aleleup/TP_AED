@@ -319,7 +319,7 @@ public class Edr {
         
         // Ahora marcamos a los estudiantes que son sospechosos, y en base a eso determinamos el tamaño del array con cantSospechosos
         // TODO: justificación de que se agregan a lo sumo E elem, entonces es O(E) por amortizado?
-        ArrayList<int> idsEstudiantesSospechosos = new ArrayList<int>();
+        ArrayList<Integer> idsEstudiantesSospechosos = new ArrayList<Integer>();    // hay que verificar si nos dejan usarlo. supuestamente Integer en este contexto es un wrapper de int para poder usarlo en ArrayList
 
         for (int e = 0; e < _estudiantes.length; e++) { // O(E)
             
