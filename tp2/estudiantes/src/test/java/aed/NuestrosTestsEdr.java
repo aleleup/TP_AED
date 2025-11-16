@@ -41,9 +41,6 @@ class NuestrosTestsEdr {
     //public void copiarse(int estudiante)
     @Test
     void todos_intentan_copiarse() {}
-
-    @Test
-    void la_mayoria_se_copia() {}
     
     @Test
     void ninguno_se_copia() {}
@@ -62,10 +59,10 @@ class NuestrosTestsEdr {
     void estudiante_que_completo_examen_intenta_copiarse() {}
     
     @Test
-    void estudiante_resuelve_una_respuesta() {}
+    void estudiante_resuelve_una_pregunta() {}
 
     @Test
-    void estudiante_resuelve_varias_respuestas() {}
+    void estudiante_resuelve_varias_pregunta() {}
 
     @Test
     void estudiante_completa_examen() {}
