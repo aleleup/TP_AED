@@ -289,7 +289,13 @@ public class Edr {
             if (cantRtasQueCumplenCriterio == _solCanonica.length) infoEst.marcarComoSospechoso();  // O(1)
             idsEstudiantesSospechosos.add(e);   // O(1) amortizado
         }   // O(E*R)
-        return idsEstudiantesSospechosos.toArray(); // O(E) amortizado // TODO: confirmar
+        int [] idsSospechosos = new int[idsEstudiantesSospechosos.size()];
+        int i = 0;
+        for (Integer est : idsEstudiantesSospechosos){
+            idsSospechosos[i] = est;
+            i++;
+        }
+        return idsSospechosos; // O(E) amortizado // TODO: confirmar
     }
 
     // En total: O(E*R)

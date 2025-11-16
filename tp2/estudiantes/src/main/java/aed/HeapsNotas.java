@@ -107,8 +107,8 @@ public class HeapsNotas {
         for (NotaFinal nf : notasDeEstudiantesOrdenados) {
             
             // Encolamos Y actualizamos nuestro seguimiento de handles con el nuevo que corresponde a la estructura
-            ArrayList<MaxHeap<NotaFinal>.Handle>.Handle handleEstI = _rankingMejoresEstudiantes.encolar(nf);
-            handleEstI.set(nf._id, handleEstI);
+            MaxHeap<NotaFinal>.Handle handleEstI = _rankingMejoresEstudiantes.encolar(nf);
+            _handlesRankingMejores.set(nf._id, handleEstI);
         }
         return notasDeEstudiantesOrdenados;
     }
