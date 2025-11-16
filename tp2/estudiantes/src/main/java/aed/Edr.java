@@ -23,7 +23,7 @@ public class Edr {
     private HeapsNotas _rankings;
     
 //------------------------------------------------METOD. PRIV---------------------------------------------------------------------
-
+    
     private boolean idDeEstValido(int idEstudiante) {
         
         return (0 <= idEstudiante && idEstudiante < _estudiantes.length);
