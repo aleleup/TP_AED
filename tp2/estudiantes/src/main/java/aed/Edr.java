@@ -230,12 +230,20 @@ public class Edr {
 //-----------------------------------------------------CORREGIR---------------------------------------------------------
 
     public NotaFinal[] corregir() {
-        NotaFinal nf = new NotaFinal(0, 0); // eo
-        
+        ArrayList<NotaFinal> notasOrdenadas = _rankings.notasDeEstudiantesOrdenados();
+        int cantidadEstudiantesNoCopiones = 0;
         for (int i=0; i < _estudiantes.length; i++){
-            
+            if (!_estudiantes[i].esSospechoso()) cantidadEstudiantesNoCopiones++; 
         }
-        return new NotaFinal[0];
+        NotaFinal[] notasFinalesSinCopiones  = new NotaFinal[cantidadEstudiantesNoCopiones];
+        int agregados = 0;
+        for (int i=0; i < notasOrdenadas.size(); i++){
+            if (!_estudiantes[notasOrdenadas.get(i)._id].esSospechoso()){
+                notasFinalesSinCopiones[agregados] = notasOrdenadas.get(i);
+                agregados++;
+            }
+                    }  
+        return notasFinalesSinCopiones;
     }
 
 //-------------------------------------------------------CHEQUEAR COPIAS-------------------------------------------------
