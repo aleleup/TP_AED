@@ -13,8 +13,30 @@ public class HeapsNotas {
     private MinHeap<NotaFinal> _rankingPeoresEstudiantesQueNoEntregaron;
 
     private ArrayList<MinHeap<NotaFinal>.Handle> _handlesRankingPeoresQueNoEntregaron;
+    
+//-----------------------------------------------METODOS PRIVADOS-----------------------------------------------------------------
 
-    // TODO: ver que hacemos con el handle de un est en_handlesRankingPeoresQueNoEntregaron cuando entrega (ya no es valido)
+    private NotaFinal desencolarEstDePeores (int idEstudiante) {
+
+        NotaFinal nf = _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).desencolarHandle();
+        
+        // en este momento handle que sacamos es invalido,
+        // así que ponemos null en la posición del alumno al que le corresponde
+        _handlesRankingPeoresQueNoEntregaron.set(idEstudiante, null);
+
+        return nf;
+    }
+
+    private NotaFinal desencolarEstDeMejores (int idEstudiante) {
+
+        NotaFinal nf = _handlesRankingMejores.get(idEstudiante).desencolarHandle();
+        
+        // en este momento handle que sacamos es invalido,
+        // así que ponemos null en la posición del alumno al que le corresponde
+        _handlesRankingMejores.set(idEstudiante, null);
+
+        return nf;
+    }
 
 //-------------------------------------------------METODOS------------------------------------------------------------------------
 
@@ -33,7 +55,7 @@ public class HeapsNotas {
 
             NotaFinal notaOriginal = new NotaFinal(0, id);
             
-            MaxHeap<NotaFinal>.Handle handleMejores = _rankingMejoresEstudiantes.encolar(notaOriginal);     // esto es O( E * log(E) ), hay que utilizar heapify que sea O( E )
+            MaxHeap<NotaFinal>.Handle handleMejores = _rankingMejoresEstudiantes.encolar(notaOriginal);     // por lo que mencionamos antes, esto es O(E * log(E)) normalmente, pero en este caso es O(E)
             _handlesRankingMejores.add(handleMejores);
 
             MinHeap<NotaFinal>.Handle handlePeores = _rankingPeoresEstudiantesQueNoEntregaron.encolar(notaOriginal);
@@ -42,7 +64,7 @@ public class HeapsNotas {
         }
     }
 
-    public void cambiarNota(int idEstudiante, double nuevaNota) {
+    public void cambiarNota(int idEstudiante, double nuevaNota) {   // Pre: si el estudiante ya entregó, sabemos que no puede cambiar la nota
 
         NotaFinal nf = new NotaFinal(nuevaNota, idEstudiante);
 
@@ -56,9 +78,10 @@ public class HeapsNotas {
         
         for (int i = 0; i < k; i++) {
 
-            peores.add(_rankingPeoresEstudiantesQueNoEntregaron.desencolar());
+            int idEstudiante = _rankingPeoresEstudiantesQueNoEntregaron.minimo()._id;
+            NotaFinal nfPeorEstI = desencolarEstDePeores(idEstudiante);
+            peores.add(nfPeorEstI);
         }
-
         for (NotaFinal nf : peores) {
             
             _rankingPeoresEstudiantesQueNoEntregaron.encolar(nf);
@@ -68,20 +91,24 @@ public class HeapsNotas {
 
     public void entregar(int idEstudiante) {
 
-        _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).desencolarHandle();
+        desencolarEstDePeores(idEstudiante);
     }
 
     public ArrayList<NotaFinal> notasDeEstudiantesOrdenados() {
-        ArrayList<NotaFinal> notasDeEstudiantesOrdenados = new ArrayList<NotaFinal>(_rankingMejoresEstudiantes.size());
-        // Agregamos a nuestro ArrayList a todas nuestras notas finales rankeadas de mejor a peor
+        
+        ArrayList<NotaFinal> notasDeEstudiantesOrdenados = new ArrayList<NotaFinal>(_rankingMejoresEstudiantes.size()); // O(E)
+        
+        // Agregamos a nuestro ArrayList todas nuestras notas finales rankeadas de mejor a peor
         for (int e = 0; e < _rankingMejoresEstudiantes.size(); e++) {
 
-            notasDeEstudiantesOrdenados.add(_rankingMejoresEstudiantes.desencolar());
-        }
+            notasDeEstudiantesOrdenados.add(_rankingMejoresEstudiantes.desencolar());   // O(log(E))
+        }   // En total: O(E * log(E))
         // Ahora los volvemos a insertar, conservando el invariante de nuestra clase
         for (NotaFinal nf : notasDeEstudiantesOrdenados) {
             
-            _rankingMejoresEstudiantes.encolar(nf);
+            // Encolamos Y actualizamos nuestro seguimiento de handles con el nuevo que corresponde a la estructura
+            ArrayList<MaxHeap<NotaFinal>.Handle>.Handle handleEstI = _rankingMejoresEstudiantes.encolar(nf);
+            handleEstI.set(nf._id, handleEstI);
         }
         return notasDeEstudiantesOrdenados;
     }
