@@ -70,4 +70,19 @@ public class HeapsNotas {
 
         _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).desencolarHandle();
     }
+
+    public ArrayList<NotaFinal> notasDeEstudiantesOrdenados() {
+        ArrayList<NotaFinal> notasDeEstudiantesOrdenados = new ArrayList<NotaFinal>(_rankingMejoresEstudiantes.size());
+        // Agregamos a nuestro ArrayList a todas nuestras notas finales rankeadas de mejor a peor
+        for (int e = 0; e < _rankingMejoresEstudiantes.size(); e++) {
+
+            notasDeEstudiantesOrdenados.add(_rankingMejoresEstudiantes.desencolar());
+        }
+        // Ahora los volvemos a insertar, conservando el invariante de nuestra clase
+        for (NotaFinal nf : notasDeEstudiantesOrdenados) {
+            
+            _rankingMejoresEstudiantes.encolar(nf);
+        }
+        return notasDeEstudiantesOrdenados;
+    }
 }

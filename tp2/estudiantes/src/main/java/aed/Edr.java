@@ -8,6 +8,8 @@ public class Edr {
     
     // TODO: tal vez podríamos hacer una clase aula
 
+    // TODO: considerar que los puntajes son los resultados de una división entera (de 0 a 100)
+
     private InfoEstudiante[] _estudiantes; // Para poder tener los handles necesitamos que al insertar el elemento X la estructura nos devuelva el handle de X 
 
     private int _ladoAula;
@@ -228,10 +230,11 @@ public class Edr {
 //-----------------------------------------------------CORREGIR---------------------------------------------------------
 
     public NotaFinal[] corregir() {
-        // new NotaFinal[0]; // eo Comento por toc <3
+        NotaFinal nf = new NotaFinal(0, 0); // eo
+        
         for (int i=0; i < _estudiantes.length; i++){
             
-        }  
+        }
         return new NotaFinal[0];
     }
 
@@ -297,58 +300,46 @@ public class Edr {
     
     public int[] chequearCopiasAlt() {
     
-        double[][] porcentajeDeRtasAPreg = new double[10][_solCanonica.length];   // O(R) porque creamos R arrays con 10 posiciones
+        double[][] cantDeRtasAPreg = new int[10][_solCanonica.length];   // O(R) porque creamos R arrays con 10 posiciones
         
         // TODO: Resolver duda: habría que inicializar en 0?
     
         // Vamos a guardarnos el porcentaje de estudiantes que respondieron cada posible rta para cada pregunta p
         for (int preg = 0; preg < _solCanonica.length; preg++) {    // O(R)
-    
-            for (int rta = 0; rta < 10; rta++) {    // O(1) // como hay 10 rtas posibles, calculamos el porcentaje que respondió c/ rta
+
+            for (int est = 0; est < _estudiantes.length; est++) {
                 
-                int cantQueRespondioRtaActual = 0;       // O(1)
-                for (InfoEstudiante infoEst : _estudiantes) {   // O(E)
-                    
-                    if (infoEst.respuesta(preg) == rta) cantQueRespondioRtaActual++;    // O(1)
-                }
-                porcentajeDeRtasAPreg[preg][rta] = (double)(cantQueRespondioRtaActual) / (double)(_estudiantes.length); // O(1)
+                int rtaDelEst = _estudiantes[est].respuesta(preg);
+                cantDeRtasAPreg[preg][rtaDelEst]++;
             }
         }
         
-        // Ahora marcamos al los estudiantes que son sospechosos, y en base a eso determinamos el tamaño del array con cantSospechosos
-        int cantSospechosos = 0;
-        for (int e = 0; e < _estudiantes.length; e++) {
+        // Ahora marcamos a los estudiantes que son sospechosos, y en base a eso determinamos el tamaño del array con cantSospechosos
+        // TODO: justificación de que se agregan a lo sumo E elem, entonces es O(E) por amortizado?
+        ArrayList<int> idsEstudiantesSospechosos = new ArrayList<int>();
+
+        for (int e = 0; e < _estudiantes.length; e++) { // O(E)
             
             InfoEstudiante infoEst = _estudiantes[e];
             int cantRtasQueCumplenCriterio = 0;
             
-            for (int preg = 0; preg < _solCanonica.length; preg++) {
+            for (int preg = 0; preg < _solCanonica.length; preg++) {    // O(R)
                 
                 int rtaAPreg = infoEst.respuesta(preg);
-                if (rtaAPreg == -1) {
+                if (rtaAPreg == -1) {   // si no contestó la 
                     
                     cantRtasQueCumplenCriterio++;
                 } else {
-                    double porcentajeQuePusoEsaRta = porcentajeDeRtasAPreg[preg][rtaAPreg];
+
+                    // para la respuesta que puso a la pregunta, cuál es el porcentaje de gente que la contestó igual si contar a este alumno?
+                    double porcentajeQuePusoEsaRtaSinContarse = ((double)cantDeRtasAPreg[preg][rtaAPreg]-1) * 100;
                     if (porcentajeQuePusoEsaRta >= 25.0) cantRtasQueCumplenCriterio++;
                 }
             }
-            if (cantRtasQueCumplenCriterio == _solCanonica.length) infoEst.marcarComoSospechoso();
-        }
-        int[] idsSospechosos = new int[cantSospechosos];
-        
-        // Finalmente, ponemos a los estudiantes que figuran como sospechosos en el array
-        int posActualArray = 0;
-        for (int e = 0; e < _estudiantes.length; e++) {
-            
-            InfoEstudiante infoEst = _estudiantes[e];
-            
-            if (infoEst.esSospechoso()) {
-                
-                idsSospechosos[posActualArray] = e;
-                posActualArray++;
-            }
-        }
-        return idsSospechosos;
+            if (cantRtasQueCumplenCriterio == _solCanonica.length) infoEst.marcarComoSospechoso();  // O(1)
+            idsEstudiantesSospechosos.add(e);   // O(1) amortizado
+        }   // O(E*R)
+        return idsEstudiantesSospechosos.toArray(); // O(E) amortizado // TODO: confirmar
     }
+    // En total: O(E*R)
 }
