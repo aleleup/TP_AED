@@ -33,16 +33,13 @@ public class Edr {
         
         int maxCantEstudiantesPorFila = _ladoAula / 2;      // la división de ints es entera, entonces esto es equiv a floor(_ladoAula/2)
         
-        // TODO: vemos caso maxCantEstudiantesPorFila == 1
-        if (true);
-        // TODO: vemos caso maxCantEstudiantesPorFila == 2
-        if (true);
-        
-        // vemos las ids de los vecinos, si los hay. sino ponemos -1 para que no lo agregue
-        int idEstDer = ((idEstudiante % (maxCantEstudiantesPorFila - 1)) == 0) ? -1 : idEstudiante + 1;
-        int idEstIzq = ((idEstudiante % maxCantEstudiantesPorFila) == 0) ? -1 : idEstudiante - 1;
+        int idEstDer = ((idEstudiante % (maxCantEstudiantesPorFila - 1)) == 0 || maxCantEstudiantesPorFila == 1) ? -1 : idEstudiante + 1;
+        int idEstIzq = ((idEstudiante % maxCantEstudiantesPorFila) == 0 ||  maxCantEstudiantesPorFila == 1) ? -1 : idEstudiante - 1;
         int idEstEnFrente = idEstudiante - maxCantEstudiantesPorFila;
-        
+        //vemos caso maxCantEstudiantesPorFila == 2 --> Solo molesta caso tiene estudiante a la derecha pero como x % 1 == 0 este no se define correctamente.
+        if (maxCantEstudiantesPorFila == 2){
+            if (idEstudiante % maxCantEstudiantesPorFila == 0) idEstDer = idEstudiante + 1;
+        };
         // agregamos a los vecinos válidos
         // como sabemos que (de tener cada uno): idVecinoDer > idVecinoIzq > idVecinoDeEnfrente, los insertamos en ese orden
         if (idDeEstValido(idEstDer) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstDer]);
@@ -231,7 +228,7 @@ public class Edr {
 //-----------------------------------------------------CORREGIR---------------------------------------------------------
 
     public NotaFinal[] corregir() {
-        new NotaFinal[0]; // eo
+        // new NotaFinal[0]; // eo Comento por toc <3
         for (int i=0; i < _estudiantes.length; i++){
             
         }  
