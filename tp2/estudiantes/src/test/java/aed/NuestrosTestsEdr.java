@@ -22,7 +22,7 @@ class NuestrosTestsEdr {
 
         edr = new Edr(d_aula, cant_alumnos, solucion);
     }
-    
+
     //private InfoEstudiante[] _estudiantes;
     //private int _ladoAula;
     //private int[] _solCanonica;
@@ -33,28 +33,59 @@ class NuestrosTestsEdr {
 
     @Test
     void alumnos_con_ids_validas() {}
-    @Test
-    void cant_alumnos_entran_en_aula() {}
-    @Test
-    void alumnos_con_examenes_iniciales_validos() {}
-    @Test
-    void tests() {}
-    @Test
-    void tests() {}
-    @Test
-    void tests() {}
-    @Test
-    void tests() {}
-    @Test
-    void tests() {}
 
     //public double[] notas()
+    @Test
+    void alumnos_que_no_responden_nada_tienen_nota_cero() {}
+    
     //public void copiarse(int estudiante)
-    //public void resolver(int estudiante, int nroEjercicio, int res)
-    //public void consultarDarkWeb(int k, int[] examenDW)
-    //public void entregar(int estudiante)
-    //public NotaFinal[] corregir()
-    //public int[] chequearCopias()
-    //public int[] chequearCopiasAlt()
+    @Test
+    void todos_intentan_copiarse() {}
+
+    @Test
+    void la_mayoria_se_copia() {}
+    
+    @Test
+    void ninguno_se_copia() {}
+
+    // TODO: preguntar si puede pasar
+    @Test
+    void estudiante_intenta_copiarse_de_vecinos_con_mismas_respuestas() {}
+
+    @Test
+    void estudiante_sin_vecinos_intenta_copiarse() {}
+
+    @Test
+    void estudiante_con_un_vecino_se_copia() {}
+
+    @Test
+    void estudiante_que_completo_examen_intenta_copiarse() {}
+    
+    @Test
+    void estudiante_resuelve_una_respuesta() {}
+
+    @Test
+    void estudiante_resuelve_varias_respuestas() {}
+
+    @Test
+    void estudiante_completa_examen() {}
+
+    @Test
+    void todos_consultan_dark_web() {}
+
+    @Test
+    void nadie_puede_consultar_dark_web_pero_intentan() {}
+
+    @Test
+    void examen_dark_web_igual_a_sol_canonica() {}
+
+    @Test
+    void alumno_entrega() {}
+
+    @Test
+    void todos_entregan_en_blanco() {}
+
+    @Test
+    void stress() {}
 }
 

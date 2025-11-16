@@ -240,7 +240,7 @@ public class Edr {
 
 //-------------------------------------------------------CHEQUEAR COPIAS-------------------------------------------------
     
-    public int[] chequearCopiasAlt() {
+    public int[] chequearCopias() {
     
         double[][] cantDeRtasAPreg = new int[10][_solCanonica.length];   // O(R) porque creamos R arrays con 10 posiciones
         
