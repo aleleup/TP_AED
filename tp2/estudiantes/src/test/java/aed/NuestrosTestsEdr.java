@@ -32,7 +32,13 @@ class NuestrosTestsEdr {
     //public Edr(int LadoAula, int Cant_estudiantes, int[] ExamenCanonico)
 
     @Test
-    void alumnos_con_ids_validas() {}
+    void alumnos_con_ids_validas() {
+        edr.resolver(0, 0, 0);
+        edr.resolver(1, 1, 1);
+        edr.resolver(2, 2, 2);
+        edr.resolver(2, 3, 3);
+        
+    }
     
     //public double[] notas()
     @Test
