@@ -45,8 +45,8 @@ public class Edr {
         // agregamos a los vecinos válidos
         // como sabemos que (de tener cada uno): idVecinoDer > idVecinoIzq > idVecinoDeEnfrente, los insertamos en ese orden
         if (idDeEstValido(idEstDer) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstDer]);
-        if (idDeEstValido(idEstIzq) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstIzq]);
-        if (idDeEstValido(idEstEnFrente) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstEnFrente]);
+        if (idDeEstValido(idEstIzq) && _estudiantes[idEstIzq].esta()) vecinos.add(_estudiantes[idEstIzq]);
+        if (idDeEstValido(idEstEnFrente) && _estudiantes[idEstEnFrente].esta()) vecinos.add(_estudiantes[idEstEnFrente]);
 
         return vecinos;
     }
@@ -54,11 +54,14 @@ public class Edr {
     private int primerPosiciónConMayorValor(int[] arr) {       // asume que arr.lenght > 0
         
         int max = arr[0];
+        int indiceDelMasGrande = 0;
         for (int i = 0; i < arr.length; i++) {
-            
-            if (arr[i] > max)   max = arr[i];
+            if (arr[i] > max)  {
+                 max = arr[i];
+                indiceDelMasGrande = i;
+            };
         }
-        return max;
+        return indiceDelMasGrande;
     }
 
     private boolean nuevaRtaSubeRtasCorrectas(int est, int ej, int nuevaRta) {
@@ -75,8 +78,6 @@ public class Edr {
 
     private void cambiarUnaRespuesta(int est, int ej, int nuevaRta) {
 
-        // TODO: verificamos si pasó de tener una rta correcta a incorrecta o si antes no tenía una rta correcta y ahora sí
-        // actualizamos el examen del estudiante
         if (nuevaRtaBajaRtasCorrectas(est, ej, nuevaRta)) _cantRtasCorrectas[est]--;
         if (nuevaRtaBajaRtasCorrectas(est, ej, nuevaRta)) _cantRtasCorrectas[est]++;
         
@@ -177,7 +178,7 @@ public class Edr {
             
             if (!infoCopion.respondio(ej) && infoVecinoACopiar.respondio(ej)) {
 
-                cambiarUnaRespuesta(estudiante, ej, infoVecinoACopiar.respuesta(ej));
+                resolver(estudiante, ej,infoVecinoACopiar.respuesta(ej));
                 seCopioRta = true;
             }
             ej++;
