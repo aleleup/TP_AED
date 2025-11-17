@@ -147,7 +147,6 @@ class EdrTests {
         int[] copiones = edr.chequearCopias(); 
         int[] copiones_esperados = new int[]{3};
         assertTrue(Arrays.equals(copiones_esperados, copiones));
-        
     }
 
     @Test
@@ -308,6 +307,7 @@ class EdrTests {
 
     @Test
     void alumnos_se_copian_una_vez(){
+        edr = new Edr(7, cant_alumnos, solucion);
         double[] notas;
         double[] notas_esperadas;
 
@@ -352,6 +352,7 @@ class EdrTests {
 
     @Test
     void alumnos_se_copian_mas_de_una_vez(){
+        edr = new Edr(7, cant_alumnos, solucion);
         double[] notas;
         double[] notas_esperadas;
 

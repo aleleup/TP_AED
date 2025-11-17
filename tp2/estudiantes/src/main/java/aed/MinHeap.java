@@ -170,4 +170,13 @@ public class MinHeap<T extends Comparable> {
         res += _nodos.get(_nodos.size() - 1).valor + "]";
         return res;
     }
+    @Override
+    public String toString(){
+        String res = "[";
+        for (int i = 0; i < _nodos.size() -1; i++){
+            res += _nodos.get(i).valor + ","; 
+        }
+        res += _nodos.get(_nodos.size() - 1).valor + "]";
+        return res;
+    }
 }
