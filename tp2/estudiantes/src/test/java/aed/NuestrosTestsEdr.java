@@ -23,20 +23,6 @@ class NuestrosTestsEdr {
         edr = new Edr(d_aula, cant_alumnos, solucion);
     }
 
-    //private InfoEstudiante[] _estudiantes;
-    //private int _ladoAula;
-    //private int[] _solCanonica;
-    //private int[] _cantRtasCorrectas;
-    //private HeapsNotas _rankings;
-    
-    //public Edr(int LadoAula, int Cant_estudiantes, int[] ExamenCanonico)
-
-    @Test
-    void alumnos_con_ids_validas() {
-       
-    }
-
-    //public double[] notas()
     @Test
     void alumnos_que_no_responden_nada_tienen_nota_cero() {
         double[] notas;
@@ -50,31 +36,6 @@ class NuestrosTestsEdr {
         notas_esperadas = new double[]{10.0, 10.0, 20.0, 0.0, 0.0};
         assertTrue(Arrays.equals(notas_esperadas, notas));
     }
-    
-    // // TODO: preguntar si puede pasar
-    // @Test
-    // void estudiante_intenta_copiarse_de_vecinos_con_mismas_respuestas() {
-        
-    //     int d_aulaVecinos = 2;
-    //     int cant_alumnosVecinos = 3;
-    //     int[] solucionVecinos = new int[]{4, 3, 2, 1};
-        
-    //     Edr edrVecinos = new Edr(d_aulaVecinos, cant_alumnosVecinos, solucionVecinos);
-        
-    //     // hacemos que resuelvan todo igual menos una preg
-    //     for (int i = 0; i < solucion.length - 1; i++) {
-    //         edr.resolver(0, i, 1);
-    //         edr.resolver(1, i, 1);
-    //     }
-
-    //     // TODO: terminar test
-    //     for (int i = 0; i < solucion.length; i++) {
-            
-    //     }
-        
-    //     edr.copiarse(1);
-        
-    // }
 
     @Test
     void estudiante_sin_vecinos_intenta_copiarse() {

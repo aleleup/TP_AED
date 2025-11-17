@@ -55,7 +55,7 @@ public class Edr {
         int indiceDelMasGrande = 0;     // O(1)
         for (int i = 0; i < arr.length; i++) {  // O(n)
             if (arr[i] > max)  {
-                 max = arr[i];
+                max = arr[i];
                 indiceDelMasGrande = i;
             };
         }
