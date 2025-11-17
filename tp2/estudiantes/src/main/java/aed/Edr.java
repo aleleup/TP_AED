@@ -209,14 +209,16 @@ public class Edr {
 
         for (int est = 0; est < kPeoresQueSeCopianYSusIds.size(); est++) {
             
-            InfoEstudiante infoDeEstInmoral = _estudiantes[kPeoresQueSeCopianYSusIds.get(est)._id];
+            int idEst = kPeoresQueSeCopianYSusIds.get(est)._id;
+            
+            InfoEstudiante infoDeEstInmoral = _estudiantes[idEst];
 
             for (int i = 0; i < examenDW.length; i++) {     // O(R)
                 
                 infoDeEstInmoral.resolver(i, examenDW[i]);  // O(1)
             }
-            _cantRtasCorrectas[est] = cantRtasCorrectasDW;  // O(1)
-            _rankings.cambiarNota(est, notaDW);     // O(log(E))
+            _cantRtasCorrectas[idEst] = cantRtasCorrectasDW;  // O(1)
+            _rankings.cambiarNota(idEst, notaDW);     // O(log(E))
         } // En total: O( k * (R + log(E)) )
     }
     // En total: O( k * (R + log(E)) )

@@ -337,7 +337,7 @@ class EdrTests {
         }
 
         int[] copiones = edr.chequearCopias();
-        int[] copiones_esperados = new int[]{2,3}; // ANTES {2,3} PERO ESTA MAL. HAY INCONSISTENCIAS CON LA LÓGICA DE CHEQUEAR COPIAS Y ESTE TEST!!!!
+        int[] copiones_esperados = new int[]{2,3};
         assertTrue(Arrays.equals(copiones_esperados, copiones));
 
         NotaFinal[] notas_finales = edr.corregir();

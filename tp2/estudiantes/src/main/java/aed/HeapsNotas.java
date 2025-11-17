@@ -17,8 +17,9 @@ public class HeapsNotas {
 //-----------------------------------------------METODOS PRIVADOS-----------------------------------------------------------------
 
     private NotaFinal desencolarEstDePeores (int idEstudiante) {
-
-        NotaFinal nf = _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).desencolarHandle();
+       NotaFinal nf = _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).desencolarHandle();
+        //if (_handlesRankingPeoresQueNoEntregaron.get(idEstudiante)!= null)
+        //     nf = _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).desencolarHandle();
         
         // en este momento handle que sacamos es invalido,
         // así que ponemos null en la posición del alumno al que le corresponde
@@ -69,7 +70,8 @@ public class HeapsNotas {
         NotaFinal nf = new NotaFinal(nuevaNota, idEstudiante);
 
         _handlesRankingMejores.get(idEstudiante).cambiarValor(nf);
-        _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).cambiarValor(nf);
+        if (_handlesRankingPeoresQueNoEntregaron.get(idEstudiante) != null)
+            _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).cambiarValor(nf);
     }
 
     public ArrayList<NotaFinal> kPeoresEstudiantesQueNoEntregaron(int k) {
@@ -83,8 +85,7 @@ public class HeapsNotas {
             peores.add(nfPeorEstI);
         }
         for (NotaFinal nf : peores) {
-            
-            _rankingPeoresEstudiantesQueNoEntregaron.encolar(nf);
+            _handlesRankingPeoresQueNoEntregaron.set(nf._id, _rankingPeoresEstudiantesQueNoEntregaron.encolar(nf));
         }
         return peores;
     }
