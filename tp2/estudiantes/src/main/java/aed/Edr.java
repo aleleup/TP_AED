@@ -133,28 +133,30 @@ public class Edr {
 
 //------------------------------------------------COPIARSE------------------------------------------------------------------------
 
-    // En total: O()    TODO
-    public void copiarse(int estudiante) {      // j: asumí que si un vecino entregó, no se puede copiar...
+    // En total: O(R + log(E))    TODO
+    public void copiarse(int estudiante) { //O(log(E)+R)     // j: asumí que si un vecino entregó, no se puede copiar...
         
         // lo habíamos modificado para que tome en cuenta que los vecinos pueden: no tener ninguna que él no tenga, no haya ningún vecino, etc
-        ArrayList<InfoEstudiante> vecinos = infoVecinosQueEstanOrdenadosPorMayorId(estudiante);    // devolvemos los vecinos ordenados por mayor id que tenga. si no tiene, es un arraylist vacío.
+
+        // devolvemos los vecinos ordenados por mayor id que tenga. si no tiene, es un arraylist vacío.
+        ArrayList<InfoEstudiante> vecinos = infoVecinosQueEstanOrdenadosPorMayorId(estudiante);    // O(1) ya que son 3 vecinos max
         
-        if (vecinos.isEmpty()) return;
+        if (vecinos.isEmpty()) return;  // O(1)
         
-        InfoEstudiante infoCopion = _estudiantes[estudiante];
+        InfoEstudiante infoCopion = _estudiantes[estudiante];   // O(1)
 
         // generamos un array que tiene a lo sumo 3 posiciones, una para cada vecino. en ese vamos a contar la que rtas tiene que el copión no tiene
-        int[] cantRtasDeseadas = new int[vecinos.size()];
+        int[] cantRtasDeseadas = new int[vecinos.size()];   // O(1) porque son 3 vecinos
         
         // contamos la cant de rtas deseadas que tiene cada vecino
-        for (int v = 0; v < vecinos.size(); v++) {
+        for (int v = 0; v < vecinos.size(); v++) {  // O(1)
             
-            InfoEstudiante infoVecino = vecinos.get(v);
+            InfoEstudiante infoVecino = vecinos.get(v); // O(1)
 
-            for (int ej = 0; ej < _solCanonica.length; ej++) {
+            for (int ej = 0; ej < _solCanonica.length; ej++) {      // O(R)
                 
                 if (infoCopion.respuesta(ej) == -1 &&
-                    infoVecino.respuesta(ej) != -1) {
+                    infoVecino.respuesta(ej) != -1) {       // O(1)
 
                     cantRtasDeseadas[v]++;
                 }
@@ -163,15 +165,15 @@ public class Edr {
 
         // elegimos al vecino con más rtas deseadas, desempatando por id mayor (el primero que tiene el max por lo que devuelve infoVecinosQueEstanOrdenadosPorMayorId)
         
-        InfoEstudiante infoVecinoACopiar = vecinos.get(primerPosiciónConMayorValor(cantRtasDeseadas));
+        InfoEstudiante infoVecinoACopiar = vecinos.get(primerPosiciónConMayorValor(cantRtasDeseadas));  // O(1)
 
         boolean seCopioRta = false;
         int ej = 0;
-        while (ej < _solCanonica.length && !seCopioRta) {
+        while (ej < _solCanonica.length && !seCopioRta) {   // O(R)
             
             if (!infoCopion.respondio(ej) && infoVecinoACopiar.respondio(ej)) {
 
-                resolver(estudiante, ej,infoVecinoACopiar.respuesta(ej));
+                resolver(estudiante, ej, infoVecinoACopiar.respuesta(ej));
                 seCopioRta = true;
             }
             ej++;
@@ -184,7 +186,7 @@ public class Edr {
 
         _estudiantes[estudiante].resolver(nroEjercicio, res);   // O(1)
         if (res == _solCanonica[nroEjercicio]) _cantRtasCorrectas[estudiante]++;
-        double nuevaNota = cantRtasCorrectasANota(_cantRtasCorrectas[estudiante]);
+        double nuevaNota = cantRtasCorrectasANota(_cantRtasCorrectas[estudiante]);  // O(1)
         _rankings.cambiarNota(estudiante, nuevaNota); // O( log(E) )
 
     }   // En total: O( log(E) )
@@ -226,34 +228,33 @@ public class Edr {
 
 //-----------------------------------------------------CORREGIR---------------------------------------------------------
 
-    public NotaFinal[] corregir() {
-        ArrayList<NotaFinal> notasOrdenadas = _rankings.notasDeEstudiantesOrdenados();
+    public NotaFinal[] corregir() { // O(E * log(E))
+        ArrayList<NotaFinal> notasOrdenadas = _rankings.notasDeEstudiantesOrdenados(); // O(E * log(E))
         
         int cantidadEstudiantesNoCopiones = 0;
-        for (int i=0; i < _estudiantes.length; i++){
+        for (int i=0; i < _estudiantes.length; i++){ //O(E)
             if (!_estudiantes[i].esSospechoso()) cantidadEstudiantesNoCopiones++; 
         }
         
-        NotaFinal[] notasFinalesSinCopiones = new NotaFinal[cantidadEstudiantesNoCopiones];
+        NotaFinal[] notasFinalesSinCopiones = new NotaFinal[cantidadEstudiantesNoCopiones]; //O(E)
         int agregados = 0;
-        for (int i=0; i < notasOrdenadas.size(); i++){
+        for (int i=0; i < notasOrdenadas.size(); i++){ //O(E)
 
-            boolean esSospechoso = _estudiantes[notasOrdenadas.get(i)._id].esSospechoso();
+            boolean esSospechoso = _estudiantes[notasOrdenadas.get(i)._id].esSospechoso(); //O(1)
             if (!esSospechoso){
                 notasFinalesSinCopiones[agregados] = notasOrdenadas.get(i);
                 agregados++;
-            }
+            } //O(1)
         }
         return notasFinalesSinCopiones;
     }
 
 //-------------------------------------------------------CHEQUEAR COPIAS-------------------------------------------------
     
-    public int[] chequearCopias() {
+    public int[] chequearCopias() { //O(E*R)
     
         int[][] cantDeRtasAPreg = new int[_solCanonica.length][10];   // O(R) porque creamos R arrays con 10 posiciones
         
-        // TODO: Resolver duda: habría que inicializar en 0?
     
         // Vamos a guardarnos el porcentaje de estudiantes que respondieron cada posible rta para cada pregunta p
         for (int preg = 0; preg < _solCanonica.length; preg++) {    // O(R)
@@ -266,7 +267,6 @@ public class Edr {
         }
         
         // Ahora marcamos a los estudiantes que son sospechosos, y en base a eso determinamos el tamaño del array con cantSospechosos
-        // TODO: justificación de que se agregan a lo sumo E elem, entonces es O(E) por amortizado?
         ArrayList<Integer> idsEstudiantesSospechosos = new ArrayList<Integer>();    // hay que verificar si nos dejan usarlo. supuestamente Integer en este contexto es un wrapper de int para poder usarlo en ArrayList
 
         for (int e = 0; e < _estudiantes.length; e++) { // O(E)

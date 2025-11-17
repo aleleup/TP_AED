@@ -158,7 +158,7 @@ public class MinHeap<T extends Comparable> {
     }   
 
     @Override
-    public String toString(){ // Complejidad Irrelevante 
+    public String toString(){ // Complejidad Irrelevante, no se usa
         String res = "["; 
         for (int i = 0; i < _nodos.size() -1; i++){ 
             res += _nodos.get(i).valor + ","; 
