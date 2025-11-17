@@ -16,43 +16,39 @@ public class HeapsNotas {
     
 //-----------------------------------------------METODOS PRIVADOS-----------------------------------------------------------------
 
-    private NotaFinal desencolarEstDePeores (int idEstudiante) {
-       NotaFinal nf = _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).desencolarHandle();
-        //if (_handlesRankingPeoresQueNoEntregaron.get(idEstudiante)!= null)
-        //     nf = _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).desencolarHandle();
+    private NotaFinal desencolarEstDePeores (int idEstudiante) { //O(log(E))
+       NotaFinal nf = _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).desencolarHandle();  //O(log(E))
         
-        // en este momento handle que sacamos es invalido,
-        // así que ponemos null en la posición del alumno al que le corresponde
-        _handlesRankingPeoresQueNoEntregaron.set(idEstudiante, null);
+        _handlesRankingPeoresQueNoEntregaron.set(idEstudiante, null); //O(1)
 
-        return nf;
+        return nf; //O(1)
     }
 
-    private NotaFinal desencolarEstDeMejores (int idEstudiante) {
-
-        NotaFinal nf = _handlesRankingMejores.get(idEstudiante).desencolarHandle();
+    private NotaFinal desencolarEstDeMejores (int idEstudiante) {  //O(log(E))
+ 
+        NotaFinal nf = _handlesRankingMejores.get(idEstudiante).desencolarHandle();  //O(log(E))
         
         // en este momento handle que sacamos es invalido,
         // así que ponemos null en la posición del alumno al que le corresponde
-        _handlesRankingMejores.set(idEstudiante, null);
+        _handlesRankingMejores.set(idEstudiante, null);  //O(1)
 
-        return nf;
+        return nf; //O(1)
     }
 
 //-------------------------------------------------METODOS------------------------------------------------------------------------
 
-    public HeapsNotas(int cantEstudiantes) {
+    public HeapsNotas(int cantEstudiantes) { //O(E)
         
-        _rankingMejoresEstudiantes = new MaxHeap<NotaFinal>(cantEstudiantes);
-        _rankingPeoresEstudiantesQueNoEntregaron = new MinHeap<NotaFinal>(cantEstudiantes);
+        _rankingMejoresEstudiantes = new MaxHeap<NotaFinal>(cantEstudiantes); // O(E) 
+        _rankingPeoresEstudiantesQueNoEntregaron = new MinHeap<NotaFinal>(cantEstudiantes); // O(E)
 
-        _handlesRankingMejores = new ArrayList<MaxHeap<NotaFinal>.Handle>(cantEstudiantes);
-        _handlesRankingPeoresQueNoEntregaron = new ArrayList<MinHeap<NotaFinal>.Handle>(cantEstudiantes);
+        _handlesRankingMejores = new ArrayList<MaxHeap<NotaFinal>.Handle>(cantEstudiantes); // O(E)
+        _handlesRankingPeoresQueNoEntregaron = new ArrayList<MinHeap<NotaFinal>.Handle>(cantEstudiantes); // O(E)
 
         // acá inicializamos la nota de cada estudiante en 0
         // SIEMPRE QUE ENCOLEMOS VA A SER O(1) PORQUE LA NOTAFINAL VA A ESTAR EN EL MISMO ORDEN QUE TENDRÍA SI HICIESEMOS HEAPIFY
 
-        for (int id = 0; id < cantEstudiantes; id++) {
+        for (int id = 0; id < cantEstudiantes; id++) { //O(E)
 
             NotaFinal notaOriginal = new NotaFinal(0, id);
             
@@ -67,9 +63,9 @@ public class HeapsNotas {
 
     public void cambiarNota(int idEstudiante, double nuevaNota) {   // Pre: si el estudiante ya entregó, sabemos que no puede cambiar la nota
 
-        NotaFinal nf = new NotaFinal(nuevaNota, idEstudiante);
+        NotaFinal nf = new NotaFinal(nuevaNota, idEstudiante); //O(1)
 
-        _handlesRankingMejores.get(idEstudiante).cambiarValor(nf);
+        _handlesRankingMejores.get(idEstudiante).cambiarValor(nf); // O()
         if (_handlesRankingPeoresQueNoEntregaron.get(idEstudiante) != null)
             _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).cambiarValor(nf);
     }

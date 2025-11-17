@@ -62,66 +62,59 @@ public class Edr {
         return indiceDelMasGrande;
     }
 
+    // En total: O(1)
     private boolean nuevaRtaSubeRtasCorrectas(int est, int ej, int nuevaRta) {
         
         int rtaVieja = _estudiantes[est].respuesta(ej);
         return ( rtaVieja != _solCanonica[ej] && nuevaRta == _solCanonica[ej]);
     }
 
+    // En total: O(1)
     private boolean nuevaRtaBajaRtasCorrectas(int est, int ej, int nuevaRta) {
         
         int rtaVieja = _estudiantes[est].respuesta(ej);
         return (rtaVieja == _solCanonica[ej] && nuevaRta != _solCanonica[ej]);
     }
 
-    private void cambiarUnaRespuesta(int est, int ej, int nuevaRta) {
-
-        if (nuevaRtaBajaRtasCorrectas(est, ej, nuevaRta)) _cantRtasCorrectas[est]--;
-        if (nuevaRtaBajaRtasCorrectas(est, ej, nuevaRta)) _cantRtasCorrectas[est]++;
-        
-        // actualizamos el examen del estudiante
-        _estudiantes[est].resolver(ej, nuevaRta);
-
-        // actualizamos los rankings
-        _rankings.cambiarNota(est, cantRtasCorrectasANota(_cantRtasCorrectas[est]));
-    }
-
-    private int examenACantRtasCorrectas(int[] examen) { // O(R)
+    // En total: O(R)
+    private int examenACantRtasCorrectas(int[] examen) {
 
         int cantRtasCorrectas = 0;
-        for (int i = 0; i < examen.length; i++) {
+        for (int i = 0; i < examen.length; i++) {   // O(R)
             
             if (examen[i] == _solCanonica[i]) cantRtasCorrectas++;
         }
         return cantRtasCorrectas;
     }
 
-    private double cantRtasCorrectasANota(int cantRtasCorrectas) { // O(1)
+    // En total: O(1)
+    private double cantRtasCorrectasANota(int cantRtasCorrectas) {
 
         return (double)(100 * cantRtasCorrectas / _solCanonica.length);
     }
 
 //-------------------------------------------------METODOS------------------------------------------------------------------------
 
+    // En total: O(E*R)
     public Edr(int LadoAula, int Cant_estudiantes, int[] ExamenCanonico) {
         
-        _estudiantes = new InfoEstudiante[Cant_estudiantes];
+        _estudiantes = new InfoEstudiante[Cant_estudiantes];    // O(E)
 
-        _cantRtasCorrectas = new int[Cant_estudiantes];
+        _cantRtasCorrectas = new int[Cant_estudiantes];     // O(E)
 
-        _rankings = new HeapsNotas(Cant_estudiantes);
+        _rankings = new HeapsNotas(Cant_estudiantes);       // O(E)
         
-        for (int i = 0; i < Cant_estudiantes; i++) {
+        for (int i = 0; i < Cant_estudiantes; i++) {    // O(E)
 
             // creamos a los estudiantes con sus exámenes de long de examen canónico
-            _estudiantes[i] = new InfoEstudiante(ExamenCanonico.length);
+            _estudiantes[i] = new InfoEstudiante(ExamenCanonico.length);    // O(R)
             // al principio todos tienen 0
-            _cantRtasCorrectas[i] = 0;
+            _cantRtasCorrectas[i] = 0;  // O(1)
         }
 
-        _solCanonica = ExamenCanonico;
+        _solCanonica = ExamenCanonico;  // O(R)
         
-        _ladoAula = LadoAula;
+        _ladoAula = LadoAula;   // O(1)
     }
 
 //-------------------------------------------------NOTAS--------------------------------------------------------------------------

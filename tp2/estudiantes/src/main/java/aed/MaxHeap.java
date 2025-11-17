@@ -139,14 +139,6 @@ public class MaxHeap<T extends Comparable> {
         _nodos = new ArrayList<Nodo>(largoMax);
     }
 
-    
-    // "heapify" - Complejidad O(n). En la teórica se hizo una demostración de que es O(n) con el algoritmo heapify
-    public MaxHeap(ArrayList<T> array) {
-        
-        // potencialmente va a haber que hacer que los heaps sean clases privadas de HeapsNotas
-        // (esto para poder obtener los handles)
-    }
-
     public int size() {
         return _nodos.size();
     }
