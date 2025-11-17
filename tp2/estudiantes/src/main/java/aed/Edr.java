@@ -119,19 +119,21 @@ public class Edr {
 
 //-------------------------------------------------NOTAS--------------------------------------------------------------------------
 
+    // En total: O(E)
     public double[] notas(){
         
-        double[] notas = new double[_estudiantes.length];
+        double[] notas = new double[_estudiantes.length];   // O(E)
 
-        for (int est = 0; est < _estudiantes.length; est++) {
+        for (int est = 0; est < _estudiantes.length; est++) {   // O(E)
             
-            notas[est] = cantRtasCorrectasANota(_cantRtasCorrectas[est]);
+            notas[est] = cantRtasCorrectasANota(_cantRtasCorrectas[est]);   // O(1)
         }
         return notas;
     }
 
 //------------------------------------------------COPIARSE------------------------------------------------------------------------
 
+    // En total: O()    TODO
     public void copiarse(int estudiante) {      // j: asumí que si un vecino entregó, no se puede copiar...
         
         // lo habíamos modificado para que tome en cuenta que los vecinos pueden: no tener ninguna que él no tenga, no haya ningún vecino, etc

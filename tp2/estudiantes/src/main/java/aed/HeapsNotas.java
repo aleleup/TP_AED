@@ -61,37 +61,38 @@ public class HeapsNotas {
         }
     }
 
-    public void cambiarNota(int idEstudiante, double nuevaNota) {   // Pre: si el estudiante ya entregó, sabemos que no puede cambiar la nota
+    public void cambiarNota(int idEstudiante, double nuevaNota) {  // O(log(E)) 
+        // Pre: si el estudiante ya entregó, sabemos que no puede cambiar la nota
 
         NotaFinal nf = new NotaFinal(nuevaNota, idEstudiante); //O(1)
 
-        _handlesRankingMejores.get(idEstudiante).cambiarValor(nf); // O()
+        _handlesRankingMejores.get(idEstudiante).cambiarValor(nf); // O(log(E))
         if (_handlesRankingPeoresQueNoEntregaron.get(idEstudiante) != null)
-            _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).cambiarValor(nf);
+            _handlesRankingPeoresQueNoEntregaron.get(idEstudiante).cambiarValor(nf); // O(log(E))
     }
 
-    public ArrayList<NotaFinal> kPeoresEstudiantesQueNoEntregaron(int k) {
+    public ArrayList<NotaFinal> kPeoresEstudiantesQueNoEntregaron(int k) { //O(k * log(E))
 
-        ArrayList<NotaFinal> peores = new ArrayList<NotaFinal>(k);
+        ArrayList<NotaFinal> peores = new ArrayList<NotaFinal>(k); //O(k)
         
-        for (int i = 0; i < k; i++) {
+        for (int i = 0; i < k; i++) { //O(k)
 
-            int idEstudiante = _rankingPeoresEstudiantesQueNoEntregaron.minimo()._id;
-            NotaFinal nfPeorEstI = desencolarEstDePeores(idEstudiante);
-            peores.add(nfPeorEstI);
+            int idEstudiante = _rankingPeoresEstudiantesQueNoEntregaron.minimo()._id; //O(1)
+            NotaFinal nfPeorEstI = desencolarEstDePeores(idEstudiante); //O(log(E))
+            peores.add(nfPeorEstI); //O(1)
         }
-        for (NotaFinal nf : peores) {
+        for (NotaFinal nf : peores) { //O(k)
             _handlesRankingPeoresQueNoEntregaron.set(nf._id, _rankingPeoresEstudiantesQueNoEntregaron.encolar(nf));
         }
         return peores;
     }
 
-    public void entregar(int idEstudiante) {
+    public void entregar(int idEstudiante) { //O(log(E))
 
-        desencolarEstDePeores(idEstudiante);
+        desencolarEstDePeores(idEstudiante); //O(log(E))
     }
 
-    public ArrayList<NotaFinal> notasDeEstudiantesOrdenados() {
+    public ArrayList<NotaFinal> notasDeEstudiantesOrdenados() {  // O(E * log(E))
         
         ArrayList<NotaFinal> notasDeEstudiantesOrdenados = new ArrayList<NotaFinal>(_rankingMejoresEstudiantes.size()); // O(E)
         

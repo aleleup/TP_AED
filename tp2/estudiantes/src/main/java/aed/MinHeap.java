@@ -16,8 +16,8 @@ public class MinHeap<T extends Comparable> {
         private int posicion;
 
         public Nodo(T v, int pos) { // O(1)
-            valor = v;
-            posicion = pos;
+            valor = v; // O(1)
+            posicion = pos; // O(1)
         }
         
         public boolean tienePadre() {
@@ -62,8 +62,8 @@ public class MinHeap<T extends Comparable> {
             ref = n;
         }
 
-        public T valor() {
-            return ref.valor;
+        public T valor() { // TOTAL = O(1)
+            return ref.valor; // O(1)
         }
         
         public void cambiarValor(T nuevoValor) { // O(log(E))
@@ -85,38 +85,38 @@ public class MinHeap<T extends Comparable> {
 
 //------------------------------------------------METOD. PRIV---------------------------------------------------------------------
     
-    private boolean esPosicionValida(int i) {
-        return (i >= 0 && i < _nodos.size());
+    private boolean esPosicionValida(int i) { // TOTAL = O(1)
+        return (i >= 0 && i < _nodos.size()); // O(1)
     }
     
-    private void swapPos(Nodo a, Nodo b) {
+    private void swapPos(Nodo a, Nodo b) { // TOTAL = O(1)
         
-        int posA = a.posicion;
-        int posB = b.posicion;
+        int posA = a.posicion; // O(1)
+        int posB = b.posicion; // O(1)
 
-        _nodos.set(posB, a);
-        _nodos.set(posA, b);
+        _nodos.set(posB, a); // O(1)
+        _nodos.set(posA, b); // O(1)
 
-        a.posicion = posB;
-        b.posicion = posA;
+        a.posicion = posB; // O(1)
+        b.posicion = posA; // O(1)
     }
 
-    private void siftUp(Nodo n) {
-        
+    private void siftUp(Nodo n) { // TOTAL = O(log(E))
+         
         while (n.tienePadre() && (n.padre().valor).compareTo(n.valor) > 0) {   // O (log(e))
-            swapPos(n.padre(), n);
+            swapPos(n.padre(), n); // O(1)
         }
     }
 
-    private void siftDown(Nodo n) {
+    private void siftDown(Nodo n) { //  TOTAL = O(log(E))
         
         // tiene hijo izq o tiene hijo der, y alguno es menor
         while (n.tieneHijoIzq() && (n.valor).compareTo(n.hijoMenor().valor) > 0) {    // O (log(e))
-            swapPos(n, n.hijoMenor());
+            swapPos(n, n.hijoMenor()); // O(1)
         }
     }
 
-    private T desencolarNodo(Nodo aDesencolar) { // TOTAL = O(log e)
+    private T desencolarNodo(Nodo aDesencolar) { // TOTAL = O(log E)
 
         Nodo reemplazoDeDesencolado = _nodos.get(_nodos.size()-1); // O(1)
         
@@ -124,8 +124,8 @@ public class MinHeap<T extends Comparable> {
 
         T valorDeDesencolado = _nodos.remove(aDesencolar.posicion).valor; // O(1)
 
-        siftUp(reemplazoDeDesencolado); // O(log(e))
-        siftDown(reemplazoDeDesencolado); // O(log(e))
+        siftUp(reemplazoDeDesencolado); // O(log(E))
+        siftDown(reemplazoDeDesencolado); // O(log(E))
         
         return valorDeDesencolado;
     }
@@ -144,26 +144,26 @@ public class MinHeap<T extends Comparable> {
         return _nodos.get(0).valor;
     }
 
-    public Handle encolar(T valor) { // TOTAL = O(Log(e))
+    public Handle encolar(T valor) { // TOTAL = O(Log(E))
         Nodo nuevoNodo = new Nodo(valor, _nodos.size()); // O(1)
-        _nodos.add(nuevoNodo); // O(log(e))
-        siftUp(nuevoNodo); // O(log(e))
+        _nodos.add(nuevoNodo); // O(log(E))
+        siftUp(nuevoNodo); // O(log(E))
 
-        return new Handle(nuevoNodo);
+        return new Handle(nuevoNodo); // O(1)
     }
 
     public T desencolar() {
         
-        return desencolarNodo(_nodos.get(0));
+        return desencolarNodo(_nodos.get(0));  // O(log(E))
     }   
 
     @Override
-    public String toString(){
-        String res = "[";
-        for (int i = 0; i < _nodos.size() -1; i++){
+    public String toString(){ // Complejidad Irrelevante 
+        String res = "["; 
+        for (int i = 0; i < _nodos.size() -1; i++){ 
             res += _nodos.get(i).valor + ","; 
         }
-        res += _nodos.get(_nodos.size() - 1).valor + "]";
-        return res;
+        res += _nodos.get(_nodos.size() - 1).valor + "]"; 
+        return res; 
     }
 }
