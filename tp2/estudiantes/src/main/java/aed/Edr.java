@@ -171,9 +171,9 @@ public class Edr {
         int ej = 0;
         while (ej < _solCanonica.length && !seCopioRta) {   // O(R)
             
-            if (!infoCopion.respondio(ej) && infoVecinoACopiar.respondio(ej)) {
+            if (!infoCopion.respondio(ej) && infoVecinoACopiar.respondio(ej)) { 
 
-                resolver(estudiante, ej, infoVecinoACopiar.respuesta(ej));
+                resolver(estudiante, ej, infoVecinoACopiar.respuesta(ej));  // O(log(E)) SOLO UNA VEZ. Entonces se suma al O(R) --> R + log(E)
                 seCopioRta = true;
             }
             ej++;
