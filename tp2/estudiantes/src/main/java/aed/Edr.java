@@ -33,7 +33,7 @@ public class Edr {
 
         ArrayList<InfoEstudiante> vecinos = new ArrayList<InfoEstudiante>();
         
-        int maxCantEstudiantesPorFila = _ladoAula / 2;      // la división de ints es entera, entonces esto es equiv a floor(_ladoAula/2)
+        int maxCantEstudiantesPorFila = (_ladoAula + 1)/ 2 ;      // la división de ints es entera, entonces esto es equiv a floor(_ladoAula/2)
         
         int idEstDer = ((idEstudiante % (maxCantEstudiantesPorFila - 1)) == 0 || maxCantEstudiantesPorFila == 1) ? -1 : idEstudiante + 1;
         int idEstIzq = ((idEstudiante % maxCantEstudiantesPorFila) == 0 ||  maxCantEstudiantesPorFila == 1) ? -1 : idEstudiante - 1;

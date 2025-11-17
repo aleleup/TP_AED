@@ -337,13 +337,13 @@ class EdrTests {
         }
 
         int[] copiones = edr.chequearCopias();
-        int[] copiones_esperados = new int[]{0,1}; // ANTES {2,3} PERO ESTA MAL. HAY INCONSISTENCIAS CON LA LÓGICA DE CHEQUEAR COPIAS Y ESTE TEST!!!!
+        int[] copiones_esperados = new int[]{2,3}; // ANTES {2,3} PERO ESTA MAL. HAY INCONSISTENCIAS CON LA LÓGICA DE CHEQUEAR COPIAS Y ESTE TEST!!!!
         assertTrue(Arrays.equals(copiones_esperados, copiones));
 
         NotaFinal[] notas_finales = edr.corregir();
         NotaFinal[] notas_finales_esperadas = new NotaFinal[]{
-            new NotaFinal(20.0, 3),
-            new NotaFinal(20.0, 2)
+            new NotaFinal(10.0, 1),
+            new NotaFinal(10.0, 0)
         };
 
         assertTrue(Arrays.equals(notas_finales_esperadas, notas_finales));
