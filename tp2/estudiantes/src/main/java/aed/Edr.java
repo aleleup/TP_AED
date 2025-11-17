@@ -6,17 +6,11 @@ public class Edr {
 
 //-------------------------------------------------ATRIB PRIV---------------------------------------------------------------------
     
-    // TODO: tal vez podríamos hacer una clase aula
-
-    // TODO: considerar que los puntajes son los resultados de una división entera (de 0 a 100)
-
     private InfoEstudiante[] _estudiantes; // Para poder tener los handles necesitamos que al insertar el elemento X la estructura nos devuelva el handle de X 
 
     private int _ladoAula;
     
     private int[] _solCanonica;
-
-    // TODO / propuesta joaquin: unificar _cantRtasCorrectas con _rankings (tal vez cambiar el nombre de la clase a Notas)? Se podrá?
 
     private int[] _cantRtasCorrectas;   // esto se hace así porque si guardasemos la nota literalmente iríamos perdiendo precisión
 
@@ -24,38 +18,42 @@ public class Edr {
     
 //------------------------------------------------METOD. PRIV---------------------------------------------------------------------
 
+    // En total: O(1)
     private boolean idDeEstValido(int idEstudiante) {
         
         return (0 <= idEstudiante && idEstudiante < _estudiantes.length);
     }
 
+    // En total: O(1)
     private ArrayList<InfoEstudiante> infoVecinosQueEstanOrdenadosPorMayorId(int idEstudiante) {
 
-        ArrayList<InfoEstudiante> vecinos = new ArrayList<InfoEstudiante>();
+        ArrayList<InfoEstudiante> vecinos = new ArrayList<InfoEstudiante>();    // O(1)
         
-        int maxCantEstudiantesPorFila = (_ladoAula + 1)/ 2 ;      // la división de ints es entera, entonces esto es equiv a floor(_ladoAula/2)
+        int maxCantEstudiantesPorFila = (_ladoAula + 1)/ 2 ;      // O(1) // la división de ints es entera, entonces esto es equiv a floor((_ladoAula+1)/2)
         
-        int idEstDer = ((idEstudiante % (maxCantEstudiantesPorFila - 1)) == 0 || maxCantEstudiantesPorFila == 1) ? -1 : idEstudiante + 1;
-        int idEstIzq = ((idEstudiante % maxCantEstudiantesPorFila) == 0 ||  maxCantEstudiantesPorFila == 1) ? -1 : idEstudiante - 1;
-        int idEstEnFrente = idEstudiante - maxCantEstudiantesPorFila;
-        //vemos caso maxCantEstudiantesPorFila == 2 --> Solo molesta caso tiene estudiante a la derecha pero como x % 1 == 0 este no se define correctamente.
+        int idEstDer = ( maxCantEstudiantesPorFila == 1 || (idEstudiante % (maxCantEstudiantesPorFila - 1)) == 0 ) ? -1 : idEstudiante + 1;   // O(1)
+        int idEstIzq = ( maxCantEstudiantesPorFila == 1 || (idEstudiante % maxCantEstudiantesPorFila) == 0 ) ? -1 : idEstudiante - 1;        // O(1)
+        int idEstEnFrente = idEstudiante - maxCantEstudiantesPorFila;       // O(1)
+        
+        // vemos caso maxCantEstudiantesPorFila == 2 --> Solo molesta caso tiene estudiante a la derecha pero como x % 1 == 0 este no se define correctamente.
         if (maxCantEstudiantesPorFila == 2){
-            if (idEstudiante % maxCantEstudiantesPorFila == 0) idEstDer = idEstudiante + 1;
+            if (idEstudiante % maxCantEstudiantesPorFila == 0) idEstDer = idEstudiante + 1; // O(1)
         };
         // agregamos a los vecinos válidos
         // como sabemos que (de tener cada uno): idVecinoDer > idVecinoIzq > idVecinoDeEnfrente, los insertamos en ese orden
-        if (idDeEstValido(idEstDer) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstDer]);
-        if (idDeEstValido(idEstIzq) && _estudiantes[idEstIzq].esta()) vecinos.add(_estudiantes[idEstIzq]);
-        if (idDeEstValido(idEstEnFrente) && _estudiantes[idEstEnFrente].esta()) vecinos.add(_estudiantes[idEstEnFrente]);
+        if (idDeEstValido(idEstDer) && _estudiantes[idEstDer].esta()) vecinos.add(_estudiantes[idEstDer]);      // O(1)
+        if (idDeEstValido(idEstIzq) && _estudiantes[idEstIzq].esta()) vecinos.add(_estudiantes[idEstIzq]);      // O(1)
+        if (idDeEstValido(idEstEnFrente) && _estudiantes[idEstEnFrente].esta()) vecinos.add(_estudiantes[idEstEnFrente]);      // O(1)
 
         return vecinos;
     }
 
+    // En total: O(n) --> como solo lo utilizamos con un arr de 3 elem en copiarse => O(1)
     private int primerPosiciónConMayorValor(int[] arr) {       // asume que arr.lenght > 0
         
-        int max = arr[0];
-        int indiceDelMasGrande = 0;
-        for (int i = 0; i < arr.length; i++) {
+        int max = arr[0];               // O(1)
+        int indiceDelMasGrande = 0;     // O(1)
+        for (int i = 0; i < arr.length; i++) {  // O(n)
             if (arr[i] > max)  {
                  max = arr[i];
                 indiceDelMasGrande = i;
